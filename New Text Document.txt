@@ -1,0 +1,395 @@
+- outline for example rare monster
+- fishing system
+- farming system
+- friend list (also on minimap)
+- item rarity colored / tool tips (outline)
+- dont show monsters or npc's on the minimap only players on the friend list
+- skill tree should have a pathway (path of exile inspiration)
+
+
+
+# DungeonQuest — Game Blueprint & Analysis
+
+---
+
+## 🗺️ PLAN MODE: CURRENT STATE ASSESSMENT
+
+---
+
+### ✅ What Works / Is Implemented
+
+| System | Status |
+|---|---|
+| Map generation (BSP-style rooms + corridors) | ✅ Functional |
+| Day/Night cycle (4 phases) | ✅ Functional |
+| Player movement (WASD + click pathfinding) | ✅ Functional |
+| A* pathfinding | ✅ Functional |
+| Monster AI (chase, idle, wander) | ✅ Functional |
+| Combat (melee auto-attack, crit, absorb) | ✅ Functional |
+| Spell system (4 spells, AoE preview, cooldowns) | ✅ Functional |
+| Equipment slots (13 slots) | ✅ Functional |
+| Inventory (16 slots, weight/capacity) | ✅ Functional |
+| Shop (buy/sell, merchant NPC) | ✅ Functional |
+| Skill tree (11 skills, skill points) | ✅ Functional |
+| Loot windows + corpse decay | ✅ Functional |
+| Resistances (7 types, 50% cap) | ✅ Functional |
+| Auto-loot filter | ✅ Functional |
+| Minimap | ✅ Functional |
+| Lighting + torch system | ✅ Functional |
+| Screen shake, particles, floaty text | ✅ Functional |
+| Elite monsters | ✅ Functional |
+| Respawn queue | ✅ Functional |
+| Barrel pushing | ✅ Functional |
+| Status effects (poison, mana drain) | ✅ Partial |
+| Chest generation + loot | ✅ Functional |
+
+---
+
+## 🐛 WHAT DOESN'T MAKE SENSE / BUGS
+
+### 🔴 Critical Logic Issues
+
+**1. Death is consequence-free**
+```
+// Player dies → teleported to start with 50% HP
+// No item loss, no XP loss, no penalty
+player.hp = Math.floor(player.maxHp * .5);
+player.x  = startPos.x;
+```
+**Problem:** Encourages reckless play. No consequence system exists.
+
+---
+
+**2. `isWalk()` uses floating point comparison**
+```javascript
+function monAt(x, y) {
+  const ix = Math.floor(x), iy = Math.floor(y);
+  return ents.find(e => e.x === ix && e.y === iy ...
+}
+```
+But `isWalk()` uses `player.x === x` directly. Monsters and players always have integer coords — but passing floats anywhere would silently break collision. Should enforce integer-only positions.
+
+---
+
+**3. Monster push logic is inconsistently balanced**
+```javascript
+if (mon.maxHp < player.maxHp * .55) {
+  // push monster
+}
+```
+**Problem:** A level 1 player with 200 HP can push a Ghost (96 HP) because 96 < 110. This threshold doesn't scale meaningfully and lets you cheese monsters.
+
+---
+
+**4. Auto-attack fires from the game ticker (setInterval 200ms) AND from click/keydown**
+```javascript
+// setInterval (always running)
+if (tgt && now - lastAutoAtk >= getAutoAttackCd() ...)
+
+// Also fires in click handler
+if (chebyshev(...) <= 1 && now - lastAutoAtk >= getAutoAttackCd())
+  playerAtk(mon);
+
+// Also fires in movePlayer
+if (now - lastAutoAtk >= getAutoAttackCd())
+  playerAtk(mon);
+```
+**Problem:** Triple-trigger risk. Can cause double-attacks on the same tick if all three paths evaluate simultaneously.
+
+---
+
+**5. `addInv` doesn't enforce the 16-slot cap**
+```javascript
+function addInv(id, qty) {
+  const ex = player.inv.find(s => s.id === id);
+  if (ex) ex.qty += qty;
+  else    player.inv.push({ id, qty }); // ← no slot limit check
+}
+```
+**Problem:** You can stack 50 different item types. UI only shows 16, but data has no cap. Items past slot 16 are invisible and inaccessible.
+
+---
+
+**6. Corpse loot window has no sanity check after auto-loot**
+```javascript
+function openCorpse(cor) {
+  autoLootCorpse(cor);
+  if (!cor.loot.length) { addLog('Corpse fully auto-looted.'); return; }
+  lootWin = { cor, open:true };
+```
+If auto-loot is mid-run and empties a corpse while lootWin is open, `renderLootUI` handles it correctly — but `lootWin.cor` still holds a reference to a decayed entity that may have been removed from `ents`. Should add a guard.
+
+---
+
+**7. `getZoneLevel()` returns 0 for corridors**
+```javascript
+// If player is in a corridor (between rooms), no room matches → zone = 0
+// This incorrectly labels deadly deep corridors as "SAFE AREA"
+```
+
+---
+
+**8. HP/MP regen won't trigger during the first 5 seconds of the game**
+```javascript
+let lastDmgTime = -99999; // ✅ This is fine, it means regen starts immediately
+```
+Actually this is OK — but `regenHpAcc` ticks only via `dt` in the game loop, while the 200ms setInterval also calls `updateUI`. These aren't connected — regen is fine but `updateUI()` in the interval is wasteful (it's also called every frame in `render()`).
+
+---
+
+### 🟡 Design / Balance Issues
+
+**9. Skill "Swiftblade" (`baseAtkSpeed +15/level`) is effectively useless**
+```javascript
+function getAutoAttackCd() {
+  return Math.max(260, AUTO_ATK_BASE - player.atkSpeed * 10);
+}
+// Max speed cap: 260ms = ~3.8 attacks/sec
+// Swiftblade max (6 levels × 15 = 90 rating) → 1000 - 900 = 100ms → capped at 260ms anyway
+// You'd hit the cap long before max Swiftblade
+```
+Dagger also gives +15 atkSpd. One dagger + 1 Swiftblade level = same cap as 6 Swiftblade levels.
+
+---
+
+**10. Resistances cap at 50% but nothing explains this in-game**
+The cap is hardcoded but never communicated to the player. A player stacking fire resistance via `fireCloak` + `iceRing` (resCold:15) won't understand why it stops working.
+
+---
+
+**11. Water tiles are impassable but have no gameplay purpose**
+Water exists visually but you can't cross it, fish in it, drown in it, or anything. It just blocks paths. Either needs mechanics or should be removed from the generator.
+
+---
+
+**12. `earthBelt` has `resEarth:12` but no monster deals Earth damage**
+No monster in `MDEF` uses Earth damage type. The resistance is stat-bloat with zero function.
+
+---
+
+**13. `chaosRing` (`resChaos:12`) — same problem**
+No monster deals Chaos damage.
+
+---
+
+**14. Shop has no stock limit / economy sink**
+Player can buy infinite potions. No gold sinks beyond gear. Late game gold becomes meaningless.
+
+---
+
+**15. Level scaling is linear and breaks early**
+```javascript
+// Level up XP requirement
+while (player.xp >= player.lv * 100)
+// Level 1: 100 XP | Level 10: 1000 XP | Level 20: 2000 XP
+// Rats give 12 XP — killing 8 rats = Level 2
+// But monsters don't scale with player level
+```
+A level 10 player kills rats as easily as level 1. No difficulty curve beyond zone depth.
+
+---
+
+## 🗺️ WHAT'S MISSING — NEXT STEPS BLUEPRINT
+
+### Phase 1 — Foundation Fixes (Do First)
+
+```
+[ ] Fix addInv() slot cap (16 unique items max, or stackable unlimited)
+[ ] Unify auto-attack to single source of truth
+[ ] Add integer guard to all position assignments
+[ ] Fix corridor zone detection (closest room fallback)
+[ ] Add death consequence (XP debt, item drop, or respawn cost)
+[ ] Communicate resistance cap in stats popup
+[ ] Remove or make useful: earthBelt resEarth, chaosRing resChaos
+[ ] Fix Swiftblade skill cap math or rebalance
+```
+
+---
+
+### Phase 2 — Core Missing Systems
+
+```
+[ ] SAVE SYSTEM
+    - LocalStorage save/load
+    - Save: player stats, inventory, equipped, skills, gold, kill count
+    - No map save (regenerate on load)
+
+[ ] QUEST SYSTEM (basic)
+    - Kill X monsters
+    - Collect X items
+    - Deliver item to NPC
+    - Reward: XP, gold, unique item
+
+[ ] FLOOR/DEPTH SYSTEM
+    - Stairs going down (deeper = harder)
+    - Each floor: new map, harder mobs, better loot
+    - Floor counter displayed in zone badge
+    - Boss on floor 5, 10, etc.
+
+[ ] HUNGER / STAMINA
+    - Bread currently gives 22HP instantly (wasteful mechanic)
+    - Convert to hunger bar that drains over time
+    - Starving → HP regen disabled, -1HP/3s
+
+[ ] BOSS MONSTERS
+    - Special named monster per depth milestone
+    - Unique loot table
+    - Boss room guaranteed to generate
+    - Boss HP bar shown at bottom of screen (not floating)
+```
+
+---
+
+### Phase 3 — Gameplay Depth
+
+```
+[ ] CRAFTING SYSTEM
+    - Combine: 3x bread → Feast (full heal)
+    - Combine: antidote + mpot → Clarity Elixir
+    - Crafting table in safe room
+
+[ ] RANGED COMBAT
+    - Bow weapon type (mainhand)
+    - Quiver slot (offhand) for ammo
+    - Line-of-sight check before allowing shot
+    - Arrow items (limited ammo)
+
+[ ] SPELL PROGRESSION
+    - Currently 4 spells are hardcoded and always available
+    - Should unlock via: level requirement, spell books found in chests
+    - Spellbook item → adds spell to hotbar
+    - Allow 8+ spells, player picks active 4
+
+[ ] TRAP SYSTEM
+    - Hidden floor tiles: spike trap, pressure plate
+    - Triggered on walk-over
+    - Visible after triggered
+    - Disarm with Antidote item (thematic) or Detection skill
+
+[ ] TORCH DURABILITY
+    - Torch currently lasts forever
+    - Add charge count (e.g. 300 ticks)
+    - Burns out → darkness penalty
+    - Buy torches from shop (currently sold there already ✅)
+
+[ ] MONSTER VARIANTS
+    - "Venomous Rat" = rat + guaranteed poison
+    - "Frost Slime" = slime + cold damage aura
+    - Variant system: base monster + modifier flag
+```
+
+---
+
+### Phase 4 — Polish & UX
+
+```
+[ ] TOOLTIP SYSTEM (unified)
+    - Currently tooltips are drawn on canvas (drawSimpleTooltip)
+    - AND via div title= attributes on inventory slots
+    - Unify: one floating HTML tooltip component
+    - Show: item stats, compare vs equipped
+
+[ ] ITEM COMPARISON
+    - Hover item in shop/inventory
+    - Show delta vs currently equipped slot
+    - Green = upgrade, Red = downgrade
+
+[ ] COMBAT LOG FILTER
+    - Toggle: show damage / show loot / show system messages
+    - Currently all mixed, log floods fast
+
+[ ] SOUND SYSTEM
+    - Web Audio API (no external files needed)
+    - Oscillator-based: attack hit, level up, chest open, death
+    - Volume slider in settings
+
+[ ] SETTINGS PANEL
+    - Music/SFX toggle
+    - UI scale
+    - Colorblind mode (replace red/green HP bars)
+    - Keybind display (already in Controls panel ✅)
+
+[ ] MOBILE CONTROLS
+    - Virtual D-pad (canvas overlay)
+    - Tap-to-move already works ✅
+    - Swipe for spell selection
+    - The responsive CSS exists but touch input is missing
+```
+
+---
+
+### Phase 5 — Content Expansion
+
+```
+[ ] SECOND NPC (healer)
+    - Restores HP/MP for gold
+    - Located mid-dungeon (floor 3+)
+
+[ ] ITEM ENCHANTING
+    - Apply rune item to gear → +stat
+    - Rune items: Rune of Fire, Rune of Might, etc.
+    - Max 2 enchants per item
+    - Displayed on item name: "Sword of Fire"
+
+[ ] MAP BIOMES
+    - Currently one dungeon tileset
+    - Floor 1–3: Stone Dungeon (current)
+    - Floor 4–6: Sewers (water heavy, slimes)
+    - Floor 7–9: Catacombs (skeletons, ghosts)
+    - Floor 10: Dragon Lair
+
+[ ] ACHIEVEMENTS
+    - Track: meta.totalKills, meta.chestsOpened, meta.elitesKilled
+    - Already collecting data ✅
+    - Display in Stats popup or separate panel
+    - Reward: unique title, bonus skill point
+
+[ ] LEADERBOARD (localStorage)
+    - Track: deepest floor, most kills, fastest clear
+    - Display on death screen
+```
+
+---
+
+## 📊 PRIORITY MATRIX
+
+```
+HIGH IMPACT + LOW EFFORT (do now):
+├── Fix addInv slot cap
+├── Fix auto-attack triple-trigger
+├── Death consequence (small XP penalty)
+├── Fix corridor zone = 0 bug
+└── Communicate resistance cap in UI
+
+HIGH IMPACT + MEDIUM EFFORT (next sprint):
+├── Save system (localStorage)
+├── Floor/depth system with stairs
+├── Boss monsters
+├── Spell unlock system
+└── Item comparison tooltip
+
+HIGH IMPACT + HIGH EFFORT (phase 3):
+├── Quest system
+├── Crafting
+├── Ranged combat
+└── Map biomes
+
+LOW IMPACT (defer or cut):
+├── Hunger system (adds friction, not fun at this scale)
+├── Torch durability (annoying more than strategic)
+└── Sound (nice-to-have, not blocking)
+```
+
+---
+
+## 🏗️ ARCHITECTURAL NOTES
+
+**What to refactor before scaling:**
+
+1. **Entity system** — `ents[]` is a flat array searched with `.find()` everywhere. At 50+ entities this is O(n) per lookup. Replace with spatial hash or typed sub-arrays (`mons[]`, `items[]`, `cors[]`)
+
+2. **`computeStats()` is called too often** — Called on every equip/unequip but also should be called on skill purchase. Currently it IS called there. Fine for now, but if adding 20+ stat sources, cache invalidation needs a dirty flag.
+
+3. **`setInterval` + `requestAnimationFrame` overlap** — The 200ms interval updates UI and triggers auto-attacks. The rAF loop also calls `updateUI()` every frame via `render()`. Consolidate everything into the rAF loop, use delta time for the 200ms checks.
+
+4. **`ITEM` and `MDEF` as flat objects** — Works now. Before adding 100+ items, move to a data file / JSON with a loader, and add item categories/tiers as first-class fields.
