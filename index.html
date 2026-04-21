@@ -862,8 +862,6 @@ canvas { display: block; image-rendering: pixelated; }
 
 <div id="title-bar">
   <div id="title">⚔ DUNGEONQUEST ⚔</div>
-  <div id="zone-badge">⬤ SAFE AREA</div>
-  <div id="clock-badge">☀ DAY</div>
 </div>
 
 <div id="wrap">
@@ -1136,10 +1134,6 @@ function syncTimePhase() {
     if (lastPhaseKey) addLog(`${td.icon} ${td.phase} settles over the dungeon.`, td.col);
     lastPhaseKey = td.phase;
   }
-  const clock = document.getElementById('clock-badge');
-  clock.textContent = `${td.icon} ${td.phase}`;
-  clock.style.color = td.col;
-  clock.style.borderColor = td.col + '66';
 }
 
 // ─────────────────────────────────────────────
@@ -2125,8 +2119,6 @@ function updateUI() {
   else if (pathQueue.length > 0){ mt.textContent = '🚶 WALKING'; mt.style.color = '#88aaff'; }
   else                          { mt.textContent = '⚔ MELEE';   mt.style.color = '#ccc'; }
 
-  const zl=getZoneLevel(), zi=ZONE_INFO[zl], zb=document.getElementById('zone-badge');
-  zb.textContent=`⬤ ${zi.name}`; zb.style.color=zi.col; zb.style.borderColor=zi.col+'66';
 
   const se=document.getElementById('status-effects');
   let statusHtml = '';
