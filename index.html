@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DungeonQuest — Enhanced Tibia-like Prototype</title>
+<title>DungeonQuest</title>
 <link href="https://fonts.googleapis.com/css2?family=VT323&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,11 +30,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
   padding: 8px 16px 6px;
   border-bottom: 1px solid rgba(200,168,75,0.15);
   background: linear-gradient(180deg, #0f1320 0%, #0c1018 100%);
-  backdrop-filter: blur(8px);
 }
 
 #title {
@@ -43,36 +41,6 @@ body {
   font-size: 20px;
   letter-spacing: 5px;
   text-shadow: 0 0 20px rgba(232,196,104,0.25), 0 1px 2px rgba(0,0,0,0.5);
-}
-
-#zone-badge, #clock-badge {
-  font-size: 13px;
-  padding: 3px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(100,120,160,0.2);
-  background: rgba(16,20,32,0.8);
-  color: #8b9ab0;
-  transition: all 0.3s ease;
-  letter-spacing: 0.5px;
-}
-
-#vision-btn {
-  font-size: 13px;
-  padding: 3px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(100,160,255,0.2);
-  background: rgba(16,20,32,0.8);
-  color: #7eb8ff;
-  cursor: pointer;
-  margin-left: auto;
-  transition: all 0.3s ease;
-}
-
-#vision-btn:hover {
-  border-color: rgba(100,160,255,0.5);
-  color: #b5d6ff;
-  background: rgba(30,50,80,0.4);
-  box-shadow: 0 0 12px rgba(100,160,255,0.1);
 }
 
 /* ─── Main Layout ─── */
@@ -108,7 +76,6 @@ canvas { display: block; image-rendering: pixelated; }
   border: 1px solid rgba(100,120,160,0.15);
   padding: 5px 8px;
   border-radius: 8px;
-  backdrop-filter: blur(4px);
 }
 
 #hotbar { display: flex; gap: 5px; flex-wrap: wrap; }
@@ -127,28 +94,15 @@ canvas { display: block; image-rendering: pixelated; }
   border-radius: 6px;
   transition: all 0.2s ease;
 }
-
-.sbtn:hover {
-  background: rgba(30,38,60,0.9);
-  border-color: rgba(120,140,180,0.4);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  transform: translateY(-1px);
-}
+.sbtn:hover { background: rgba(30,38,60,0.9); border-color: rgba(120,140,180,0.4); transform: translateY(-1px); }
 
 .cdlay {
-  position: absolute;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
+  position: absolute; inset: 0;
+  display: none; align-items: center; justify-content: center;
   background: rgba(0,0,0,0.6);
-  font-size: 18px;
-  font-weight: bold;
-  color: #fff;
-  pointer-events: none;
-  border-radius: 6px;
+  font-size: 18px; font-weight: bold; color: #fff;
+  pointer-events: none; border-radius: 6px;
 }
-
 .smp { font-size: 11px; color: #6b8cff; }
 
 #mode-tag {
@@ -170,9 +124,7 @@ canvas { display: block; image-rendering: pixelated; }
   height: 86px;
   overflow: hidden;
   border-radius: 8px;
-  backdrop-filter: blur(4px);
 }
-
 .log-line { font-size: 14px; line-height: 1.3; margin: 0; }
 
 /* ─── Sidebar ─── */
@@ -191,64 +143,36 @@ canvas { display: block; image-rendering: pixelated; }
   border: 1px solid rgba(100,120,160,0.12);
   padding: 10px 12px;
   border-radius: 10px;
-  backdrop-filter: blur(6px);
   box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
 
 .ptitle {
   font-family: 'Cinzel', serif;
-  color: #e8c468;
   font-size: 11px;
   letter-spacing: 2.5px;
   margin-bottom: 8px;
   padding-bottom: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 4px;
   background: linear-gradient(90deg, #e8c468, #d4a853);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   position: relative;
 }
-
 .ptitle::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0;
   height: 1px;
   background: linear-gradient(90deg, rgba(232,196,104,0.3), rgba(232,196,104,0.05));
 }
 
-.pmini { color: #4a5568; font-size: 10px; font-family: 'VT323', monospace; }
-
-/* ─── Orbs (HP / MP / Hunger) ─── */
+/* ─── Orbs ─── */
 .orb-wrap { margin: 4px 0; }
-
-.orb-label {
-  font-size: 12px;
-  color: #6b7b8d;
-  margin-bottom: 3px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.orb-bar {
-  height: 16px;
-  background: rgba(6,8,14,0.6);
-  border: 1px solid rgba(80,100,140,0.15);
-  border-radius: 8px;
-  overflow: hidden;
-  position: relative;
-}
-
+.orb-label { font-size: 12px; color: #6b7b8d; margin-bottom: 3px; display: flex; justify-content: space-between; }
+.orb-bar { height: 16px; background: rgba(6,8,14,0.6); border: 1px solid rgba(80,100,140,0.15); border-radius: 8px; overflow: hidden; }
 .orb-fill { height: 100%; border-radius: 8px; transition: width 0.3s ease; }
-
-#hp-fill { background: linear-gradient(90deg, #5c1a1a, #b83030, #e04848); box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); }
-#mp-fill { background: linear-gradient(90deg, #1a1a5c, #3040b8, #4858e0); box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); }
+#hp-fill { background: linear-gradient(90deg, #5c1a1a, #b83030, #e04848); }
+#mp-fill { background: linear-gradient(90deg, #1a1a5c, #3040b8, #4858e0); }
 
 #xp-bar-wrap, #cap-bar-wrap {
   height: 6px;
@@ -258,594 +182,255 @@ canvas { display: block; image-rendering: pixelated; }
   overflow: hidden;
   margin-top: 4px;
 }
-
-#xp-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #6b4400, #d4a020, #e8c468);
-  transition: width 0.3s ease;
-  box-shadow: 0 0 6px rgba(232,196,104,0.2);
-}
-
-#cap-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #2a5016, #5ca830, #7ecc48);
-  transition: width 0.3s ease;
-}
+#xp-fill { height:100%; background: linear-gradient(90deg,#6b4400,#d4a020,#e8c468); transition: width 0.3s ease; }
+#cap-fill { height:100%; background: linear-gradient(90deg,#2a5016,#5ca830,#7ecc48); transition: width 0.3s ease; }
 
 .stat-row { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
-
-.stat-chip {
-  background: rgba(10,14,22,0.7);
-  border: 1px solid rgba(80,100,140,0.15);
-  padding: 3px 6px;
-  font-size: 13px;
-  flex: 1;
-  text-align: center;
-  min-width: 48px;
-  border-radius: 6px;
-}
-
+.stat-chip { background: rgba(10,14,22,0.7); border: 1px solid rgba(80,100,140,0.15); padding: 3px 6px; font-size: 13px; flex: 1; text-align: center; min-width: 48px; border-radius: 6px; }
 .sv { color: #e8c468; }
 
 #status-effects { display: flex; gap: 4px; flex-wrap: wrap; min-height: 16px; }
-
 .sfx-badge { font-size: 12px; padding: 2px 8px; border-radius: 12px; border: 1px solid; }
 
 /* ─── Minimap ─── */
-#mmc {
-  display: block;
-  border: 1px solid rgba(100,120,160,0.15);
-  border-radius: 6px;
-}
+#mmc { display: block; border: 1px solid rgba(100,120,160,0.15); border-radius: 6px; }
 
 /* ─── Inventory Tabs ─── */
 .tab-row { display: flex; gap: 3px; margin-bottom: 6px; }
-
 .tab-btn {
-  flex: 1;
-  background: rgba(10,14,22,0.6);
-  border: 1px solid rgba(80,100,140,0.15);
-  color: #556677;
-  font-family: 'VT323', monospace;
-  font-size: 13px;
-  padding: 4px 6px;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  text-align: center;
+  flex: 1; background: rgba(10,14,22,0.6); border: 1px solid rgba(80,100,140,0.15);
+  color: #556677; font-family: 'VT323', monospace; font-size: 13px; padding: 4px 6px;
+  cursor: pointer; border-radius: 6px; transition: all 0.2s ease; text-align: center;
 }
-
-.tab-btn.active {
-  background: rgba(25,30,48,0.9);
-  border-color: rgba(232,196,104,0.4);
-  color: #e8c468;
-  box-shadow: 0 0 8px rgba(232,196,104,0.08);
-}
-
+.tab-btn.active { background: rgba(25,30,48,0.9); border-color: rgba(232,196,104,0.4); color: #e8c468; }
 .tab-btn:hover:not(.active) { border-color: rgba(100,120,160,0.3); color: #8b9ab0; }
 
 /* ─── Inventory Grid ─── */
 #inv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-
 .islot {
-  background: rgba(10,14,22,0.6);
-  border: 1px solid rgba(80,100,140,0.12);
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: relative;
-  font-size: 21px;
-  border-radius: 6px;
-  transition: all 0.15s ease;
+  background: rgba(10,14,22,0.6); border: 1px solid rgba(80,100,140,0.12);
+  height: 46px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; position: relative; font-size: 21px; border-radius: 6px; transition: all 0.15s ease;
 }
-
-.islot:hover {
-  border-color: rgba(120,140,180,0.35);
-  background: rgba(20,26,42,0.8);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
+.islot:hover { border-color: rgba(120,140,180,0.35); background: rgba(20,26,42,0.8); transform: translateY(-1px); }
 .islot .iqty { position: absolute; bottom: 1px; right: 4px; font-size: 10px; color: #e8c468; }
 .islot.has-item { border-color: rgba(100,120,160,0.25); }
 
 /* ─── Equipment Panel ─── */
 #eq-panel { display: none; }
-
 .eq-layout { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto auto auto auto auto; gap: 4px; }
-
 .eslot {
-  background: rgba(10,14,22,0.6);
-  border: 1px solid rgba(80,100,140,0.12);
-  height: 48px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: relative;
-  font-size: 20px;
-  border-radius: 6px;
-  transition: all 0.15s ease;
+  background: rgba(10,14,22,0.6); border: 1px solid rgba(80,100,140,0.12);
+  height: 48px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; position: relative; font-size: 20px; border-radius: 6px; transition: all 0.15s ease;
 }
-
 .eslot:hover { border-color: rgba(120,140,180,0.4); background: rgba(20,26,42,0.8); }
-
-.eslot.equipped {
-  border-color: rgba(232,196,104,0.3);
-  background: rgba(30,25,10,0.5);
-  box-shadow: 0 0 10px rgba(232,196,104,0.06);
-}
-
-.eslot.equipped:hover { border-color: rgba(232,196,104,0.5); }
-
-.eslot .elabel {
-  font-size: 8px;
-  color: #3a4555;
-  position: absolute;
-  bottom: 2px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  letter-spacing: 0.5px;
-  font-family: 'Cinzel', serif;
-}
-
+.eslot.equipped { border-color: rgba(232,196,104,0.3); background: rgba(30,25,10,0.5); }
+.eslot .elabel { font-size: 8px; color: #3a4555; position: absolute; bottom: 2px; left: 0; right: 0; text-align: center; font-family: 'Cinzel', serif; }
 .eslot .elabel.active-label { color: rgba(232,196,104,0.5); }
 
-.eslot.light-slot.lit {
-  border-color: rgba(255,170,0,0.35);
-  background: rgba(25,20,5,0.5);
-  box-shadow: 0 0 10px rgba(255,170,0,0.15);
-}
-
 /* ─── Sidebar Buttons ─── */
-#stats-btn, #skill-sidebar-btn, #journal-btn {
-  cursor: pointer;
-  background: rgba(10,14,22,0.6);
-  border: 1px solid rgba(80,100,140,0.15);
-  padding: 5px 10px;
-  font-size: 13px;
-  text-align: center;
-  border-radius: 8px;
-  font-family: 'VT323', monospace;
-  transition: all 0.25s ease;
-  margin-top: 6px;
-  width: 100%;
-  position: relative;
+#stats-btn, #skill-sidebar-btn {
+  cursor: pointer; background: rgba(10,14,22,0.6); border: 1px solid rgba(80,100,140,0.15);
+  padding: 5px 10px; font-size: 13px; text-align: center; border-radius: 8px;
+  font-family: 'VT323', monospace; transition: all 0.25s ease; margin-top: 6px; width: 100%; position: relative;
 }
-
 #stats-btn { color: #6b8faf; }
 #stats-btn:hover { border-color: rgba(232,196,104,0.4); color: #e8c468; background: rgba(30,25,10,0.3); }
-
 #skill-sidebar-btn { color: #4477bb; margin-top: 4px; }
 #skill-sidebar-btn:hover { border-color: rgba(68,102,204,0.5); color: #88aaff; background: rgba(15,20,40,0.5); }
 
-#journal-btn { color: #5599cc; }
-#journal-btn:hover { border-color: rgba(100,180,255,0.4); color: #99ccff; background: rgba(15,25,40,0.4); }
-
 #skill-point-badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
+  position: absolute; top: -6px; right: -6px;
   background: linear-gradient(135deg, #3355aa, #4477dd);
-  color: #fff;
-  font-size: 11px;
-  border-radius: 10px;
-  padding: 0 6px;
-  display: none;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  color: #fff; font-size: 11px; border-radius: 10px; padding: 0 6px; display: none;
 }
 
 /* ─── Popups (shared) ─── */
-#loot-win, #stats-popup, #shop-win, #skill-win, #vision-win {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+#loot-win, #stats-popup, #shop-win, #skill-win, #fish-win {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
   background: rgba(10,14,22,0.97);
-  padding: 0;
-  z-index: 350;
-  display: none;
+  z-index: 350; display: none;
   box-shadow: 0 8px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
-  border-radius: 12px;
-  font-family: 'VT323', monospace;
-  backdrop-filter: blur(12px);
+  border-radius: 12px; font-family: 'VT323', monospace;
 }
 
 /* ─── Loot Window ─── */
 #loot-win {
-  background: rgba(14,18,30,0.97);
-  border: 1px solid rgba(232,196,104,0.4);
-  padding: 14px;
-  min-width: 220px;
-  z-index: 200;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 30px rgba(232,196,104,0.08);
+  background: rgba(14,18,30,0.97); border: 1px solid rgba(232,196,104,0.4);
+  padding: 14px; min-width: 220px; z-index: 200;
 }
-
-.ltitle {
-  font-family: 'Cinzel', serif;
-  color: #e8c468;
-  font-size: 13px;
-  margin-bottom: 8px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid rgba(232,196,104,0.15);
-}
-
-.lbtn {
-  display: block;
-  width: 100%;
-  background: rgba(18,22,36,0.8);
-  border: 1px solid rgba(80,100,140,0.15);
-  color: #b0bac8;
-  font-family: 'VT323', monospace;
-  font-size: 15px;
-  padding: 5px 10px;
-  cursor: pointer;
-  margin-bottom: 3px;
-  text-align: left;
-  border-radius: 6px;
-  transition: all 0.15s ease;
-}
-
+.ltitle { font-family: 'Cinzel', serif; color: #e8c468; font-size: 13px; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid rgba(232,196,104,0.15); }
+.lbtn { display: block; width: 100%; background: rgba(18,22,36,0.8); border: 1px solid rgba(80,100,140,0.15); color: #b0bac8; font-family: 'VT323', monospace; font-size: 15px; padding: 5px 10px; cursor: pointer; margin-bottom: 3px; text-align: left; border-radius: 6px; transition: all 0.15s ease; }
 .lbtn:hover { background: rgba(30,38,55,0.9); border-color: rgba(120,140,180,0.3); }
-
-.lbtn-all {
-  background: rgba(30,25,5,0.5);
-  border-color: rgba(200,168,75,0.25);
-  color: #e8c468;
-}
-
-.lbtn-all:hover { background: rgba(45,38,10,0.6); }
-
-.lbtn-close {
-  background: rgba(30,12,12,0.5);
-  border-color: rgba(180,60,60,0.25);
-  color: #cc8888;
-  margin-top: 6px;
-}
-
-.lbtn-close:hover { background: rgba(50,18,18,0.6); border-color: rgba(180,60,60,0.4); }
+.lbtn-all { background: rgba(30,25,5,0.5); border-color: rgba(200,168,75,0.25); color: #e8c468; }
+.lbtn-close { background: rgba(30,12,12,0.5); border-color: rgba(180,60,60,0.25); color: #cc8888; margin-top: 6px; }
 
 /* ─── Stats Popup ─── */
-#stats-popup {
-  border: 1px solid rgba(232,196,104,0.35);
-  min-width: 320px;
-  max-width: 380px;
-  z-index: 300;
-}
+#stats-popup { border: 1px solid rgba(232,196,104,0.35); min-width: 320px; max-width: 380px; z-index: 300; }
 
-#stats-popup .sp-title, #shop-win .sh-title, #skill-win .sk-title, #vision-win .vw-title {
-  font-family: 'Cinzel', serif;
-  font-size: 13px;
-  letter-spacing: 3px;
-  padding: 10px 16px 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+#stats-popup .sp-title, #shop-win .sh-title, #skill-win .sk-title, #fish-win .fw-title {
+  font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 3px;
+  padding: 10px 16px 8px; display: flex; justify-content: space-between; align-items: center;
   border-bottom: 1px solid rgba(100,120,160,0.12);
-  background: rgba(14,18,30,0.9);
-  border-radius: 12px 12px 0 0;
+  background: rgba(14,18,30,0.9); border-radius: 12px 12px 0 0;
 }
-
 #stats-popup .sp-title { color: #e8c468; }
-#shop-win .sh-title { color: #e8c468; }
-#skill-win .sk-title { color: #88aaff; }
-#vision-win .vw-title { color: #7de0ff; }
+#shop-win .sh-title    { color: #e8c468; }
+#skill-win .sk-title   { color: #88aaff; }
+#fish-win .fw-title    { color: #55ddff; }
 
-#stats-popup .sp-close, #shop-win .sh-close, #skill-win .sk-close, #vision-win .vw-close {
-  cursor: pointer;
-  color: #4a5568;
-  font-size: 16px;
-  line-height: 1;
-  padding: 2px 6px;
-  border: 1px solid rgba(80,100,140,0.15);
-  background: rgba(10,14,22,0.6);
-  border-radius: 4px;
-  transition: all 0.2s ease;
+#stats-popup .sp-close, #shop-win .sh-close, #skill-win .sk-close, #fish-win .fw-close {
+  cursor: pointer; color: #4a5568; font-size: 16px; line-height: 1; padding: 2px 6px;
+  border: 1px solid rgba(80,100,140,0.15); background: rgba(10,14,22,0.6); border-radius: 4px; transition: all 0.2s ease;
+}
+#stats-popup .sp-close:hover, #shop-win .sh-close:hover, #skill-win .sk-close:hover, #fish-win .fw-close:hover {
+  color: #ff6b4a; border-color: rgba(255,107,74,0.4); background: rgba(40,15,10,0.5);
 }
 
-#stats-popup .sp-close:hover, #shop-win .sh-close:hover, #skill-win .sk-close:hover, #vision-win .vw-close:hover {
-  color: #ff6b4a;
-  border-color: rgba(255,107,74,0.4);
-  background: rgba(40,15,10,0.5);
-}
-
-#stats-popup .sp-body {
-  padding: 12px 16px 14px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px 12px;
-}
-
-#stats-popup .sp-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(14,18,30,0.6);
-  border: 1px solid rgba(80,100,140,0.1);
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 15px;
-  transition: all 0.15s ease;
-}
-
-#stats-popup .sp-row:hover { border-color: rgba(100,120,160,0.2); background: rgba(20,26,42,0.7); }
-
+#stats-popup .sp-body { padding: 12px 16px 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px 12px; }
+#stats-popup .sp-row { display: flex; justify-content: space-between; align-items: center; background: rgba(14,18,30,0.6); border: 1px solid rgba(80,100,140,0.1); padding: 5px 10px; border-radius: 6px; font-size: 15px; }
 #stats-popup .sp-label { color: #6b8faf; font-size: 13px; }
-#stats-popup .sp-val { color: #e8c468; font-size: 16px; font-weight: bold; }
-
-#stats-popup .sp-section, .sk-section, .vw-section-title {
-  grid-column: 1 / -1;
-  font-family: 'Cinzel', serif;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: #3a4a5c;
-  border-bottom: 1px solid rgba(80,100,140,0.1);
-  padding-bottom: 4px;
-  margin-top: 5px;
-}
-
-#stats-popup .sp-footer, .sk-footer, .sh-footer {
-  grid-column: 1 / -1;
-  font-size: 11px;
-  color: #2d3748;
-  text-align: center;
-  margin-top: 5px;
-}
+#stats-popup .sp-val   { color: #e8c468; font-size: 16px; }
+#stats-popup .sp-section { grid-column: 1/-1; font-family: 'Cinzel',serif; font-size: 10px; letter-spacing: 2px; color: #3a4a5c; border-bottom: 1px solid rgba(80,100,140,0.1); padding-bottom: 4px; margin-top: 5px; }
+#stats-popup .sp-footer, .sk-footer, .sh-footer { grid-column: 1/-1; font-size: 11px; color: #2d3748; text-align: center; margin-top: 5px; }
 
 /* ─── Context Menu ─── */
 #item-ctx {
-  position: fixed;
-  background: rgba(14,18,30,0.97);
-  border: 1px solid rgba(232,196,104,0.35);
-  padding: 5px;
-  z-index: 400;
-  display: none;
-  min-width: 140px;
-  border-radius: 8px;
+  position: fixed; background: rgba(14,18,30,0.97);
+  border: 1px solid rgba(232,196,104,0.35); padding: 5px; z-index: 400;
+  display: none; min-width: 140px; border-radius: 8px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-  backdrop-filter: blur(10px);
 }
-
-.ctx-btn {
-  display: block;
-  width: 100%;
-  background: transparent;
-  border: none;
-  color: #8b9ab0;
-  font-family: 'VT323', monospace;
-  font-size: 15px;
-  padding: 4px 12px;
-  cursor: pointer;
-  text-align: left;
-  border-radius: 4px;
-  transition: all 0.15s ease;
-}
-
+.ctx-btn { display: block; width: 100%; background: transparent; border: none; color: #8b9ab0; font-family: 'VT323',monospace; font-size: 15px; padding: 4px 12px; cursor: pointer; text-align: left; border-radius: 4px; transition: all 0.15s ease; }
 .ctx-btn:hover { background: rgba(30,38,55,0.6); color: #e0e8f0; }
 
 /* ─── Shop ─── */
-#shop-win {
-  border: 1px solid rgba(232,196,104,0.3);
-  width: 420px;
-  max-width: 96vw;
-}
-
+#shop-win { border: 1px solid rgba(232,196,104,0.3); width: 420px; max-width: 96vw; }
 .sh-tabs { display: flex; border-bottom: 1px solid rgba(100,120,160,0.1); }
-
-.sh-tab {
-  flex: 1;
-  background: rgba(10,14,22,0.5);
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: #4a5568;
-  font-family: 'VT323', monospace;
-  font-size: 15px;
-  padding: 6px 0;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.sh-tab.active {
-  color: #e8c468;
-  border-bottom-color: #e8c468;
-  background: rgba(14,18,30,0.8);
-}
-
-.sh-tab:hover:not(.active) { color: #8b9ab0; background: rgba(12,16,26,0.6); }
-
-.sh-gold, .sk-points {
-  padding: 6px 16px;
-  font-size: 14px;
-  color: #6b7b8d;
-  border-bottom: 1px solid rgba(80,100,140,0.1);
-  display: flex;
-  justify-content: space-between;
-}
-
+.sh-tab { flex: 1; background: rgba(10,14,22,0.5); border: none; border-bottom: 2px solid transparent; color: #4a5568; font-family: 'VT323',monospace; font-size: 15px; padding: 6px 0; cursor: pointer; transition: all 0.2s ease; }
+.sh-tab.active { color: #e8c468; border-bottom-color: #e8c468; background: rgba(14,18,30,0.8); }
+.sh-gold, .sk-points { padding: 6px 16px; font-size: 14px; color: #6b7b8d; border-bottom: 1px solid rgba(80,100,140,0.1); display: flex; justify-content: space-between; }
 .sh-gold span { color: #FFD700; }
-
-.sh-list, .sk-body, .vw-body { overflow-y: auto; }
-
-.sh-list {
-  max-height: 280px;
-  padding: 8px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.sh-row, .sk-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(14,18,30,0.6);
-  border: 1px solid rgba(80,100,140,0.1);
-  border-radius: 8px;
-  padding: 6px 10px;
-  transition: all 0.15s ease;
-}
-
+.sh-list, .sk-body { overflow-y: auto; }
+.sh-list { max-height: 280px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; }
+.sh-row, .sk-row { display: flex; align-items: center; gap: 10px; background: rgba(14,18,30,0.6); border: 1px solid rgba(80,100,140,0.1); border-radius: 8px; padding: 6px 10px; transition: all 0.15s ease; }
 .sh-row:hover, .sk-row:hover { border-color: rgba(100,120,160,0.25); background: rgba(20,26,42,0.7); }
-
 .sh-row.cant-afford { opacity: 0.4; cursor: not-allowed; }
-
 .sh-icon, .sk-icon { font-size: 20px; width: 28px; text-align: center; }
 .sh-info, .sk-info { flex: 1; }
 .sh-name, .sk-name { font-size: 15px; color: #b0bac8; }
 .sh-stats, .sk-desc { font-size: 11px; color: #4a5c6e; }
-
 .sh-price { font-size: 16px; color: #FFD700; white-space: nowrap; }
 .sh-price.sell { color: #7ecc48; }
 
 /* ─── Skill Window ─── */
-#skill-win {
-  border: 1px solid rgba(68,102,204,0.35);
-  width: 440px;
-  max-width: 96vw;
-}
-
+#skill-win { border: 1px solid rgba(68,102,204,0.35); width: 440px; max-width: 96vw; }
 .sk-points span { color: #88aaff; font-size: 16px; }
-
-.sk-body {
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-height: 380px;
-}
-
+.sk-body { padding: 12px; display: flex; flex-direction: column; gap: 6px; max-height: 380px; }
+.sk-section { font-family: 'Cinzel',serif; font-size: 10px; letter-spacing: 2px; color: #3a4a5c; border-bottom: 1px solid rgba(80,100,140,0.1); padding-bottom: 4px; margin-top: 5px; }
 .sk-lvl { font-size: 13px; color: #4a5c6e; white-space: nowrap; text-align: right; }
 .sk-lvl span { color: #88aaff; }
-
-.sk-btn {
-  background: rgba(10,14,22,0.6);
-  border: 1px solid rgba(60,80,120,0.2);
-  color: #4a5c6e;
-  font-family: 'VT323', monospace;
-  font-size: 14px;
-  padding: 4px 12px;
-  cursor: not-allowed;
-  border-radius: 6px;
-  white-space: nowrap;
-  transition: all 0.2s ease;
-}
-
-.sk-btn.can {
-  border-color: rgba(68,102,204,0.4);
-  color: #88aaff;
-  cursor: pointer;
-}
-
-.sk-btn.can:hover {
-  background: rgba(20,28,50,0.7);
-  border-color: rgba(100,140,255,0.5);
-  color: #aaccff;
-  box-shadow: 0 0 8px rgba(100,140,255,0.08);
-}
-
-.sk-btn.maxed {
-  border-color: rgba(232,196,104,0.25);
-  color: rgba(232,196,104,0.5);
-  cursor: default;
-}
+.sk-btn { background: rgba(10,14,22,0.6); border: 1px solid rgba(60,80,120,0.2); color: #4a5c6e; font-family: 'VT323',monospace; font-size: 14px; padding: 4px 12px; cursor: not-allowed; border-radius: 6px; white-space: nowrap; transition: all 0.2s ease; }
+.sk-btn.can { border-color: rgba(68,102,204,0.4); color: #88aaff; cursor: pointer; }
+.sk-btn.can:hover { background: rgba(20,28,50,0.7); color: #aaccff; }
+.sk-btn.maxed { border-color: rgba(232,196,104,0.25); color: rgba(232,196,104,0.5); cursor: default; }
 
 /* ─── Auto Loot ─── */
-.filter-empty { font-size: 13px; color: #4a5568; line-height: 1.4; }
-
 .filter-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.filter-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border: 1px solid rgba(80,100,140,0.15); background: rgba(10,14,22,0.6); border-radius: 999px; font-size: 12px; color: #8b9ab0; }
+.filter-chip.always { border-color: rgba(200,168,75,0.3); color: #e8c468; background: rgba(25,20,5,0.4); }
+.filter-chip.item { border-color: rgba(80,140,200,0.25); color: #7eb8ff; background: rgba(10,18,30,0.5); cursor: pointer; }
 
-.filter-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 10px;
-  border: 1px solid rgba(80,100,140,0.15);
-  background: rgba(10,14,22,0.6);
-  border-radius: 999px;
-  font-size: 12px;
-  color: #8b9ab0;
+/* ─── Fishing Window ─── */
+#fish-win { border: 1px solid rgba(40,160,255,0.35); width: 340px; max-width: 96vw; }
+
+#fish-arena {
+  margin: 14px 16px 0;
+  position: relative;
+  height: 180px;
+  background: linear-gradient(180deg, #050e1a 0%, #0a1f35 40%, #082840 100%);
+  border: 1px solid rgba(40,120,200,0.25);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#fish-surface {
+  position: absolute; top: 38px; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(80,180,255,0.4), rgba(120,210,255,0.6), rgba(80,180,255,0.4), transparent);
+  animation: waveSurface 2s ease-in-out infinite alternate;
+}
+@keyframes waveSurface { from{opacity:.5} to{opacity:1} }
+
+#fish-rod-line {
+  position: absolute; top: 0; left: 50%; width: 1px;
+  background: linear-gradient(180deg, #a87a49, #e8c468, rgba(232,196,104,0.3));
+  transform-origin: top center;
+  transition: height 0.4s ease;
+}
+
+#fish-bobber {
+  position: absolute; left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  transition: top 0.4s ease;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+#fish-catch-zone {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  border: 2px dashed rgba(100,220,100,0.5);
+  border-radius: 4px;
+  background: rgba(60,180,60,0.06);
   transition: all 0.2s ease;
 }
 
-.filter-chip.always {
-  border-color: rgba(200,168,75,0.3);
-  color: #e8c468;
-  background: rgba(25,20,5,0.4);
+#fish-bar-wrap {
+  position: absolute; right: 10px; top: 10px; bottom: 10px;
+  width: 18px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(100,150,200,0.2);
+  border-radius: 9px;
+  overflow: hidden;
+}
+#fish-bar-fill {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(180deg, #22ff88, #00cc66);
+  border-radius: 0 0 9px 9px;
+  transition: height 0.1s ease;
 }
 
-.filter-chip.item {
-  border-color: rgba(80,140,200,0.25);
-  color: #7eb8ff;
-  background: rgba(10,18,30,0.5);
-  cursor: pointer;
+#fish-indicator {
+  position: absolute; left: 10px; right: 38px;
+  background: rgba(0,120,200,0.15);
+  border: 1px solid rgba(40,160,255,0.3);
+  border-radius: 4px;
+  text-align: center;
+  font-size: 18px;
+  padding: 4px 0;
+  transition: all 0.15s ease;
 }
 
-.filter-chip.item:hover { border-color: rgba(220,60,60,0.4); color: #ff8888; }
-
-/* ─── Vision / Roadmap ─── */
-#vision-win {
-  border: 1px solid rgba(100,200,255,0.3);
-  width: 720px;
-  max-width: 96vw;
-  max-height: 90vh;
+#fish-status {
+  text-align: center; padding: 10px 16px 6px;
+  font-size: 15px; color: #88bbdd; min-height: 36px;
 }
 
-.vw-body {
-  padding: 14px 16px;
-  max-height: 76vh;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+#fish-btn-row {
+  display: flex; gap: 8px; padding: 6px 16px 14px;
 }
-
-.vw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-.vw-card {
-  background: rgba(14,18,30,0.7);
-  border: 1px solid rgba(80,100,140,0.12);
-  border-radius: 8px;
-  padding: 12px;
+.fish-btn {
+  flex: 1; background: rgba(10,30,50,0.7); border: 1px solid rgba(40,120,200,0.3);
+  color: #55ccff; font-family: 'VT323',monospace; font-size: 15px;
+  padding: 6px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;
 }
-
-.vw-card ul { padding-left: 18px; color: #8ba0b8; line-height: 1.5; }
-.vw-card li { margin-bottom: 5px; }
-
-.vw-chip {
-  display: inline-block;
-  padding: 2px 10px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  border-radius: 999px;
-  font-size: 11px;
-  border: 1px solid rgba(100,180,240,0.2);
-  background: rgba(10,20,35,0.5);
-  color: #7de0ff;
-}
-
-.vw-chip.live {
-  border-color: rgba(80,140,50,0.3);
-  background: rgba(15,25,10,0.4);
-  color: #9bff74;
-}
-
-.vw-note { font-size: 13px; color: #6b8faf; line-height: 1.45; }
+.fish-btn:hover { background: rgba(20,60,100,0.8); border-color: rgba(60,160,255,0.5); color: #88ddff; }
+.fish-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* ─── Scrollbars ─── */
-#side::-webkit-scrollbar, .sh-list::-webkit-scrollbar, .sk-body::-webkit-scrollbar, .vw-body::-webkit-scrollbar { width: 4px; }
-
+#side::-webkit-scrollbar, .sh-list::-webkit-scrollbar, .sk-body::-webkit-scrollbar { width: 4px; }
 #side::-webkit-scrollbar-track { background: transparent; }
-#side::-webkit-scrollbar-thumb, .sh-list::-webkit-scrollbar-thumb, .sk-body::-webkit-scrollbar-thumb, .vw-body::-webkit-scrollbar-thumb {
-  background: rgba(80,100,140,0.2);
-  border-radius: 4px;
-}
-
-#side::-webkit-scrollbar-thumb:hover, .sh-list::-webkit-scrollbar-thumb:hover, .sk-body::-webkit-scrollbar-thumb:hover {
-  background: rgba(80,100,140,0.35);
-}
+#side::-webkit-scrollbar-thumb, .sh-list::-webkit-scrollbar-thumb, .sk-body::-webkit-scrollbar-thumb { background: rgba(80,100,140,0.2); border-radius: 4px; }
 
 /* ─── Responsive ─── */
 @media (max-width: 1180px) {
@@ -927,6 +512,12 @@ canvas { display: block; image-rendering: pixelated; }
       <div class="ptitle">MINIMAP</div>
       <canvas id="mmc" width="204" height="130"></canvas>
     </div>
+
+    <div class="panel">
+      <div class="ptitle">AUTO LOOT</div>
+      <div style="font-size:11px;color:#4a5568;margin-bottom:4px">Gold always auto-looted. Right-click items to toggle.</div>
+      <div class="filter-wrap" id="autoloot-list"></div>
+    </div>
   </div>
 </div>
 
@@ -962,9 +553,29 @@ canvas { display: block; image-rendering: pixelated; }
   </div>
   <div class="sk-points"><span>Skill Points Available:</span><span id="sk-pts-val">0</span></div>
   <div class="sk-body" id="sk-body"></div>
-  <div class="sk-footer">Gain 1 skill point per level up · Attack speed now affects real melee cadence</div>
+  <div class="sk-footer">Gain 1 skill point per level up · Attack speed affects real melee cadence</div>
 </div>
 
+<!-- Fishing Window -->
+<div id="fish-win">
+  <div class="fw-title">
+    <span>🎣 FISHING</span>
+    <span class="fw-close" onclick="closeFishing()">✕</span>
+  </div>
+  <div id="fish-arena">
+    <div id="fish-surface"></div>
+    <div id="fish-rod-line"></div>
+    <div id="fish-bobber">🪝</div>
+    <div id="fish-catch-zone"></div>
+    <div id="fish-bar-wrap"><div id="fish-bar-fill"></div></div>
+    <div id="fish-indicator"></div>
+  </div>
+  <div id="fish-status">Stand next to water and cast your line!</div>
+  <div id="fish-btn-row">
+    <button class="fish-btn" id="fish-cast-btn" onclick="fishCast()">🎣 Cast</button>
+    <button class="fish-btn" id="fish-reel-btn" onclick="fishReel()" disabled>⬆ Reel In</button>
+  </div>
+</div>
 
 <!-- Item Context Menu -->
 <div id="item-ctx">
@@ -978,24 +589,29 @@ canvas { display: block; image-rendering: pixelated; }
 <script>
 'use strict';
 
+// ─────────────────────────────────────────────
+// SKILL DEFINITIONS
+// ─────────────────────────────────────────────
+
 const SKILL_DEFS = [
-  { id:'sk_atk',    section:'OFFENSE',  icon:'⚔', name:'Might',      desc:'+5 base ATK per level',       maxLv:10, perLv:{ baseAtk:5 } },
-  { id:'sk_crit',   section:'OFFENSE',  icon:'⚡', name:'Precision',  desc:'+5% crit dmg, +2% chance',    maxLv:8,  perLv:{ baseCrit:5, baseCritChance:2 } },
-  { id:'sk_absorb', section:'OFFENSE',  icon:'🩸', name:'Life Drain', desc:'+3% life absorb on hit',      maxLv:5,  perLv:{ baseLifeAbsorb:3 } },
-  { id:'sk_atkspd', section:'OFFENSE',  icon:'💨', name:'Swiftblade', desc:'+15 attack speed rating',     maxLv:6,  perLv:{ baseAtkSpeed:15 } },
-  { id:'sk_def',    section:'DEFENSE',  icon:'🛡', name:'Fortitude',  desc:'+4 base DEF per level',       maxLv:10, perLv:{ baseDef:4 } },
-  { id:'sk_armor',  section:'DEFENSE',  icon:'⛓',  name:'Iron Skin',  desc:'+3 base armor per level',     maxLv:8,  perLv:{ baseArmor:3 } },
-  { id:'sk_hp',     section:'VITALITY', icon:'❤', name:'Vitality',   desc:'+40 max HP per level',        maxLv:10, perLv:{ baseMaxHp:40 } },
-  { id:'sk_mp',     section:'VITALITY', icon:'✦', name:'Arcane Pool', desc:'+30 max MP per level',       maxLv:8,  perLv:{ baseMaxMp:30 } },
-  { id:'sk_regen',  section:'VITALITY', icon:'💚', name:'Regeneration',desc:'+2 HP regen/s per level',   maxLv:6,  perLv:{ baseRegen:2 } },
-  { id:'sk_light',  section:'EXPLORER', icon:'🔦', name:'Night Eyes', desc:'+1 base light radius',        maxLv:4,  perLv:{ baseLightBonus:1 } },
-  { id:'sk_cap',    section:'EXPLORER', icon:'🎒', name:'Packing',    desc:'+10 carry capacity',          maxLv:5,  perLv:{ baseCapBonus:10 } },
+  { id:'sk_atk',    section:'OFFENSE',  icon:'⚔', name:'Might',       desc:'+5 base ATK per level',        maxLv:10, perLv:{ baseAtk:5 } },
+  { id:'sk_crit',   section:'OFFENSE',  icon:'⚡', name:'Precision',   desc:'+5% crit dmg, +2% chance',     maxLv:8,  perLv:{ baseCrit:5, baseCritChance:2 } },
+  { id:'sk_absorb', section:'OFFENSE',  icon:'🩸', name:'Life Drain',  desc:'+3% life absorb on hit',       maxLv:5,  perLv:{ baseLifeAbsorb:3 } },
+  { id:'sk_atkspd', section:'OFFENSE',  icon:'💨', name:'Swiftblade',  desc:'+15 attack speed rating',      maxLv:6,  perLv:{ baseAtkSpeed:15 } },
+  { id:'sk_def',    section:'DEFENSE',  icon:'🛡', name:'Fortitude',   desc:'+4 base DEF per level',        maxLv:10, perLv:{ baseDef:4 } },
+  { id:'sk_armor',  section:'DEFENSE',  icon:'⛓',  name:'Iron Skin',   desc:'+3 base armor per level',      maxLv:8,  perLv:{ baseArmor:3 } },
+  { id:'sk_hp',     section:'VITALITY', icon:'❤', name:'Vitality',    desc:'+40 max HP per level',         maxLv:10, perLv:{ baseMaxHp:40 } },
+  { id:'sk_mp',     section:'VITALITY', icon:'✦', name:'Arcane Pool', desc:'+30 max MP per level',         maxLv:8,  perLv:{ baseMaxMp:30 } },
+  { id:'sk_regen',  section:'VITALITY', icon:'💚', name:'Regeneration',desc:'+2 HP regen/s per level',      maxLv:6,  perLv:{ baseRegen:2 } },
+  { id:'sk_light',  section:'EXPLORER', icon:'🔦', name:'Night Eyes',  desc:'+1 base light radius',         maxLv:4,  perLv:{ baseLightBonus:1 } },
+  { id:'sk_cap',    section:'EXPLORER', icon:'🎒', name:'Packing',     desc:'+10 carry capacity',           maxLv:5,  perLv:{ baseCapBonus:10 } },
+  { id:'sk_fish',   section:'EXPLORER', icon:'🎣', name:'Angler',      desc:'+8% catch chance, bigger zone',maxLv:5,  perLv:{ baseFishBonus:8 } },
 ];
 
 const EQ_SLOTS = [
   { key:'head',     label:'Head',   icon:'⛑',  types:['helmet'],    col:1, row:0 },
   { key:'amulet',   label:'Amulet', icon:'◇',   types:['amulet'],    col:2, row:0 },
-  { key:'mainhand', label:'Weapon', icon:'⚔',   types:['weapon','torch'], col:0, row:1 },
+  { key:'mainhand', label:'Weapon', icon:'⚔',   types:['weapon','torch','fishingrod'], col:0, row:1 },
   { key:'body',     label:'Body',   icon:'◈',   types:['chest'],     col:1, row:1 },
   { key:'offhand',  label:'Shield', icon:'⬡',   types:['offhand'],   col:2, row:1 },
   { key:'belt',     label:'Belt',   icon:'▭',   types:['belt'],      col:0, row:2 },
@@ -1008,17 +624,9 @@ const EQ_SLOTS = [
   { key:'cape',     label:'Cape',   icon:'🧣',  types:['cape'],      col:2, row:4 },
 ];
 
-const RES_KEYS = ['resPhys','resFire','resLightning','resCold','resEarth','resChaos','resHoly'];
+const RES_KEYS  = ['resPhys','resFire','resLightning','resCold','resEarth','resChaos','resHoly'];
 const RES_COLS  = { resPhys:'#aaaacc', resFire:'#ff6622', resLightning:'#ffee22', resCold:'#44aaff', resEarth:'#88cc44', resChaos:'#cc44cc', resHoly:'#ffffaa' };
 const RES_ICONS = { resPhys:'⚙', resFire:'🔥', resLightning:'⚡', resCold:'❄', resEarth:'🌿', resChaos:'☯', resHoly:'✨' };
-
-const ZONE_INFO = [
-  { name:'SAFE AREA',   col:'#44ff88' },
-  { name:'NORMAL AREA', col:'#ffff44' },
-  { name:'DANGEROUS',   col:'#ff8844' },
-  { name:'DEADLY ZONE', col:'#ff4444' },
-  { name:'☠ DRAGON LAIR', col:'#ff0066' },
-];
 
 // ─────────────────────────────────────────────
 // CONSTANTS
@@ -1028,17 +636,16 @@ const TILE = 44, VW = 15, VH = 13, MW = 52, MH = 52;
 const CW = VW * TILE, CH = VH * TILE;
 const T = { FLOOR:0, WALL:1, WATER:2 };
 const PLAYER_MOVE_DELAY = 160;
-const MON_ATK_CD = 1000;
-const RESPAWN_DELAY = 60000;
-const AUTO_ATK_BASE = 1000;
-const DAY_LENGTH = 120000;
-const TRADE_DIST = 2, SHOP_CLOSE_DIST = 3, PICKUP_DIST = 1;
-const BASE_LIGHT = 4;
-const LOOT_CLOSE_DIST = 2;
+const MON_ATK_CD       = 1000;
+const RESPAWN_DELAY    = 60000;
+const AUTO_ATK_BASE    = 1000;
+const DAY_LENGTH       = 120000;
+const TRADE_DIST       = 2, SHOP_CLOSE_DIST = 3, PICKUP_DIST = 1;
+const BASE_LIGHT       = 4;
+const LOOT_CLOSE_DIST  = 2;
 const BL_TARGET_LOSE_DIST = 7;
-const BL_MIN_LIGHT = 0.08;
-
-const INV_SLOT_CAP = 16;
+const BL_MIN_LIGHT     = 0.08;
+const INV_SLOT_CAP     = 16;
 
 // ─────────────────────────────────────────────
 // CANVAS SETUP
@@ -1078,12 +685,23 @@ let _cachedLightRadius = 4, _cachedAmbient = 0.58;
 let autoLootFilter = {};
 let meta = { totalKills:0, chestsOpened:0, elitesKilled:0 };
 
+// ─── Fishing state ───
+const FISH_STATES = { IDLE:'idle', CASTING:'casting', WAITING:'waiting', BITING:'biting', REELING:'reeling', CAUGHT:'caught' };
+let fishState = FISH_STATES.IDLE;
+let fishBobberY = 0;          // 0..1 depth in water column
+let fishCatchZoneY = 0;       // 0..1
+let fishCatchZoneH = 0.22;    // zone height fraction
+let fishProgress = 0;         // 0..1 fill bar
+let fishBiteTimer = 0;        // ms until next bite
+let fishBobberDrift = 0;      // animation
+let fishReelInterval = null;
+let fishWinOpen = false;
+
 // ─────────────────────────────────────────────
 // UTILITY
 // ─────────────────────────────────────────────
 
 function chebyshev(ax,ay,bx,by) { return Math.max(Math.abs(ax-bx), Math.abs(ay-by)); }
-function dst(ax,ay,bx,by)       { return Math.abs(ax-bx) + Math.abs(ay-by); }
 function rnd(a,b)                { return a + Math.floor(Math.random()*(b-a+1)); }
 function clamp(v,a,b)            { return Math.max(a, Math.min(b, v)); }
 
@@ -1147,13 +765,12 @@ function getLightRadius() {
 }
 
 function lightAt(tx, ty) {
-  const ambient = _cachedAmbient;
   const d = Math.hypot(tx - player.x, ty - player.y);
   const r = _cachedLightRadius;
   let local = 0;
   if (d <= r) local = 1;
   else if (d <= r + 1.5) local = Math.max(0, 1 - (d - r) / 1.5);
-  return Math.max(ambient, local);
+  return Math.max(_cachedAmbient, local);
 }
 
 function getFloorGlow(tmx, tmy) {
@@ -1171,8 +788,8 @@ function getFloorGlow(tmx, tmy) {
 
 function getMaxCapacity() {
   let base = 50;
-  const bd   = player.equipped.belt ? ITEM[player.equipped.belt] : null;
-  const bagd = player.equipped.bag  ? ITEM[player.equipped.bag]  : null;
+  const bd   = player.equipped.belt ? ITEM[player.equipped.belt]  : null;
+  const bagd = player.equipped.bag  ? ITEM[player.equipped.bag]   : null;
   if (bd   && bd.capBonus)   base += bd.capBonus;
   if (bagd && bagd.capBonus) base += bagd.capBonus;
   return base + getSkillBonus('baseCapBonus');
@@ -1217,21 +834,11 @@ function renderAutoLootUI() {
   goldChip.className = 'filter-chip always';
   goldChip.textContent = '💰 Gold';
   el.appendChild(goldChip);
-
-  const ids = Object.keys(autoLootFilter).sort((a,b) => (ITEM[a]?.n || a).localeCompare(ITEM[b]?.n || b));
-  if (!ids.length) {
-    const empty = document.createElement('div');
-    empty.className = 'filter-empty';
-    empty.style.width = '100%';
-    empty.textContent = 'No item filters yet. Right-click an item in your bag and choose "Toggle Auto Loot".';
-    el.appendChild(empty);
-    return;
-  }
-  for (const id of ids) {
+  for (const id of Object.keys(autoLootFilter).sort((a,b)=>(ITEM[a]?.n||a).localeCompare(ITEM[b]?.n||b))) {
     const d = ITEM[id]; if (!d) continue;
     const chip = document.createElement('span');
     chip.className = 'filter-chip item';
-    chip.title = 'Click to remove from auto loot';
+    chip.title = 'Click to remove';
     chip.innerHTML = `<span style="color:${d.col}">${d.icon}</span><span>${d.n}</span><span style="color:#ff6655;margin-left:2px">✕</span>`;
     chip.addEventListener('click', () => toggleAutoLootFilter(id));
     el.appendChild(chip);
@@ -1267,42 +874,36 @@ function autoLootCorpse(cor) {
 function genMap() {
   map = Array.from({ length:MH }, () => new Array(MW).fill(T.WALL));
   const rs = [];
-
   for (let i = 0; i < 25; i++) {
-    const w = 5 + Math.floor(Math.random()*10), h = 4 + Math.floor(Math.random()*9);
-    const x = 1 + Math.floor(Math.random()*(MW-w-2)), y = 1 + Math.floor(Math.random()*(MH-h-2));
+    const w = 5+Math.floor(Math.random()*10), h = 4+Math.floor(Math.random()*9);
+    const x = 1+Math.floor(Math.random()*(MW-w-2)), y = 1+Math.floor(Math.random()*(MH-h-2));
     let ok = true;
-    for (const r of rs) if (x<r.x+r.w+2 && x+w>r.x-2 && y<r.y+r.h+2 && y+h>r.y-2) { ok=false; break; }
+    for (const r of rs) if (x<r.x+r.w+2&&x+w>r.x-2&&y<r.y+r.h+2&&y+h>r.y-2) { ok=false; break; }
     if (ok) {
-      rs.push({ x, y, w, h, cx:x+Math.floor(w/2), cy:y+Math.floor(h/2) });
-      for (let ry=y; ry<y+h; ry++) for (let rx=x; rx<x+w; rx++) map[ry][rx] = T.FLOOR;
+      rs.push({ x,y,w,h,cx:x+Math.floor(w/2),cy:y+Math.floor(h/2) });
+      for (let ry=y;ry<y+h;ry++) for (let rx=x;rx<x+w;rx++) map[ry][rx]=T.FLOOR;
     }
   }
-
-  for (let i=1; i<rs.length; i++) {
-    const a=rs[i-1], b=rs[i]; let ax=a.cx, ay=a.cy;
+  for (let i=1;i<rs.length;i++) {
+    const a=rs[i-1],b=rs[i]; let ax=a.cx,ay=a.cy;
     while (ax!==b.cx) { map[ay][ax]=T.FLOOR; ax+=ax<b.cx?1:-1; }
     while (ay!==b.cy) { map[ay][ax]=T.FLOOR; ay+=ay<b.cy?1:-1; }
   }
-
-  for (let i=0; i<5; i++) {
+  for (let i=0;i<5;i++) {
     const rx=6+Math.floor(Math.random()*(MW-12)), ry=6+Math.floor(Math.random()*(MH-12));
-    for (let dy=-2; dy<=2; dy++) for (let dx=-3; dx<=3; dx++)
+    for (let dy=-2;dy<=2;dy++) for (let dx=-3;dx<=3;dx++)
       if (map[ry+dy]?.[rx+dx]===T.FLOOR && Math.abs(dx)+Math.abs(dy)<=3) map[ry+dy][rx+dx]=T.WATER;
   }
-
-  const depths = new Array(rs.length).fill(999); depths[0]=0;
-  const visited = new Set([0]), q = [{ idx:0, depth:0 }];
+  const depths=new Array(rs.length).fill(999); depths[0]=0;
+  const visited=new Set([0]), q=[{idx:0,depth:0}];
   while (q.length) {
-    const { idx, depth } = q.shift();
-    for (let j=0; j<rs.length; j++) {
+    const {idx,depth}=q.shift();
+    for (let j=0;j<rs.length;j++) {
       if (visited.has(j)) continue;
-      if (Math.hypot(rs[idx].cx-rs[j].cx, rs[idx].cy-rs[j].cy) < 22) {
-        visited.add(j); depths[j]=depth+1; q.push({ idx:j, depth:depth+1 });
-      }
+      if (Math.hypot(rs[idx].cx-rs[j].cx,rs[idx].cy-rs[j].cy)<22) { visited.add(j); depths[j]=depth+1; q.push({idx:j,depth:depth+1}); }
     }
   }
-  roomDepths = depths;
+  roomDepths=depths;
   return rs;
 }
 
@@ -1311,16 +912,13 @@ function genMap() {
 // ─────────────────────────────────────────────
 
 function isWalk(x, y, skipMons=false) {
-  if (!Number.isInteger(x) || !Number.isInteger(y)) {
-    console.warn(`isWalk called with non-integer coords: (${x}, ${y})`);
-    return false;
-  }
-  if (x<0 || y<0 || x>=MW || y>=MH || map[y][x]!==T.FLOOR) return false;
+  if (!Number.isInteger(x)||!Number.isInteger(y)) return false;
+  if (x<0||y<0||x>=MW||y>=MH||map[y][x]!==T.FLOOR) return false;
   if (!skipMons) {
-    if (player && player.x===x && player.y===y) return false;
+    if (player&&player.x===x&&player.y===y) return false;
     for (const e of ents) {
-      if (e.x===x && e.y===y) {
-        if (e.type==='mon' && e.hp>0) return false;
+      if (e.x===x&&e.y===y) {
+        if (e.type==='mon'&&e.hp>0) return false;
         if (e.type==='npc') return false;
       }
     }
@@ -1328,37 +926,40 @@ function isWalk(x, y, skipMons=false) {
   return true;
 }
 
-function monAt(x, y) {
-  // Always search with integer coords.
-  const ix = Math.trunc(x), iy = Math.trunc(y);
-  return ents.find(e => e.x === ix && e.y === iy && e.type === 'mon' && e.hp > 0) || null;
-}
+function monAt(x,y)   { const ix=Math.trunc(x),iy=Math.trunc(y); return ents.find(e=>e.x===ix&&e.y===iy&&e.type==='mon'&&e.hp>0)||null; }
 function npcAt(x,y)   { return ents.find(e=>e.x===x&&e.y===y&&e.type==='npc')||null; }
 function corAt(x,y)   { return ents.find(e=>e.x===x&&e.y===y&&e.type==='cor')||null; }
 function itemAt(x,y)  { return ents.find(e=>e.x===x&&e.y===y&&e.type==='itm')||null; }
 function barAt(x,y)   { return ents.find(e=>e.x===x&&e.y===y&&e.type==='bar')||null; }
 function chestAt(x,y) { return ents.find(e=>e.x===x&&e.y===y&&e.type==='chest')||null; }
 
+function isAdjacentWater() {
+  for (const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+    if (map[player.y+dy]?.[player.x+dx]===T.WATER) return true;
+  }
+  return false;
+}
+
 // ─────────────────────────────────────────────
 // LOGGING & EFFECTS
 // ─────────────────────────────────────────────
 
-function addLog(msg, col='#cccccc') { glog.unshift({ msg, col }); if (glog.length>100) glog.pop(); renderLog(); }
+function addLog(msg, col='#cccccc') { glog.unshift({msg,col}); if (glog.length>100) glog.pop(); renderLog(); }
 function shake(pow) { shakePow = Math.max(shakePow, pow); }
-function floaty(tx,ty,txt,col) { parts.push({ t:'f', txt, col, wx:tx+.3+Math.random()*.4, wy:ty+.2, vy:-.022, life:1.8, max:1.8 }); }
+function floaty(tx,ty,txt,col) { parts.push({t:'f',txt,col,wx:tx+.3+Math.random()*.4,wy:ty+.2,vy:-.022,life:1.8,max:1.8}); }
 
 function effect(tx,ty,col,rad) {
-  parts.push({ t:'fx', col, rad, wx:tx+.5, wy:ty+.5, life:.5, max:.5 });
-  for (let i=0; i<8+rad*6; i++) {
-    const a=Math.random()*Math.PI*2, sp=.015+Math.random()*.055;
-    parts.push({ t:'spark', col, wx:tx+.5, wy:ty+.5, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, life:.6+Math.random()*.3, max:.9 });
+  parts.push({t:'fx',col,rad,wx:tx+.5,wy:ty+.5,life:.5,max:.5});
+  for (let i=0;i<8+rad*6;i++) {
+    const a=Math.random()*Math.PI*2,sp=.015+Math.random()*.055;
+    parts.push({t:'spark',col,wx:tx+.5,wy:ty+.5,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:.6+Math.random()*.3,max:.9});
   }
 }
 
 function spawnBlood(tx,ty) {
-  for (let i=0; i<5; i++) {
-    const a=Math.random()*Math.PI*2, sp=.01+Math.random()*.035;
-    parts.push({ t:'spark', col:'#cc1111', wx:tx+.5, wy:ty+.5, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, life:.4+Math.random()*.3, max:.7 });
+  for (let i=0;i<5;i++) {
+    const a=Math.random()*Math.PI*2,sp=.01+Math.random()*.035;
+    parts.push({t:'spark',col:'#cc1111',wx:tx+.5,wy:ty+.5,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:.4+Math.random()*.3,max:.7});
   }
 }
 
@@ -1366,57 +967,55 @@ function spawnBlood(tx,ty) {
 // PATHFINDING
 // ─────────────────────────────────────────────
 
-function astar(sx, sy, gx2, gy2, maxNodes=4000) {
-  if (sx===gx2 && sy===gy2) return [];
-  const h = (x,y) => Math.max(Math.abs(x-gx2), Math.abs(y-gy2));
-  const key = (x,y) => x+','+y;
-  const DIRS = [[0,-1,1],[0,1,1],[-1,0,1],[1,0,1],[-1,-1,1.414],[1,-1,1.414],[-1,1,1.414],[1,1,1.414]];
-  const open=[], gScore=new Map(), parent=new Map();
+function astar(sx,sy,gx2,gy2,maxNodes=4000) {
+  if (sx===gx2&&sy===gy2) return [];
+  const h=(x,y)=>Math.max(Math.abs(x-gx2),Math.abs(y-gy2));
+  const key=(x,y)=>x+','+y;
+  const DIRS=[[0,-1,1],[0,1,1],[-1,0,1],[1,0,1],[-1,-1,1.414],[1,-1,1.414],[-1,1,1.414],[1,1,1.414]];
+  const open=[],gScore=new Map(),parent=new Map();
   gScore.set(key(sx,sy),0);
-  open.push({ x:sx, y:sy, f:h(sx,sy) });
+  open.push({x:sx,y:sy,f:h(sx,sy)});
   let iters=0;
-  while (open.length && iters<maxNodes) {
+  while (open.length&&iters<maxNodes) {
     iters++;
     let bi=0; for (let i=1;i<open.length;i++) if (open[i].f<open[bi].f) bi=i;
-    const cur=open.splice(bi,1)[0], ck=key(cur.x,cur.y);
-    if (cur.x===gx2 && cur.y===gy2) {
+    const cur=open.splice(bi,1)[0],ck=key(cur.x,cur.y);
+    if (cur.x===gx2&&cur.y===gy2) {
       const path=[]; let k=ck;
       while (parent.has(k)) {
         const [cx2,cy2]=k.split(',').map(Number);
-        path.unshift({ x:cx2, y:cy2 });
+        path.unshift({x:cx2,y:cy2});
         const par=parent.get(k); k=key(par.px,par.py);
       }
       return path;
     }
     const cg=gScore.get(ck)||0;
     for (const [ddx,ddy,cost] of DIRS) {
-      const nx=cur.x+ddx, ny=cur.y+ddy, isGoal=nx===gx2&&ny===gy2;
-      if (!isGoal && !isWalk(nx,ny,true)) continue;
-      if (ddx!==0 && ddy!==0) {
-        if (!isWalk(cur.x+ddx,cur.y,true) || !isWalk(cur.x,cur.y+ddy,true)) continue;
-      }
-      const nk=key(nx,ny), ng=cg+cost;
-      if (!gScore.has(nk) || ng<gScore.get(nk)) {
+      const nx=cur.x+ddx,ny=cur.y+ddy,isGoal=nx===gx2&&ny===gy2;
+      if (!isGoal&&!isWalk(nx,ny,true)) continue;
+      if (ddx!==0&&ddy!==0) { if (!isWalk(cur.x+ddx,cur.y,true)||!isWalk(cur.x,cur.y+ddy,true)) continue; }
+      const nk=key(nx,ny),ng=cg+cost;
+      if (!gScore.has(nk)||ng<gScore.get(nk)) {
         gScore.set(nk,ng); parent.set(nk,{px:cur.x,py:cur.y});
-        open.push({ x:nx, y:ny, f:ng+h(nx,ny) });
+        open.push({x:nx,y:ny,f:ng+h(nx,ny)});
       }
     }
   }
   return [];
 }
 
-function startPathTo(tx, ty) { pathQueue = astar(player.x, player.y, tx, ty); pathTarget = { x:tx, y:ty }; }
+function startPathTo(tx,ty) { pathQueue=astar(player.x,player.y,tx,ty); pathTarget={x:tx,y:ty}; }
 function clearPath() { pathQueue=[]; pathTarget=null; }
 
 function stepPath() {
   if (!pathQueue.length) { pathTarget=null; return; }
-  const next = pathQueue[0];
-  if (!isWalk(next.x, next.y, false)) {
-    pathQueue = pathTarget ? astar(player.x, player.y, pathTarget.x, pathTarget.y) : [];
+  const next=pathQueue[0];
+  if (!isWalk(next.x,next.y,false)) {
+    pathQueue=pathTarget?astar(player.x,player.y,pathTarget.x,pathTarget.y):[];
     if (!pathQueue.length) pathTarget=null;
     return;
   }
-  movePlayer(next.x-player.x, next.y-player.y);
+  movePlayer(next.x-player.x,next.y-player.y);
   pathQueue.shift();
   if (!pathQueue.length) pathTarget=null;
 }
@@ -1427,22 +1026,22 @@ function stepPath() {
 
 function computeStats() {
   const base = {
-    atk:        player.baseAtk       + getSkillBonus('baseAtk'),
-    def:        player.baseDef       + getSkillBonus('baseDef'),
-    armor:      player.baseArmor     + getSkillBonus('baseArmor'),
+    atk:        player.baseAtk        + getSkillBonus('baseAtk'),
+    def:        player.baseDef        + getSkillBonus('baseDef'),
+    armor:      player.baseArmor      + getSkillBonus('baseArmor'),
     speed:      player.baseSpeed,
-    crit:       player.baseCrit      + getSkillBonus('baseCrit'),
-    critChance: player.baseCritChance+ getSkillBonus('baseCritChance'),
-    atkSpeed:   player.baseAtkSpeed  + getSkillBonus('baseAtkSpeed'),
-    lifeAbsorb: player.baseLifeAbsorb+ getSkillBonus('baseLifeAbsorb'),
-    regen:      player.baseRegen     + getSkillBonus('baseRegen'),
-    maxHp:      player.baseMaxHp     + getSkillBonus('baseMaxHp'),
-    maxMp:      player.baseMaxMp     + getSkillBonus('baseMaxMp'),
+    crit:       player.baseCrit       + getSkillBonus('baseCrit'),
+    critChance: player.baseCritChance + getSkillBonus('baseCritChance'),
+    atkSpeed:   player.baseAtkSpeed   + getSkillBonus('baseAtkSpeed'),
+    lifeAbsorb: player.baseLifeAbsorb + getSkillBonus('baseLifeAbsorb'),
+    regen:      player.baseRegen      + getSkillBonus('baseRegen'),
+    maxHp:      player.baseMaxHp      + getSkillBonus('baseMaxHp'),
+    maxMp:      player.baseMaxMp      + getSkillBonus('baseMaxMp'),
     resPhys:0, resFire:0, resLightning:0, resCold:0, resEarth:0, resChaos:0, resHoly:0,
   };
   for (const id of Object.values(player.equipped)) {
     if (!id) continue;
-    const d = ITEM[id]; if (!d) continue;
+    const d=ITEM[id]; if (!d) continue;
     if (d.atk)    base.atk      += d.atk;
     if (d.def)    base.def      += d.def;
     if (d.armor)  base.armor    += d.armor;
@@ -1450,38 +1049,32 @@ function computeStats() {
     if (d.mp)     base.maxMp    += d.mp;
     if (d.hp)     base.maxHp    += d.hp;
     if (d.atkSpd) base.atkSpeed += d.atkSpd;
-    for (const rk of RES_KEYS) if (d[rk]) base[rk] += d[rk];
+    for (const rk of RES_KEYS) if (d[rk]) base[rk]+=d[rk];
   }
-  for (const rk of RES_KEYS) base[rk] = Math.min(50, base[rk]);
-  Object.assign(player, base);
-  player.hp = Math.min(player.hp, player.maxHp);
-  player.mp = Math.min(player.mp, player.maxMp);
+  for (const rk of RES_KEYS) base[rk]=Math.min(50,base[rk]);
+  Object.assign(player,base);
+  player.hp=Math.min(player.hp,player.maxHp);
+  player.mp=Math.min(player.mp,player.maxMp);
 }
 
 function equipItem(invIdx) {
-  const s = player.inv[invIdx]; if (!s) return false;
-  const def = ITEM[s.id]; if (!def?.slot) return false;
-  let targetSlot = def.slot;
-  if (def.t==='ring') {
-    targetSlot = !player.equipped.ring1 ? 'ring1' : 'ring2';
-  }
-  if (player.equipped[targetSlot]) {
-    const oldId = player.equipped[targetSlot];
-    addInv(oldId, 1);
-    addLog(`Unequipped ${ITEM[oldId].n}`, '#888888');
-  }
-  player.equipped[targetSlot] = s.id;
+  const s=player.inv[invIdx]; if (!s) return false;
+  const def=ITEM[s.id]; if (!def?.slot) return false;
+  let targetSlot=def.slot;
+  if (def.t==='ring') targetSlot=!player.equipped.ring1?'ring1':'ring2';
+  if (player.equipped[targetSlot]) { addInv(player.equipped[targetSlot],1); addLog(`Unequipped ${ITEM[player.equipped[targetSlot]].n}`,'#888'); }
+  player.equipped[targetSlot]=s.id;
   s.qty--; if (s.qty<=0) player.inv.splice(invIdx,1);
-  computeStats(); addLog(`Equipped ${def.n}`, '#ffcc44');
+  computeStats(); addLog(`Equipped ${def.n}`,'#ffcc44');
   return true;
 }
 
 function unequipSlot(slotKey) {
-  const id = player.equipped[slotKey]; if (!id) return;
-  const def = ITEM[id];
-  if (def && getCurrentWeight()+def.wt > getMaxCapacity()) { addLog('Too heavy to unequip!','#ff6644'); return; }
+  const id=player.equipped[slotKey]; if (!id) return;
+  const def=ITEM[id];
+  if (def&&getCurrentWeight()+def.wt>getMaxCapacity()) { addLog('Too heavy to unequip!','#ff6644'); return; }
   addInv(id,1); player.equipped[slotKey]=null; computeStats();
-  addLog(`Unequipped ${def.n}`,'#888888'); updateInvUI(); updateUI();
+  addLog(`Unequipped ${def.n}`,'#888'); updateInvUI(); updateUI();
 }
 
 // ─────────────────────────────────────────────
@@ -1489,43 +1082,41 @@ function unequipSlot(slotKey) {
 // ─────────────────────────────────────────────
 
 function getAutoAttackCd() { return Math.max(260, AUTO_ATK_BASE - player.atkSpeed*10); }
-function calcDmg(atk, def) { return Math.max(1, Math.floor((atk - def*0.55) * (0.7 + Math.random()*0.6))); }
+function calcDmg(atk,def)  { return Math.max(1, Math.floor((atk-def*0.55)*(0.7+Math.random()*0.6))); }
 
 function playerAtk(m) {
-  if (Math.random()<0.05) { addLog(`Miss! ${m.name} dodged.`,'#666'); floaty(m.x,m.y,'MISS','#888888'); return; }
-  const crit = Math.random() < player.critChance/100;
-  let dmg = calcDmg(player.atk, m.def);
-  if (crit) dmg = Math.floor(dmg * (1 + player.crit/100));
+  if (Math.random()<0.05) { addLog(`Miss! ${m.name} dodged.`,'#666'); floaty(m.x,m.y,'MISS','#888'); return; }
+  const crit=Math.random()<player.critChance/100;
+  let dmg=calcDmg(player.atk,m.def);
+  if (crit) dmg=Math.floor(dmg*(1+player.crit/100));
   if (player.lifeAbsorb>0) {
     const abs=Math.floor(dmg*player.lifeAbsorb/100);
-    if (abs>0) { player.hp=Math.min(player.maxHp, player.hp+abs); floaty(player.x,player.y,`+${abs}`,'#ff88aa'); }
+    if (abs>0) { player.hp=Math.min(player.maxHp,player.hp+abs); floaty(player.x,player.y,`+${abs}`,'#ff88aa'); }
   }
-  m.hp -= dmg; m.hitFlash = now+130;
+  m.hp-=dmg; m.hitFlash=now+130;
   if (crit) { addLog(`⚡ CRITICAL! ${m.name} -${dmg}!`,'#ffff44'); floaty(m.x,m.y,'CRIT!','#ffff44'); floaty(m.x,m.y-.5,`-${dmg}`,'#ff8800'); }
   else       { addLog(`Hit ${m.name} for ${dmg}.`,'#ff9977'); floaty(m.x,m.y,`-${dmg}`,'#ff5544'); }
-  spawnBlood(m.x, m.y);
+  spawnBlood(m.x,m.y);
   if (m.hp<=0) killMon(m);
 }
 
 function monAtk(m) {
-  if (now-m.lastAtk < MON_ATK_CD) return;
-  m.lastAtk = now;
+  if (now-m.lastAtk<MON_ATK_CD) return;
+  m.lastAtk=now;
   if (Math.random()<0.06) { floaty(player.x,player.y,'DODGE','#88ffaa'); return; }
-  let dmg = calcDmg(m.atk, player.def);
-  dmg = Math.max(1, dmg - Math.floor(player.armor*0.4));
-  dmg = Math.max(1, Math.floor(dmg*(1-player.resPhys/100)));
-  player.hp = Math.max(0, player.hp-dmg);
-  lastDmgTime=now; shake(dmg>18?4:2);
-  addLog(`${m.name} hits you for ${dmg}!`,'#ff4444');
-  floaty(player.x, player.y, `-${dmg}`,'#ff0000');
+  let dmg=calcDmg(m.atk,player.def);
+  dmg=Math.max(1,dmg-Math.floor(player.armor*0.4));
+  dmg=Math.max(1,Math.floor(dmg*(1-player.resPhys/100)));
+  player.hp=Math.max(0,player.hp-dmg); lastDmgTime=now; shake(dmg>18?4:2);
+  addLog(`${m.name} hits you for ${dmg}!`,'#ff4444'); floaty(player.x,player.y,`-${dmg}`,'#ff0000');
   const def=MDEF[m.kind];
-  if (def.poison && Math.random()<0.12) { player.status.poison=Math.max(player.status.poison||0,8); addLog('☠ Poisoned!','#88ff44'); }
-  if (def.mana   && Math.random()<0.18) { const md=rnd(8,18); player.mp=Math.max(0,player.mp-md); floaty(player.x,player.y,`-${md}mp`,'#8888ff'); }
+  if (def.poison&&Math.random()<0.12) { player.status.poison=Math.max(player.status.poison||0,8); addLog('☠ Poisoned!','#88ff44'); }
+  if (def.mana&&Math.random()<0.18)   { const md=rnd(8,18); player.mp=Math.max(0,player.mp-md); floaty(player.x,player.y,`-${md}mp`,'#8888ff'); }
   checkDeath();
 }
 
-function castSpell(si, tx, ty) {
-  const sp = SPELLS[si];
+function castSpell(si,tx,ty) {
+  const sp=SPELLS[si];
   if (player.mp<sp.mp) { addLog('Not enough mana!','#6688ff'); return false; }
   if (scd[si]>now)     { addLog(`${sp.n} on cooldown!`,'#888'); return false; }
   player.mp-=sp.mp; scd[si]=now+sp.cd;
@@ -1537,12 +1128,11 @@ function castSpell(si, tx, ty) {
     let anyHit=false;
     for (const e of ents) {
       if (e.type!=='mon'||e.hp<=0) continue;
-      const inRange = sp.aoe>0 ? (Math.abs(e.x-tx)<=sp.aoe && Math.abs(e.y-ty)<=sp.aoe) : (e.x===tx && e.y===ty);
+      const inRange=sp.aoe>0?(Math.abs(e.x-tx)<=sp.aoe&&Math.abs(e.y-ty)<=sp.aoe):(e.x===tx&&e.y===ty);
       if (!inRange) continue;
-      const d=rnd(sp.dmn,sp.dmx), actual=Math.max(1,d-Math.floor(e.def*.35));
+      const d=rnd(sp.dmn,sp.dmx),actual=Math.max(1,d-Math.floor(e.def*.35));
       e.hp-=actual; e.hitFlash=now+150;
-      addLog(`${sp.n} hits ${e.name} for ${actual}!`,'#ff8844');
-      floaty(e.x,e.y,`-${actual}`,sp.col); spawnBlood(e.x,e.y);
+      addLog(`${sp.n} hits ${e.name} for ${actual}!`,'#ff8844'); floaty(e.x,e.y,`-${actual}`,sp.col); spawnBlood(e.x,e.y);
       if (e.hp<=0) killMon(e); anyHit=true;
     }
     if (!anyHit) addLog(`${sp.n} misses.`,'#666');
@@ -1554,11 +1144,11 @@ function castSpell(si, tx, ty) {
 // MONSTER AI
 // ─────────────────────────────────────────────
 
-function makeMonster(kind, x, y, roomIdx) {
-  const def = MDEF[kind];
-  const ent = { type:'mon', kind, name:def.n, x, y, hp:def.hp, maxHp:def.hp, atk:def.atk, def:def.def, col:def.col, sz:def.sz, state:'idle', hitFlash:0, lastAtk:0, lastMove:0, roomIdx, id: monNextId++ };
-  const zone = roomIdx>=0 ? Math.min(4, Math.floor((roomDepths[roomIdx]||0)/1.8)) : def.zone;
-  const eliteChance = Math.min(0.24, 0.05 + zone*0.04 + (getTimeState().phase==='NIGHT' ? 0.03 : 0));
+function makeMonster(kind,x,y,roomIdx) {
+  const def=MDEF[kind];
+  const ent={ type:'mon',kind,name:def.n,x,y,hp:def.hp,maxHp:def.hp,atk:def.atk,def:def.def,col:def.col,sz:def.sz,state:'idle',hitFlash:0,lastAtk:0,lastMove:0,roomIdx,id:monNextId++ };
+  const zone=roomIdx>=0?Math.min(4,Math.floor((roomDepths[roomIdx]||0)/1.8)):def.zone;
+  const eliteChance=Math.min(0.24,0.05+zone*0.04+(getTimeState().phase==='NIGHT'?0.03:0));
   if (Math.random()<eliteChance) {
     ent.elite=true; ent.name='Elite '+def.n;
     ent.maxHp=Math.floor(ent.maxHp*1.7); ent.hp=ent.maxHp;
@@ -1582,7 +1172,7 @@ function updateMons() {
         if (Math.random()<0.4) {
           const dirs=[[0,1],[0,-1],[1,0],[-1,0]];
           const [dy,dx]=dirs[Math.floor(Math.random()*4)];
-          const nx=e.x+dx, ny=e.y+dy;
+          const nx=e.x+dx,ny=e.y+dy;
           if (isWalk(nx,ny)) { e.x=nx; e.y=ny; }
         }
         e.lastMove=now;
@@ -1593,15 +1183,15 @@ function updateMons() {
 
 function moveMon(m) {
   const dx=player.x-m.x, dy=player.y-m.y;
-  let mmx=0, mmy=0;
+  let mmx=0,mmy=0;
   if (Math.abs(dx)>=Math.abs(dy)) mmx=Math.sign(dx); else mmy=Math.sign(dy);
   const nx=m.x+mmx, ny=m.y+mmy;
   if (isWalk(nx,ny)) { m.x=nx; m.y=ny; return; }
-  if (mmx!==0 && isWalk(m.x, m.y+Math.sign(dy))) m.y+=Math.sign(dy)||1;
-  else if (mmy!==0 && isWalk(m.x+Math.sign(dx), m.y)) m.x+=Math.sign(dx)||1;
+  if (mmx!==0&&isWalk(m.x,m.y+Math.sign(dy))) m.y+=Math.sign(dy)||1;
+  else if (mmy!==0&&isWalk(m.x+Math.sign(dx),m.y)) m.x+=Math.sign(dx)||1;
   else {
     const dirs=[[0,1],[0,-1],[1,0],[-1,0]].sort(()=>Math.random()-.5);
-    for (const [dd,de] of dirs) if (isWalk(m.x+de, m.y+dd)) { m.x+=de; m.y+=dd; break; }
+    for (const [dd,de] of dirs) if (isWalk(m.x+de,m.y+dd)) { m.x+=de; m.y+=dd; break; }
   }
 }
 
@@ -1613,33 +1203,32 @@ function killMon(m) {
   const def=MDEF[m.kind];
   const xpGain=Math.floor(def.xp*(m.xpMul||1));
   player.xp+=xpGain;
-  addLog(`${m.name} defeated! +${xpGain} XP`, m.elite?'#ff88ff':'#ffdd44');
+  addLog(`${m.name} defeated! +${xpGain} XP`,m.elite?'#ff88ff':'#ffdd44');
   checkLvlUp(); effect(m.x,m.y,m.elite?'#ff66ff':'#ff4400',m.elite?.8:.5);
   const loot=[];
   for (const l of def.loot) {
     if (Math.random()<l.ch) {
       const q=rnd(l.mn,l.mx);
-      loot.push({ id:l.id, qty: l.id==='gold'&&m.elite ? q+rnd(8,18) : q });
+      loot.push({id:l.id,qty:l.id==='gold'&&m.elite?q+rnd(8,18):q});
     }
   }
-  if (m.elite && Math.random()<0.35) loot.push({ id:Math.random()<.5?'ringAtk':'ringHp', qty:1 });
+  if (m.elite&&Math.random()<0.35) loot.push({id:Math.random()<.5?'ringAtk':'ringHp',qty:1});
   meta.totalKills++; if (m.elite) meta.elitesKilled++;
-  if (attackTargetId === m.id) attackTargetId = null;
-  const roomIdx = m.roomIdx!==undefined ? m.roomIdx : findRoomForPos(m.x,m.y);
-  respawnQueue.push({ kind:m.kind, roomIdx, spawnTime:now+RESPAWN_DELAY });
-  addLog(`⏱ ${m.name} respawns in 60s`,'#555566');
-  ents = ents.filter(e=>e!==m);
-  ents.push({ type:'cor', x:m.x, y:m.y, name:m.name+"'s corpse", kind:m.kind, col:m.col, loot, born:now });
+  if (attackTargetId===m.id) attackTargetId=null;
+  const roomIdx=m.roomIdx!==undefined?m.roomIdx:findRoomForPos(m.x,m.y);
+  respawnQueue.push({kind:m.kind,roomIdx,spawnTime:now+RESPAWN_DELAY});
+  ents=ents.filter(e=>e!==m);
+  ents.push({type:'cor',x:m.x,y:m.y,name:m.name+"'s corpse",kind:m.kind,col:m.col,loot,born:now});
 }
 
-function findRoomForPos(x, y) {
-  for (let i=0; i<rooms.length; i++) {
+function findRoomForPos(x,y) {
+  for (let i=0;i<rooms.length;i++) {
     const r=rooms[i];
-    if (x>=r.x && x<r.x+r.w && y>=r.y && y<r.y+r.h) return i;
+    if (x>=r.x&&x<r.x+r.w&&y>=r.y&&y<r.y+r.h) return i;
   }
-  let best=1, bestD=999;
-  for (let i=1; i<rooms.length; i++) {
-    const d=Math.hypot(rooms[i].cx-x, rooms[i].cy-y);
+  let best=1,bestD=999;
+  for (let i=1;i<rooms.length;i++) {
+    const d=Math.hypot(rooms[i].cx-x,rooms[i].cy-y);
     if (d<bestD) { bestD=d; best=i; }
   }
   return best;
@@ -1648,22 +1237,22 @@ function findRoomForPos(x, y) {
 function processRespawns() {
   const rem=[];
   for (const e of respawnQueue) {
-    if (now>=e.spawnTime) spawnMonsterInRoom(e.kind, e.roomIdx);
+    if (now>=e.spawnTime) spawnMonsterInRoom(e.kind,e.roomIdx);
     else rem.push(e);
   }
   respawnQueue=rem;
 }
 
-function spawnMonsterInRoom(kind, roomIdx) {
+function spawnMonsterInRoom(kind,roomIdx) {
   if (roomIdx<0||roomIdx>=rooms.length) return;
   const r=rooms[roomIdx];
-  let emx, emy, tries=0;
+  let emx,emy,tries=0;
   do { emx=r.x+1+Math.floor(Math.random()*(r.w-2)); emy=r.y+1+Math.floor(Math.random()*(r.h-2)); tries++; }
-  while (!isWalk(emx,emy,false) && tries<40);
+  while (!isWalk(emx,emy,false)&&tries<40);
   if (tries<40) {
     const ent=makeMonster(kind,emx,emy,roomIdx);
     ents.push(ent);
-    addLog(`A ${ent.name} has returned!`, ent.elite?'#dd77ff':'#555566');
+    addLog(`A ${ent.name} has returned!`,ent.elite?'#dd77ff':'#555566');
   }
 }
 
@@ -1692,7 +1281,9 @@ function checkDeath() {
   if (player.hp<=0) {
     player.hp=Math.floor(player.maxHp*.5); player.x=startPos.x; player.y=startPos.y;
     player.status={}; attackTargetId=null; clearPath();
-    if (shopOpen) closeShop(); if (lootWin) { lootWin=null; renderLootUI(); } addLog('☠ You died! Respawned.','#ff2222'); shake(8);
+    if (shopOpen) closeShop(); if (lootWin) { lootWin=null; renderLootUI(); }
+    if (fishWinOpen) closeFishing();
+    addLog('☠ You died! Respawned.','#ff2222'); shake(8);
   }
 }
 
@@ -1700,7 +1291,7 @@ function checkDeath() {
 // PLAYER MOVEMENT
 // ─────────────────────────────────────────────
 
-function movePlayer(dx, dy) {
+function movePlayer(dx,dy) {
   if      (dx===1&&dy===0)  playerFacing='east';
   else if (dx===-1&&dy===0) playerFacing='west';
   else if (dy===-1)         playerFacing='north';
@@ -1708,48 +1299,36 @@ function movePlayer(dx, dy) {
   const nx=player.x+dx, ny=player.y+dy;
   if (nx<0||ny<0||nx>=MW||ny>=MH||map[ny][nx]!==T.FLOOR) return;
 
-  // Barrel push — no monster push logic
   const bar=barAt(nx,ny);
   if (bar) {
-    const px=nx+dx, py=ny+dy;
-    if (isWalk(px,py,true) && map[py]?.[px]===T.FLOOR) {
+    const px=nx+dx,py=ny+dy;
+    if (isWalk(px,py,true)&&map[py]?.[px]===T.FLOOR) {
       bar.x=px; bar.y=py; addLog('Pushed barrel.','#aaaaff');
       player.x=nx; player.y=ny; lastPlayerMove=now; checkShopDistance(); checkLootDistance(); autoPickup(); return;
     }
     return;
   }
-
   const npc=npcAt(nx,ny);
   if (npc) { interactNPC(); return; }
-
   const mon=monAt(nx,ny);
-  if (mon) {
-    lastPlayerMove=now;
-    return;
-  }
-
-  player.x=nx; player.y=ny; lastPlayerMove=now; checkShopDistance(); checkLootDistance(); autoPickup(); updateUI();
+  if (mon) { lastPlayerMove=now; return; }
+  player.x=nx; player.y=ny; lastPlayerMove=now;
+  checkShopDistance(); checkLootDistance(); autoPickup(); updateUI();
 }
 
-function tryMove(dx, dy) {
-  const delay = (dx!==0&&dy!==0) ? PLAYER_MOVE_DELAY*2 : PLAYER_MOVE_DELAY;
+function tryMove(dx,dy) {
+  const delay=(dx!==0&&dy!==0)?PLAYER_MOVE_DELAY*2:PLAYER_MOVE_DELAY;
   if (now-lastPlayerMove>=delay) movePlayer(dx,dy);
 }
 
 function checkShopDistance() {
   if (!shopOpen||!npcEnt) return;
-  if (chebyshev(player.x, player.y, npcEnt.x, npcEnt.y) > SHOP_CLOSE_DIST) {
-    closeShop();
-    addLog('You walked away from the merchant.', '#ffaa44');
-  }
+  if (chebyshev(player.x,player.y,npcEnt.x,npcEnt.y)>SHOP_CLOSE_DIST) { closeShop(); addLog('You walked away from the merchant.','#ffaa44'); }
 }
 
-// Close loot window if player walks 2+ sqm from the corpse it belongs to.
 function checkLootDistance() {
   if (!lootWin?.open) return;
-  if (chebyshev(player.x, player.y, lootWin.cor.x, lootWin.cor.y) > LOOT_CLOSE_DIST) {
-    lootWin = null; renderLootUI(); addLog('You moved too far from the corpse.', '#888888');
-  }
+  if (chebyshev(player.x,player.y,lootWin.cor.x,lootWin.cor.y)>LOOT_CLOSE_DIST) { lootWin=null; renderLootUI(); addLog('You moved too far from the corpse.','#888'); }
 }
 
 function autoPickup() { const itm=itemAt(player.x,player.y); if (itm) pickupItem(itm); }
@@ -1767,27 +1346,19 @@ function pickupItem(itm) {
   ents=ents.filter(e=>e!==itm); updateInvUI(); updateUI();
 }
 
-function addInv(id, qty) {
-  const ex = player.inv.find(s => s.id === id);
-  if (ex) {
-    // Stacking onto an existing slot never increases slot count.
-    ex.qty += qty;
-    return;
-  }
-  // New item type — check slot cap before creating a new slot.
-  if (player.inv.length >= INV_SLOT_CAP) {
-    addLog(`Bag full! No room for ${ITEM[id]?.n || id}.`, '#ff8844');
-    return;
-  }
-  player.inv.push({ id, qty });
+function addInv(id,qty) {
+  const ex=player.inv.find(s=>s.id===id);
+  if (ex) { ex.qty+=qty; return; }
+  if (player.inv.length>=INV_SLOT_CAP) { addLog(`Bag full! No room for ${ITEM[id]?.n||id}.`,'#ff8844'); return; }
+  player.inv.push({id,qty});
 }
 
 function dropItem(invIdx) {
   const s=player.inv[invIdx]; if (!s) return;
   for (const [ox,oy] of [[0,0],[1,0],[-1,0],[0,1],[0,-1]]) {
-    const tx=player.x+ox, ty=player.y+oy;
-    if (isWalk(tx,ty,true) && !itemAt(tx,ty)) {
-      ents.push({ type:'itm', x:tx, y:ty, id:s.id, qty:s.qty });
+    const tx=player.x+ox,ty=player.y+oy;
+    if (isWalk(tx,ty,true)&&!itemAt(tx,ty)) {
+      ents.push({type:'itm',x:tx,y:ty,id:s.id,qty:s.qty});
       addLog(`Dropped ${ITEM[s.id].n}`,'#888'); player.inv.splice(invIdx,1); updateInvUI(); updateUI(); return;
     }
   }
@@ -1798,13 +1369,21 @@ function useItem(idx) {
   const s=player.inv[idx]; if (!s) return;
   const def=ITEM[s.id];
   if (def.t==='potion') {
-    if (def.hp) { player.hunger=Math.min(player.maxHunger, player.hunger+def.hp); addLog(`${def.n}: +${def.hp} Hunger`,'#d2691e'); floaty(player.x,player.y,`+${def.hp} Hunger`,'#d2691e'); }
+    if (def.hp) { player.hunger=Math.min(player.maxHunger,player.hunger+def.hp); addLog(`${def.n}: +${def.hp} Hunger`,'#d2691e'); floaty(player.x,player.y,`+${def.hp} Hunger`,'#d2691e'); }
     if (def.mp) { player.mp=Math.min(player.maxMp,player.mp+def.mp); addLog(`${def.n}: +${def.mp} MP`,'#6688ff'); floaty(player.x,player.y,`+${def.mp} MP`,'#6688ff'); }
+    s.qty--; if (s.qty<=0) player.inv.splice(idx,1);
+  } else if (def.t==='food') {
+    player.hunger=Math.min(player.maxHunger,player.hunger+(def.hp||30));
+    addLog(`Ate ${def.n}: +${def.hp||30} Hunger`,'#d2691e');
+    floaty(player.x,player.y,`+${def.hp||30} Hunger`,'#d2691e');
     s.qty--; if (s.qty<=0) player.inv.splice(idx,1);
   } else if (def.slot) {
     equipItem(idx);
   } else if (def.t==='cure') {
     player.status.poison=0; addLog('Cured poison!','#88ff88'); s.qty--; if (s.qty<=0) player.inv.splice(idx,1);
+  } else if (def.t==='fishingrod') {
+    openFishing();
+    return;
   }
   updateInvUI(); updateUI();
 }
@@ -1813,10 +1392,10 @@ function openCorpse(cor) {
   if (!cor.loot.length) { addLog('Corpse is empty.','#666'); return; }
   autoLootCorpse(cor);
   if (!cor.loot.length) { addLog('Corpse fully auto-looted.','#88ddff'); return; }
-  lootWin={ cor, open:true }; renderLootUI();
+  lootWin={cor,open:true}; renderLootUI();
 }
 
-function takeLoot(cor, itm) {
+function takeLoot(cor,itm) {
   if (itm.id==='gold') { player.gold+=itm.qty; addLog(`Looted ${itm.qty} gold`,'#FFD700'); }
   else {
     if (!canCarry(itm.id,itm.qty)) { addLog('Too heavy!','#ff6644'); return; }
@@ -1845,42 +1424,259 @@ function openChest(chest) {
 // ─────────────────────────────────────────────
 
 function updateRegen(dt) {
-  // Hunger drain: 10 hunger per 60 seconds = 0.166/sec
-  player.hunger = Math.max(0, player.hunger - dt * 0.166);
-  const isStarving = player.hunger <= 0;
-
-  // Poison tick
-  if (player.status.poison > 0) {
-    player.status.poisonAcc = (player.status.poisonAcc || 0) + dt;
-    if (player.status.poisonAcc >= 1) {
-      player.status.poisonAcc -= 1;
-      player.status.poison = Math.max(0, player.status.poison - 1);
-      const pdmg = rnd(2, 5);
-      player.hp = Math.max(1, player.hp - pdmg);
-      floaty(player.x, player.y, `-${pdmg}☠`, '#88ff44');
-      lastDmgTime = now;
-      if (player.status.poison === 0) {
-        addLog('Poison wore off.', '#88ff88');
-      }
+  player.hunger=Math.max(0,player.hunger-dt*0.166);
+  const isStarving=player.hunger<=0;
+  if (player.status.poison>0) {
+    player.status.poisonAcc=(player.status.poisonAcc||0)+dt;
+    if (player.status.poisonAcc>=1) {
+      player.status.poisonAcc-=1;
+      player.status.poison=Math.max(0,player.status.poison-1);
+      const pdmg=rnd(2,5);
+      player.hp=Math.max(1,player.hp-pdmg);
+      floaty(player.x,player.y,`-${pdmg}☠`,'#88ff44'); lastDmgTime=now;
+      if (player.status.poison===0) addLog('Poison wore off.','#88ff88');
       checkDeath();
     }
   }
-
   if (isStarving) {
-    player.starvationAcc = (player.starvationAcc || 0) + dt;
-    if (player.starvationAcc >= 10) {
-      player.starvationAcc = 0;
-      player.hp = Math.max(1, player.hp - 1);
-      player.mp = Math.max(1, player.mp - 1);
-      floaty(player.x, player.y, '-1HP -1MP', '#ff4444');
-      lastDmgTime = now;
-    }
+    player.starvationAcc=(player.starvationAcc||0)+dt;
+    if (player.starvationAcc>=10) { player.starvationAcc=0; player.hp=Math.max(1,player.hp-1); player.mp=Math.max(1,player.mp-1); floaty(player.x,player.y,'-1HP -1MP','#ff4444'); lastDmgTime=now; }
   } else {
-    if ((now - lastDmgTime) > 5000) {
-      regenHpAcc += dt; regenMpAcc += dt;
-      if (regenHpAcc >= 3) { regenHpAcc = 0; if (player.hp < player.maxHp) player.hp = Math.min(player.maxHp, player.hp + (player.regen || 2)); }
-      if (regenMpAcc >= 2) { regenMpAcc = 0; if (player.mp < player.maxMp) player.mp = Math.min(player.maxMp, player.mp + 2); }
+    if ((now-lastDmgTime)>5000) {
+      regenHpAcc+=dt; regenMpAcc+=dt;
+      if (regenHpAcc>=3) { regenHpAcc=0; if (player.hp<player.maxHp) player.hp=Math.min(player.maxHp,player.hp+(player.regen||2)); }
+      if (regenMpAcc>=2) { regenMpAcc=0; if (player.mp<player.maxMp) player.mp=Math.min(player.maxMp,player.mp+2); }
     }
+  }
+}
+
+// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
+//  FISHING SYSTEM
+// ═══════════════════════════════════════════
+// ─────────────────────────────────────────────
+
+function hasFishingRod() {
+  const mh=player.equipped.mainhand;
+  if (mh&&ITEM[mh]?.t==='fishingrod') return true;
+  return player.inv.some(s=>ITEM[s.id]?.t==='fishingrod');
+}
+
+function openFishing() {
+  if (!hasFishingRod()) { addLog('You need a Fishing Rod!','#ff8844'); return; }
+  if (!isAdjacentWater()) { addLog('You must stand next to water to fish!','#55aaff'); return; }
+  fishWinOpen=true;
+  fishState=FISH_STATES.IDLE;
+  document.getElementById('fish-win').style.display='block';
+  resetFishUI();
+  addLog('🎣 Cast your line into the water!','#55ddff');
+}
+
+function closeFishing() {
+  fishWinOpen=false;
+  fishState=FISH_STATES.IDLE;
+  if (fishReelInterval) { clearInterval(fishReelInterval); fishReelInterval=null; }
+  document.getElementById('fish-win').style.display='none';
+}
+
+function resetFishUI() {
+  fishBobberY=0.45;
+  fishCatchZoneY=0.3;
+  fishProgress=0;
+  document.getElementById('fish-cast-btn').disabled=false;
+  document.getElementById('fish-reel-btn').disabled=true;
+  document.getElementById('fish-status').textContent='Stand next to water and cast your line!';
+  updateFishCanvas();
+}
+
+// Weighted random fish catch
+function rollFishCatch() {
+  const bonus=getSkillBonus('baseFishBonus')/100; // 0..0.4 extra catch rate
+  const totalW=FISH_TABLE.reduce((s,e)=>s+e.w,0);
+  let r=Math.random()*totalW;
+  for (const entry of FISH_TABLE) {
+    r-=entry.w; if (r<=0) return entry.id;
+  }
+  return FISH_TABLE[0].id;
+}
+
+function getFishZoneSize() {
+  // Base zone height 0.18..0.22, +0.04 per Angler level
+  const bonus=getSkillBonus('baseFishBonus');
+  return 0.18 + bonus*0.005;
+}
+
+// ── Phase: CASTING ──
+function fishCast() {
+  if (!hasFishingRod())     { addLog('No fishing rod!','#ff8844'); closeFishing(); return; }
+  if (!isAdjacentWater())   { addLog('Move next to water!','#55aaff'); closeFishing(); return; }
+  fishState=FISH_STATES.CASTING;
+  document.getElementById('fish-cast-btn').disabled=true;
+  document.getElementById('fish-reel-btn').disabled=true;
+  document.getElementById('fish-status').textContent='⏳ Line in water... waiting for a bite.';
+  // Random bite time 3–9s, reduced by Angler skill
+  const biteMs=rnd(3000,9000)-getSkillBonus('baseFishBonus')*80;
+  fishBobberY=0.45+Math.random()*0.1;
+  fishCatchZoneY=0.25+Math.random()*0.4;
+  fishCatchZoneH=getFishZoneSize();
+  fishProgress=0;
+  updateFishCanvas();
+  fishBiteTimer=setTimeout(()=>startBite(), Math.max(1500,biteMs));
+}
+
+// ── Phase: BITING ──
+function startBite() {
+  fishState=FISH_STATES.BITING;
+  fishBobberY=0.55+Math.random()*0.1; // bobber dips
+  document.getElementById('fish-reel-btn').disabled=false;
+  document.getElementById('fish-status').textContent='🐟 BITE! Reel it in quickly!';
+  addLog('🎣 A fish is biting!','#55ffbb');
+  // If player doesn't reel within 3s, fish escapes
+  fishBiteTimer=setTimeout(()=>{
+    if (fishState===FISH_STATES.BITING) {
+      fishState=FISH_STATES.IDLE;
+      addLog('The fish got away!','#ff8844');
+      document.getElementById('fish-status').textContent='The fish escaped! Try again.';
+      document.getElementById('fish-reel-btn').disabled=true;
+      document.getElementById('fish-cast-btn').disabled=false;
+      fishBobberY=0.45;
+      updateFishCanvas();
+    }
+  }, 3000);
+}
+
+// ── Phase: REELING (minigame) ──
+function fishReel() {
+  if (fishState!==FISH_STATES.BITING) return;
+  clearTimeout(fishBiteTimer);
+  fishState=FISH_STATES.REELING;
+  document.getElementById('fish-reel-btn').disabled=true;
+  document.getElementById('fish-status').textContent='🎣 Reeling... Keep the bar in the zone!';
+
+  // Fish position moves within the arena
+  let fishPos=0.45; // 0..1 vertical position of fish indicator
+  let fishVel=0;
+  let progress=0;
+  const zoneH=getFishZoneSize();
+  let zoneY=fishPos - zoneH/2;
+
+  const FRAME_MS=50;
+  fishReelInterval=setInterval(()=>{
+    // Fish drifts randomly
+    fishVel+=(Math.random()-0.49)*0.04;
+    fishVel=clamp(fishVel,-0.03,0.03);
+    fishPos=clamp(fishPos+fishVel,0.05,0.90);
+
+    // Zone tries to follow fish, lagging behind (player controls this by clicking Reel repeatedly in the future)
+    // For now: zone drifts toward fish slowly, creating tension
+    const zoneDrift=0.012+Math.random()*0.008;
+    const center=zoneY+zoneH/2;
+    zoneY+=Math.sign(fishPos-center)*zoneDrift;
+    zoneY=clamp(zoneY,0,1-zoneH);
+
+    const inZone=fishPos>=zoneY && fishPos<=zoneY+zoneH;
+    if (inZone) {
+      progress=Math.min(1,progress+0.022);
+    } else {
+      progress=Math.max(0,progress-0.015);
+    }
+
+    fishBobberY=fishPos;
+    fishCatchZoneY=zoneY;
+    fishCatchZoneH=zoneH;
+    fishProgress=progress;
+    updateFishCanvas();
+
+    if (progress>=1) {
+      clearInterval(fishReelInterval); fishReelInterval=null;
+      landFish();
+    } else if (progress<=0 && Math.random()<0.04) {
+      // small random chance to escape if progress is 0
+      clearInterval(fishReelInterval); fishReelInterval=null;
+      fishState=FISH_STATES.IDLE;
+      addLog('The fish broke free!','#ff8844');
+      document.getElementById('fish-status').textContent='It broke the line! Cast again.';
+      document.getElementById('fish-cast-btn').disabled=false;
+      fishBobberY=0.45; updateFishCanvas();
+    }
+  }, FRAME_MS);
+}
+
+function landFish() {
+  fishState=FISH_STATES.CAUGHT;
+  const catchId=rollFishCatch();
+  const def=ITEM[catchId];
+  if (canCarry(catchId,1)) {
+    addInv(catchId,1);
+    addLog(`🐟 Caught a ${def.n}!`,def.col);
+    document.getElementById('fish-status').textContent=`🎉 You caught: ${def.icon} ${def.n}!`;
+    floaty(player.x,player.y,`🐟 ${def.n}`,def.col);
+    effect(player.x,player.y,'#55ddff',0.8);
+    updateInvUI(); updateUI();
+  } else {
+    addLog('Caught a fish but bag is full!','#ff8844');
+    document.getElementById('fish-status').textContent='Bag full — fish escaped!';
+  }
+  setTimeout(()=>{
+    fishState=FISH_STATES.IDLE;
+    document.getElementById('fish-cast-btn').disabled=false;
+    document.getElementById('fish-status').textContent='Cast again to try your luck!';
+    fishBobberY=0.45; updateFishCanvas();
+  }, 1800);
+}
+
+// Update the fish window canvas-like elements via DOM positioning
+function updateFishCanvas() {
+  const arena=document.getElementById('fish-arena');
+  if (!arena) return;
+  const h=arena.clientHeight||180;
+  const surfaceY=38;
+  const waterH=h-surfaceY-8;
+
+  // Bobber
+  const bobber=document.getElementById('fish-bobber');
+  const bobberTop=surfaceY+fishBobberY*waterH;
+  bobber.style.top=bobberTop+'px';
+
+  // Rod line
+  const rod=document.getElementById('fish-rod-line');
+  rod.style.height=bobberTop+'px';
+
+  // Catch zone (green target window)
+  const cz=document.getElementById('fish-catch-zone');
+  cz.style.top=(surfaceY+fishCatchZoneY*waterH)+'px';
+  cz.style.height=(fishCatchZoneH*waterH)+'px';
+  cz.style.width='52px';
+  cz.style.display=fishState===FISH_STATES.REELING?'block':'none';
+
+  // Fish indicator (fish position during reel)
+  const fi=document.getElementById('fish-indicator');
+  if (fishState===FISH_STATES.REELING) {
+    fi.style.display='block';
+    fi.style.top=(surfaceY+fishBobberY*waterH-14)+'px';
+    fi.style.height='28px';
+    fi.textContent='🐟';
+    const inZone=fishBobberY>=fishCatchZoneY&&fishBobberY<=fishCatchZoneY+fishCatchZoneH;
+    fi.style.borderColor=inZone?'rgba(80,255,120,0.7)':'rgba(255,100,80,0.5)';
+    fi.style.background=inZone?'rgba(40,160,60,0.2)':'rgba(160,50,30,0.1)';
+  } else {
+    fi.style.display='none';
+  }
+
+  // Progress bar
+  const bar=document.getElementById('fish-bar-fill');
+  bar.style.height=(fishProgress*100)+'%';
+  bar.style.background=fishProgress>0.7?'linear-gradient(180deg,#ffee22,#ffaa00)':'linear-gradient(180deg,#22ff88,#00cc66)';
+
+  // Bobber animation bob
+  if (fishState===FISH_STATES.BITING) {
+    bobber.textContent='🎣';
+    bobber.style.fontSize='18px';
+  } else if (fishState===FISH_STATES.REELING) {
+    bobber.textContent='💦';
+  } else {
+    bobber.textContent='🪝';
+    bobber.style.fontSize='14px';
   }
 }
 
@@ -1888,25 +1684,25 @@ function updateRegen(dt) {
 // INPUT
 // ─────────────────────────────────────────────
 
-const keysHeld = new Set();
-const KEY_MOVE_MAP = {
+const keysHeld=new Set();
+const KEY_MOVE_MAP={
   'arrowup':[0,-1],'w':[0,-1],'arrowdown':[0,1],'s':[0,1],
   'arrowleft':[-1,0],'a':[-1,0],'arrowright':[1,0],'d':[1,0],
   'numpad8':[0,-1],'numpad2':[0,1],'numpad4':[-1,0],'numpad6':[1,0],
   'numpad7':[-1,-1],'numpad9':[1,-1],'numpad1':[-1,1],'numpad3':[1,1],
 };
-const PREVENT_KEYS = new Set(['arrowup','arrowdown','arrowleft','arrowright','numpad1','numpad2','numpad3','numpad4','numpad5','numpad6','numpad7','numpad8','numpad9']);
+const PREVENT_KEYS=new Set(['arrowup','arrowdown','arrowleft','arrowright','numpad1','numpad2','numpad3','numpad4','numpad5','numpad6','numpad7','numpad8','numpad9']);
 
 function processHeldKeys() {
   for (const k of keysHeld) { const mv=KEY_MOVE_MAP[k]; if (mv) { clearPath(); tryMove(mv[0],mv[1]); } }
 }
 
 function normalizeKey(e) {
-  return e.code?.startsWith('Numpad') ? e.code.replace('Numpad','numpad').toLowerCase() : e.key.toLowerCase();
+  return e.code?.startsWith('Numpad')?e.code.replace('Numpad','numpad').toLowerCase():e.key.toLowerCase();
 }
 
 window.addEventListener('keydown', e => {
-  const k = normalizeKey(e);
+  const k=normalizeKey(e);
   if (PREVENT_KEYS.has(k)||['w','a','s','d'].includes(k)) e.preventDefault();
   if (KEY_MOVE_MAP[k]) { keysHeld.add(k); clearPath(); return; }
   if (!e.code.startsWith('Numpad')) {
@@ -1915,20 +1711,20 @@ window.addEventListener('keydown', e => {
     else if (k==='3') selSpell=selSpell===2?-1:2;
     else if (k==='4') selSpell=selSpell===3?-1:3;
   }
-  if      (k==='escape') { selSpell=-1; attackTargetId=null; lootWin=null; clearPath(); renderLootUI(); closeStatsPopup(); hideCtx(); closeShop(); closeSkillWin(); }
+  if (k==='escape') {
+    selSpell=-1; attackTargetId=null; lootWin=null; clearPath();
+    renderLootUI(); closeStatsPopup(); hideCtx(); closeShop(); closeSkillWin(); closeFishing();
+  }
   else if (k==='h') { const idx=player.inv.findIndex(s=>s.id==='hpot'); if (idx>=0) useItem(idx); else addLog('No health potions!','#ff4444'); }
   else if (k==='m') { const idx=player.inv.findIndex(s=>s.id==='mpot'); if (idx>=0) useItem(idx); else addLog('No mana potions!','#6688ff'); }
   else if (k==='f') { [[0,0],[1,0],[-1,0],[0,1],[0,-1]].forEach(([ox,oy])=>{ const ch=chestAt(player.x+ox,player.y+oy); if (ch) openChest(ch); }); }
   else if (k==='e') { if (npcEnt&&chebyshev(player.x,player.y,npcEnt.x,npcEnt.y)<=TRADE_DIST) interactNPC(); else addLog('No merchant nearby (get within 2 sqm).','#666'); }
   else if (k==='k') { skillWinOpen?closeSkillWin():openSkillWin(); }
+  else if (k==='r') { openFishing(); } // R = fish
   else if (k==='t') {
     const mh=player.equipped.mainhand;
-    if (mh && ITEM[mh]?.t==='torch') { unequipSlot('mainhand'); addLog('Torch put away.','#886622'); }
-    else {
-      const idx=player.inv.findIndex(s=>s.id==='torch');
-      if (idx>=0) { equipItem(idx); addLog('🔦 Torch lit!','#ffaa22'); }
-      else addLog('No torch in inventory!','#886622');
-    }
+    if (mh&&ITEM[mh]?.t==='torch') { unequipSlot('mainhand'); addLog('Torch put away.','#886622'); }
+    else { const idx=player.inv.findIndex(s=>s.id==='torch'); if (idx>=0) { equipItem(idx); addLog('🔦 Torch lit!','#ffaa22'); } else addLog('No torch in inventory!','#886622'); }
     updateUI(); updateInvUI();
   }
   updateUI();
@@ -1938,9 +1734,9 @@ window.addEventListener('keyup', e => { keysHeld.delete(normalizeKey(e)); });
 
 gc.addEventListener('mousemove', e => {
   const r=gc.getBoundingClientRect();
-  hovTile={ x:Math.floor((e.clientX-r.left)/TILE)+cam.x, y:Math.floor((e.clientY-r.top)/TILE)+cam.y };
+  hovTile={x:Math.floor((e.clientX-r.left)/TILE)+cam.x, y:Math.floor((e.clientY-r.top)/TILE)+cam.y};
 });
-gc.addEventListener('mouseleave', () => { hovTile={ x:-1, y:-1 }; });
+gc.addEventListener('mouseleave', () => { hovTile={x:-1,y:-1}; });
 
 gc.addEventListener('click', e => {
   hideCtx();
@@ -1958,127 +1754,86 @@ gc.addEventListener('click', e => {
 
   const npc=npcAt(tx,ty);
   if (npc) {
-    if (chebyshev(player.x,player.y,npc.x,npc.y)<=TRADE_DIST) interactNPC();
-    else { startPathTo(tx,ty); addLog('Walking to merchant...','#e8c840'); }
+    chebyshev(player.x,player.y,npc.x,npc.y)<=TRADE_DIST ? interactNPC() : startPathTo(tx,ty);
     return;
   }
 
   const mon=monAt(tx,ty);
   if (mon) {
-    // Set facing toward the monster.
-    const ddx=mon.x-player.x, ddy=mon.y-player.y;
-    playerFacing = Math.abs(ddx)>Math.abs(ddy) ? (ddx>0?'east':'west') : (ddy>0?'south':'north');
-    // Lock target — ticker will handle attack timing.
+    const ddx=mon.x-player.x,ddy=mon.y-player.y;
+    playerFacing=Math.abs(ddx)>Math.abs(ddy)?(ddx>0?'east':'west'):(ddy>0?'south':'north');
     attackTargetId=mon.id;
-    // If not adjacent, pathfind to a neighbouring tile.
-    if (chebyshev(player.x, player.y, mon.x, mon.y) > 1) {
+    if (chebyshev(player.x,player.y,mon.x,mon.y)>1) {
       let bestPath=null;
       for (const [ox,oy] of [[0,1],[0,-1],[1,0],[-1,0],[-1,-1],[1,-1],[-1,1],[1,1]]) {
-        const ax=mon.x+ox, ay=mon.y+oy;
+        const ax=mon.x+ox,ay=mon.y+oy;
         if (!isWalk(ax,ay,true)) continue;
         const p=astar(player.x,player.y,ax,ay);
-        if (p.length>0 && (!bestPath||p.length<bestPath.length)) bestPath=p;
+        if (p.length>0&&(!bestPath||p.length<bestPath.length)) bestPath=p;
       }
       if (bestPath?.length) {
-        pathQueue = bestPath;
-        const lastStep = bestPath[bestPath.length - 1];
-        pathTarget = { x: lastStep.x, y: lastStep.y };
-        addLog(`Moving toward ${mon.name}...`, '#ffaa44');
-      } else {
-        addLog(`Can't reach ${mon.name}!`,'#ff6644');
-      }
+        pathQueue=bestPath; pathTarget={x:bestPath[bestPath.length-1].x,y:bestPath[bestPath.length-1].y};
+        addLog(`Moving toward ${mon.name}...`,'#ffaa44');
+      } else addLog(`Can't reach ${mon.name}!`,'#ff6644');
     }
     updateUI(); return;
   }
 
   const cor=corAt(tx,ty);
-  if (cor) { chebyshev(player.x,player.y,cor.x,cor.y)<=PICKUP_DIST ? openCorpse(cor) : startPathTo(tx,ty); return; }
-
+  if (cor) { chebyshev(player.x,player.y,cor.x,cor.y)<=PICKUP_DIST?openCorpse(cor):startPathTo(tx,ty); return; }
   const ch=chestAt(tx,ty);
-  if (ch) { chebyshev(player.x,player.y,ch.x,ch.y)<=PICKUP_DIST ? openChest(ch) : startPathTo(tx,ty); return; }
-
+  if (ch) { chebyshev(player.x,player.y,ch.x,ch.y)<=PICKUP_DIST?openChest(ch):startPathTo(tx,ty); return; }
   const itm=itemAt(tx,ty);
-  if (itm) { chebyshev(player.x,player.y,itm.x,itm.y)<=PICKUP_DIST ? pickupItem(itm) : startPathTo(tx,ty); return; }
-
+  if (itm) { chebyshev(player.x,player.y,itm.x,itm.y)<=PICKUP_DIST?pickupItem(itm):startPathTo(tx,ty); return; }
+  if (map[ty]?.[tx]===T.WATER && isAdjacentWater()) { openFishing(); return; }
   if (map[ty]?.[tx]===T.FLOOR) startPathTo(tx,ty);
   updateUI();
 });
 
-// RIGHT-CLICK: toggle target lock (or clear if no monster clicked)
 gc.addEventListener('contextmenu', e => {
   e.preventDefault();
-  const r = gc.getBoundingClientRect();
-  const tx = Math.floor((e.clientX - r.left) / TILE) + cam.x;
-  const ty = Math.floor((e.clientY - r.top)  / TILE) + cam.y;
-  const mon = monAt(tx, ty);
+  const r=gc.getBoundingClientRect();
+  const tx=Math.floor((e.clientX-r.left)/TILE)+cam.x;
+  const ty=Math.floor((e.clientY-r.top)/TILE)+cam.y;
+  const mon=monAt(tx,ty);
   if (mon) {
-    const ddx = mon.x - player.x, ddy = mon.y - player.y;
-    playerFacing = Math.abs(ddx) > Math.abs(ddy) ? (ddx > 0 ? 'east' : 'west') : (ddy > 0 ? 'south' : 'north');
-    const wasTargeted = attackTargetId === mon.id;
-    if (wasTargeted) { attackTargetId = null; addLog(`🎯 Untargeted ${mon.name}`, '#88aaff'); }
-    else             { attackTargetId = mon.id; addLog(`🎯 Targeting ${mon.name}!`, '#ffaa44'); }
+    const ddx=mon.x-player.x,ddy=mon.y-player.y;
+    playerFacing=Math.abs(ddx)>Math.abs(ddy)?(ddx>0?'east':'west'):(ddy>0?'south':'north');
+    const wasTargeted=attackTargetId===mon.id;
+    if (wasTargeted) { attackTargetId=null; addLog(`🎯 Untargeted ${mon.name}`,'#88aaff'); }
+    else             { attackTargetId=mon.id; addLog(`🎯 Targeting ${mon.name}!`,'#ffaa44'); }
     updateUI();
-  } else {
-    attackTargetId = null;
-    clearPath();
-    updateUI();
-  }
+  } else { attackTargetId=null; clearPath(); updateUI(); }
 });
 
 document.addEventListener('click', e => {
   const ctx=document.getElementById('item-ctx');
-  if (ctx.style.display==='block' && !ctx.contains(e.target)) hideCtx();
+  if (ctx.style.display==='block'&&!ctx.contains(e.target)) hideCtx();
   const popup=document.getElementById('stats-popup');
-  if (popup.style.display==='block' && !popup.contains(e.target) && e.target.id!=='stats-btn') closeStatsPopup();
+  if (popup.style.display==='block'&&!popup.contains(e.target)&&e.target.id!=='stats-btn') closeStatsPopup();
   const sw=document.getElementById('skill-win');
-  if (sw.style.display==='block' && !sw.contains(e.target) && e.target.id!=='skill-sidebar-btn') closeSkillWin();
+  if (sw.style.display==='block'&&!sw.contains(e.target)&&e.target.id!=='skill-sidebar-btn') closeSkillWin();
 });
 
 // ─────────────────────────────────────────────
-// BATTLE LIST
+// MONSTER HEALTH COLOR
 // ─────────────────────────────────────────────
 
 function getHpBarColor(pct) {
-  if (pct > 0.6) return '#22cc44';
-  if (pct > 0.3) return '#ffaa00';
+  if (pct>0.6) return '#22cc44';
+  if (pct>0.3) return '#ffaa00';
   return '#cc2222';
 }
 
-function getAttackTarget() {
-  if (attackTargetId === null) return null;
-  const m = ents.find(e => e.type === 'mon' && e.hp > 0 && e.id === attackTargetId);
-  if (!m || chebyshev(player.x, player.y, m.x, m.y) > BL_TARGET_LOSE_DIST) {
-    if (m) addLog(`🎯 Lost sight of ${m.name}`, '#888888');
-    attackTargetId = null;
-    return null;
-  }
-  return m;
-}
+// ─────────────────────────────────────────────
+// BATTLE PANEL HELPERS
+// ─────────────────────────────────────────────
 
-// Returns monsters visible within camera range
-function getNearbyMonsters() {
-  if (!player || !cam) return [];
-  const nearby = [];
-  const target = attackTargetId !== null ? ents.find(e => e.type === 'mon' && e.hp > 0 && e.id === attackTargetId) : null;
-  for (const e of ents) {
-    if (e.type !== 'mon' || e.hp <= 0) continue;
-    const dist = chebyshev(player.x, player.y, e.x, e.y);
-    if (target && e.id === target.id) {
-      if (dist <= BL_TARGET_LOSE_DIST) nearby.push(e);
-      continue;
-    }
-    if (dist > BL_TARGET_LOSE_DIST) continue;
-    if (lightAt(e.x, e.y) <= BL_MIN_LIGHT) continue;
-    nearby.push(e);
-  }
-  nearby.sort((a, b) => {
-    if (target) {
-      if (a.id === target.id) return -1;
-      if (b.id === target.id) return 1;
-    }
-    return chebyshev(player.x, player.y, a.x, a.y) - chebyshev(player.x, player.y, b.x, b.y);
-  });
-  return nearby;
+function getAttackTarget() {
+  if (attackTargetId===null) return null;
+  const m=ents.find(e=>e.type==='mon'&&e.hp>0&&e.id===attackTargetId);
+  if (!m||chebyshev(player.x,player.y,m.x,m.y)>BL_TARGET_LOSE_DIST) { if (m) addLog(`🎯 Lost sight of ${m.name}`,'#888'); attackTargetId=null; return null; }
+  return m;
 }
 
 // ─────────────────────────────────────────────
@@ -2087,44 +1842,44 @@ function getNearbyMonsters() {
 
 function updateUI() {
   const hp=Math.max(0,player.hp), mp=Math.max(0,player.mp), hunger=Math.max(0,player.hunger);
-  document.getElementById('hp-fill').style.width = (hp/player.maxHp*100)+'%';
-  document.getElementById('mp-fill').style.width = (mp/player.maxMp*100)+'%';
-  document.getElementById('hunger-fill').style.width = (hunger/player.maxHunger*100)+'%';
-  document.getElementById('hp-txt').textContent = `${hp}/${player.maxHp}`;
-  document.getElementById('mp-txt').textContent = `${mp}/${player.maxMp}`;
-  document.getElementById('hunger-txt').textContent = `${Math.round(hunger)}/${player.maxHunger}`;
+  document.getElementById('hp-fill').style.width=(hp/player.maxHp*100)+'%';
+  document.getElementById('mp-fill').style.width=(mp/player.maxMp*100)+'%';
+  document.getElementById('hunger-fill').style.width=(hunger/player.maxHunger*100)+'%';
+  document.getElementById('hp-txt').textContent=`${hp}/${player.maxHp}`;
+  document.getElementById('mp-txt').textContent=`${mp}/${player.maxMp}`;
+  document.getElementById('hunger-txt').textContent=`${Math.round(hunger)}/${player.maxHunger}`;
   const need=player.lv*100;
-  document.getElementById('xp-fill').style.width = (player.xp/need*100)+'%';
-  document.getElementById('xp-txt').textContent  = `${player.xp}/${need}`;
-  document.getElementById('s-lv').textContent   = player.lv;
-  document.getElementById('s-gold').textContent = player.gold;
-  document.getElementById('s-atk').textContent  = player.atk;
-  document.getElementById('s-def').textContent  = player.def;
-  const cw=getCurrentWeight(), cm=getMaxCapacity();
-  document.getElementById('cap-txt').textContent = `${cw}/${cm}`;
-  document.getElementById('cap-fill').style.width = Math.min(100,cw/cm*100)+'%';
+  document.getElementById('xp-fill').style.width=(player.xp/need*100)+'%';
+  document.getElementById('xp-txt').textContent=`${player.xp}/${need}`;
+  document.getElementById('s-lv').textContent=player.lv;
+  document.getElementById('s-gold').textContent=player.gold;
+  document.getElementById('s-atk').textContent=player.atk;
+  document.getElementById('s-def').textContent=player.def;
+  const cw=getCurrentWeight(),cm=getMaxCapacity();
+  document.getElementById('cap-txt').textContent=`${cw}/${cm}`;
+  document.getElementById('cap-fill').style.width=Math.min(100,cw/cm*100)+'%';
 
-  for (let i=0; i<SPELLS.length; i++) {
-    const btn=document.getElementById(`sb${i}`), cdl=document.getElementById(`cdl${i}`), cd=scd[i]-now;
+  for (let i=0;i<SPELLS.length;i++) {
+    const btn=document.getElementById(`sb${i}`),cdl=document.getElementById(`cdl${i}`),cd=scd[i]-now;
     if (cd>0) { cdl.style.display='flex'; cdl.textContent=Math.ceil(cd/1000)+'s'; btn.style.opacity='.5'; }
     else       { cdl.style.display='none'; btn.style.opacity='1'; }
-    btn.style.borderColor = selSpell===i ? SPELLS[i].col : '#333';
-    btn.style.boxShadow   = selSpell===i ? `0 0 10px ${SPELLS[i].col}66` : 'none';
+    btn.style.borderColor=selSpell===i?SPELLS[i].col:'#333';
+    btn.style.boxShadow=selSpell===i?`0 0 10px ${SPELLS[i].col}66`:'none';
   }
 
-  const mt = document.getElementById('mode-tag');
-  const tgt = getAttackTarget();
-  if      (selSpell >= 0)       { mt.textContent = `✨ ${SPELLS[selSpell].n.toUpperCase()}`; mt.style.color = SPELLS[selSpell].col; }
-  else if (tgt)                 { mt.textContent = `🎯 ${tgt.name}`; mt.style.color = tgt.elite ? '#ff88ff' : '#ff6644'; }
-  else if (pathQueue.length > 0){ mt.textContent = '🚶 WALKING'; mt.style.color = '#88aaff'; }
-  else                          { mt.textContent = '⚔ MELEE';   mt.style.color = '#ccc'; }
-
+  const mt=document.getElementById('mode-tag');
+  const tgt=getAttackTarget();
+  if      (selSpell>=0)        { mt.textContent=`✨ ${SPELLS[selSpell].n.toUpperCase()}`; mt.style.color=SPELLS[selSpell].col; }
+  else if (fishWinOpen)        { mt.textContent='🎣 FISHING'; mt.style.color='#55ddff'; }
+  else if (tgt)                { mt.textContent=`🎯 ${tgt.name}`; mt.style.color=tgt.elite?'#ff88ff':'#ff6644'; }
+  else if (pathQueue.length>0) { mt.textContent='🚶 WALKING'; mt.style.color='#88aaff'; }
+  else                         { mt.textContent='⚔ MELEE';   mt.style.color='#ccc'; }
 
   const se=document.getElementById('status-effects');
-  let statusHtml = '';
-  if (player.hunger <= 0) statusHtml += `<span class="sfx-badge" style="color:#ff6644;border-color:#cc3333">🔥 STARVING</span>`;
-if (player.status.poison>0) statusHtml += `<span class="sfx-badge" style="color:#88ff44;border-color:#44aa22">☠ Poison ${Math.ceil(player.status.poison)}s</span>`;
-  se.innerHTML = statusHtml || '<span style="color:#333;font-size:12px">None</span>';
+  let statusHtml='';
+  if (player.hunger<=0) statusHtml+=`<span class="sfx-badge" style="color:#ff6644;border-color:#cc3333">🔥 STARVING</span>`;
+  if (player.status.poison>0) statusHtml+=`<span class="sfx-badge" style="color:#88ff44;border-color:#44aa22">☠ Poison ${Math.ceil(player.status.poison)}s</span>`;
+  se.innerHTML=statusHtml||'<span style="color:#333;font-size:12px">None</span>';
 
   if (document.getElementById('stats-popup').style.display==='block') renderStatsPopup();
   if (activeTab==='eq') renderEquipUI();
@@ -2132,7 +1887,7 @@ if (player.status.poison>0) statusHtml += `<span class="sfx-badge" style="color:
 
 function updateInvUI() {
   const el=document.getElementById('inv-grid'); el.innerHTML='';
-  for (let i=0; i<INV_SLOT_CAP; i++) {
+  for (let i=0;i<INV_SLOT_CAP;i++) {
     const s=player.inv[i], div=document.createElement('div');
     div.className='islot'+(s?' has-item':'');
     if (s) {
@@ -2143,8 +1898,8 @@ function updateInvUI() {
       if (def.hp) tip+=` +${def.hp}HP`; if (def.mp) tip+=` +${def.mp}MP`;
       if (def.atk) tip+=` +${def.atk}ATK`; if (def.def) tip+=` +${def.def}DEF`;
       div.title=tip;
-      div.onclick = ev => { ev.stopPropagation(); useItem(i); updateInvUI(); updateUI(); };
-      div.addEventListener('contextmenu', ev => { ev.preventDefault(); ev.stopPropagation(); showItemCtx(ev,i,false,''); });
+      div.onclick=ev=>{ ev.stopPropagation(); useItem(i); updateInvUI(); updateUI(); };
+      div.addEventListener('contextmenu',ev=>{ ev.preventDefault(); ev.stopPropagation(); showItemCtx(ev,i,false,''); });
     }
     el.appendChild(div);
   }
@@ -2152,8 +1907,8 @@ function updateInvUI() {
 
 function buildEqGrid() {
   const grid=document.getElementById('eq-grid'); grid.innerHTML='';
-  for (let row=0; row<5; row++) {
-    for (let col=0; col<3; col++) {
+  for (let row=0;row<5;row++) {
+    for (let col=0;col<3;col++) {
       const slotDef=EQ_SLOTS.find(s=>s.col===col&&s.row===row);
       const cell=document.createElement('div');
       if (slotDef) {
@@ -2173,7 +1928,7 @@ function renderEquipUI() {
     const eqId=player.equipped[slotDef.key];
     if (eqId) {
       const def=ITEM[eqId];
-      cell.className='eslot equipped'+(slotDef.key==='mainhand'&&def.lightRad?' light-slot lit':'');
+      cell.className='eslot equipped';
       cell.innerHTML=`<span style="font-size:18px">${def.icon}</span><span class="elabel active-label">${def.n.length>9?def.n.slice(0,8)+'…':def.n}</span>`;
       cell.title=`${def.n} — click to unequip`;
     } else {
@@ -2194,7 +1949,7 @@ function switchTab(tab) {
 }
 
 function renderLog() {
-  document.getElementById('log-wrap').innerHTML = glog.slice(0,6).map(l=>`<div class="log-line" style="color:${l.col}">${l.msg}</div>`).join('');
+  document.getElementById('log-wrap').innerHTML=glog.slice(0,6).map(l=>`<div class="log-line" style="color:${l.col}">${l.msg}</div>`).join('');
 }
 
 // ─────────────────────────────────────────────
@@ -2226,7 +1981,7 @@ function renderLootUI() {
 // STATS POPUP
 // ─────────────────────────────────────────────
 
-function openStatsPopup() { document.getElementById('stats-popup').style.display='block'; renderStatsPopup(); }
+function openStatsPopup()  { document.getElementById('stats-popup').style.display='block'; renderStatsPopup(); }
 function closeStatsPopup() { document.getElementById('stats-popup').style.display='none'; }
 
 function renderStatsPopup() {
@@ -2234,38 +1989,39 @@ function renderStatsPopup() {
   const atkSpeedLabel=(1000/getAutoAttackCd()).toFixed(2)+'/s';
   const rows=[
     {section:'OFFENSE'},
-    {label:'Attack',      val:player.atk,                  col:'#ff9966'},
-    {label:'Crit Dmg',    val:'+'+player.crit+'%',         col:'#ffff44'},
-    {label:'Crit Chance', val:player.critChance+'%',       col:'#ffdd44'},
-    {label:'Atk Speed',   val:atkSpeedLabel,               col:'#ffaa44'},
-    {label:'Life Absorb', val:player.lifeAbsorb+'%',       col:'#ff6688'},
+    {label:'Attack',     val:player.atk,                  col:'#ff9966'},
+    {label:'Crit Dmg',   val:'+'+player.crit+'%',         col:'#ffff44'},
+    {label:'Crit Chance',val:player.critChance+'%',       col:'#ffdd44'},
+    {label:'Atk Speed',  val:atkSpeedLabel,               col:'#ffaa44'},
+    {label:'Life Absorb',val:player.lifeAbsorb+'%',       col:'#ff6688'},
     {section:'DEFENSE'},
     {label:'Defense', val:player.def,   col:'#88aaff'},
     {label:'Armor',   val:player.armor, col:'#aaaaff'},
     {section:'RESISTANCES (cap 50%)'},
-    {label:'⚙ Physical',   val:player.resPhys+'%',      col:RES_COLS.resPhys},
-    {label:'🔥 Fire',      val:player.resFire+'%',       col:RES_COLS.resFire},
-    {label:'⚡ Lightning', val:player.resLightning+'%',  col:RES_COLS.resLightning},
-    {label:'❄ Cold',      val:player.resCold+'%',       col:RES_COLS.resCold},
-    {label:'🌿 Earth',    val:player.resEarth+'%',      col:RES_COLS.resEarth},
-    {label:'☯ Chaos',     val:player.resChaos+'%',      col:RES_COLS.resChaos},
-    {label:'✨ Holy',     val:player.resHoly+'%',       col:RES_COLS.resHoly},
+    {label:'⚙ Physical',   val:player.resPhys+'%',       col:RES_COLS.resPhys},
+    {label:'🔥 Fire',      val:player.resFire+'%',        col:RES_COLS.resFire},
+    {label:'⚡ Lightning', val:player.resLightning+'%',   col:RES_COLS.resLightning},
+    {label:'❄ Cold',      val:player.resCold+'%',        col:RES_COLS.resCold},
+    {label:'🌿 Earth',    val:player.resEarth+'%',       col:RES_COLS.resEarth},
+    {label:'☯ Chaos',     val:player.resChaos+'%',        col:RES_COLS.resChaos},
+    {label:'✨ Holy',     val:player.resHoly+'%',        col:RES_COLS.resHoly},
     {section:'MOBILITY & RECOVERY'},
     {label:'Speed',   val:player.speed,           col:'#44ffcc'},
     {label:'HP Regen',val:'+'+player.regen+'/s',  col:'#44ff88'},
     {label:'Max HP',  val:player.maxHp,            col:'#ff6666'},
     {label:'Max MP',  val:player.maxMp,            col:'#6688ff'},
-    {section:'META PROGRESSION'},
-    {label:'Elite Kills', val:meta.elitesKilled,                        col:'#ff88ff'},
-    {label:'Total Kills', val:meta.totalKills,                          col:'#ffaa66'},
-    {label:'Weight',      val:getCurrentWeight()+'/'+getMaxCapacity(),  col:'#88cc00'},
-    {label:'Light Rad',   val:getLightRadius(),                         col:'#ffaa44'},
+    {section:'META'},
+    {label:'Elite Kills', val:meta.elitesKilled,                       col:'#ff88ff'},
+    {label:'Total Kills', val:meta.totalKills,                         col:'#ffaa66'},
+    {label:'Weight',      val:getCurrentWeight()+'/'+getMaxCapacity(), col:'#88cc00'},
+    {label:'Light Rad',   val:getLightRadius(),                        col:'#ffaa44'},
+    {label:'Angler Lv',   val:skillLevels['sk_fish']||0,              col:'#55ddff'},
   ];
   let html='';
-  for (const r of rows) html += r.section!==undefined
-    ? `<div class="sp-section">${r.section}</div>`
-    : `<div class="sp-row"><span class="sp-label">${r.label}</span><span class="sp-val" style="color:${r.col}">${r.val}</span></div>`;
-  html+=`<div class="sp-footer">Level ${player.lv} · ${player.xp}/${player.lv*100} XP · ${player.gold} Gold · ${skillPoints} Skill Pts</div>`;
+  for (const r of rows) html+=r.section!==undefined
+    ?`<div class="sp-section">${r.section}</div>`
+    :`<div class="sp-row"><span class="sp-label">${r.label}</span><span class="sp-val" style="color:${r.col}">${r.val}</span></div>`;
+  html+=`<div class="sp-footer">Level ${player.lv} · ${player.xp}/${player.lv*100} XP · ${player.gold} Gold · ${skillPoints} SP</div>`;
   b.innerHTML=html;
 }
 
@@ -2278,7 +2034,7 @@ function interactNPC() {
   if (chebyshev(player.x,player.y,npcEnt.x,npcEnt.y)>TRADE_DIST) { addLog(`Move closer to the merchant! (within ${TRADE_DIST} sqm)`,'#ffaa44'); return; }
   openShop();
 }
-function openShop()  { shopOpen=true;  shopTab='buy'; document.getElementById('shop-win').style.display='block'; renderShop(); }
+function openShop()  { shopOpen=true; shopTab='buy'; document.getElementById('shop-win').style.display='block'; renderShop(); }
 function closeShop() { shopOpen=false; document.getElementById('shop-win').style.display='none'; }
 
 function switchShopTab(tab) {
@@ -2291,23 +2047,23 @@ function switchShopTab(tab) {
 function renderShop() {
   document.getElementById('sh-gold-val').textContent=player.gold;
   const list=document.getElementById('sh-list'); list.innerHTML='';
-
   if (shopTab==='buy') {
     for (const id of SHOP_STOCK) {
       const def=ITEM[id]; if (!def?.buyPrice) continue;
-      const price=def.buyPrice, canAfford=player.gold>=price;
+      const price=def.buyPrice,canAfford=player.gold>=price;
       const row=document.createElement('div'); row.className='sh-row'+(canAfford?'':' cant-afford');
       let stats='';
-      if (def.atk)    stats+=`ATK+${def.atk} `;
-      if (def.def)    stats+=`DEF+${def.def} `;
-      if (def.armor)  stats+=`ARM+${def.armor} `;
-      if (def.hp)     stats+=`HP+${def.hp} `;
-      if (def.mp)     stats+=`MP+${def.mp} `;
+      if (def.atk)      stats+=`ATK+${def.atk} `;
+      if (def.def)      stats+=`DEF+${def.def} `;
+      if (def.armor)    stats+=`ARM+${def.armor} `;
+      if (def.hp)       stats+=`HP+${def.hp} `;
+      if (def.mp)       stats+=`MP+${def.mp} `;
       if (def.capBonus) stats+=`CAP+${def.capBonus} `;
-      if (def.atkSpd) stats+=`ASPD+${def.atkSpd} `;
+      if (def.atkSpd)   stats+=`ASPD+${def.atkSpd} `;
+      if (def.t==='fishingrod') stats+='Enables fishing ';
       for (const rk of RES_KEYS) if (def[rk]) stats+=`${RES_ICONS[rk]}${def[rk]}% `;
       if (def.lightRad) stats+=`LIGHT r${def.lightRad} `;
-      if (def.wt) stats+=`${def.wt}kg`;
+      if (def.wt)       stats+=`${def.wt}kg`;
       row.innerHTML=`<span class="sh-icon" style="color:${def.col}">${def.icon}</span><span class="sh-info"><span class="sh-name">${def.n}</span><br><span class="sh-stats">${stats}</span></span><span class="sh-price">${price}g</span>`;
       if (canAfford) {
         row.onclick=()=>{
@@ -2324,7 +2080,7 @@ function renderShop() {
     const sellable=player.inv.filter(s=>ITEM[s.id]&&(ITEM[s.id].sellPrice||0)>0);
     if (!sellable.length) { list.innerHTML='<div style="color:#444;padding:10px;text-align:center">Nothing to sell.</div>'; return; }
     for (const s of sellable) {
-      const def=ITEM[s.id], price=def.sellPrice||1;
+      const def=ITEM[s.id],price=def.sellPrice||1;
       const row=document.createElement('div'); row.className='sh-row';
       row.innerHTML=`<span class="sh-icon" style="color:${def.col}">${def.icon}</span><span class="sh-info"><span class="sh-name">${def.n}</span> <span style="color:#448844;font-size:11px">x${s.qty}</span></span><span class="sh-price sell">${price}g</span>`;
       row.onclick=()=>{
@@ -2363,7 +2119,7 @@ function renderSkillWin() {
       lastSection=s.section;
       const sec=document.createElement('div'); sec.className='sk-section'; sec.textContent=s.section; body.appendChild(sec);
     }
-    const cur=skillLevels[s.id]||0, maxed=cur>=s.maxLv, canBuy=skillPoints>0&&!maxed;
+    const cur=skillLevels[s.id]||0,maxed=cur>=s.maxLv,canBuy=skillPoints>0&&!maxed;
     const row=document.createElement('div'); row.className='sk-row';
     row.innerHTML=`<span class="sk-icon">${s.icon}</span><span class="sk-info"><span class="sk-name">${s.name}</span><br><span class="sk-desc">${s.desc}</span></span><span class="sk-lvl">Lv<span>${cur}/${s.maxLv}</span></span><button class="sk-btn ${maxed?'maxed':canBuy?'can':''}" ${canBuy?`onclick="buySkill('${s.id}')"`:''}>${maxed?'MAX':'UP'}</button>`;
     body.appendChild(row);
@@ -2380,40 +2136,28 @@ function updateSkillBadge() {
 // ITEM CONTEXT MENU
 // ─────────────────────────────────────────────
 
-function showItemCtx(e, invIdx, isEq, eqSlot) {
+function showItemCtx(e,invIdx,isEq,eqSlot) {
   ctxItemIdx=invIdx; ctxIsEq=isEq; ctxEqSlot=eqSlot;
   const ctx=document.getElementById('item-ctx');
   ctx.style.display='block';
-  ctx.style.left=Math.min(e.clientX, window.innerWidth-160)+'px';
-  ctx.style.top =Math.min(e.clientY, window.innerHeight-120)+'px';
+  ctx.style.left=Math.min(e.clientX,window.innerWidth-160)+'px';
+  ctx.style.top=Math.min(e.clientY,window.innerHeight-120)+'px';
   document.getElementById('ctx-use').textContent=isEq?'↑ Unequip':'▶ Use / Equip';
   document.getElementById('ctx-drop').style.display=isEq?'none':'block';
-  const itemId = isEq ? player.equipped[eqSlot] : (invIdx>=0&&player.inv[invIdx]?.id||'');
+  const itemId=isEq?player.equipped[eqSlot]:(invIdx>=0&&player.inv[invIdx]?.id||'');
   const alBtn=document.getElementById('ctx-autoloot');
-  if (itemId && autoLootFilter[itemId]) { alBtn.textContent='★ Remove from Auto Loot'; alBtn.style.color='#ff8888'; }
+  if (itemId&&autoLootFilter[itemId]) { alBtn.textContent='★ Remove from Auto Loot'; alBtn.style.color='#ff8888'; }
   else { alBtn.textContent='☆ Add to Auto Loot'; alBtn.style.color=''; }
 }
-function hideCtx() { document.getElementById('item-ctx').style.display='none'; document.getElementById('ctx-autoloot').style.color=''; }
+function hideCtx() { document.getElementById('item-ctx').style.display='none'; }
 
 document.getElementById('ctx-use').onclick    = () => { if (ctxIsEq) unequipSlot(ctxEqSlot); else useItem(ctxItemIdx); updateInvUI(); updateUI(); hideCtx(); };
 document.getElementById('ctx-drop').onclick   = () => { dropItem(ctxItemIdx); hideCtx(); };
 document.getElementById('ctx-autoloot').onclick = () => {
-  const id = ctxIsEq ? player.equipped[ctxEqSlot] : (ctxItemIdx>=0&&player.inv[ctxItemIdx]?.id||'');
+  const id=ctxIsEq?player.equipped[ctxEqSlot]:(ctxItemIdx>=0&&player.inv[ctxItemIdx]?.id||'');
   if (id) toggleAutoLootFilter(id);
   hideCtx();
 };
-
-// ─────────────────────────────────────────────
-// ZONE HELPER
-// ─────────────────────────────────────────────
-
-function getZoneLevel() {
-  for (let ri=0; ri<rooms.length; ri++) {
-    const r=rooms[ri];
-    if (player.x>=r.x&&player.x<r.x+r.w&&player.y>=r.y&&player.y<r.y+r.h) return Math.min(4,Math.floor((roomDepths[ri]||0)/1.8));
-  }
-  return 0;
-}
 
 // ─────────────────────────────────────────────
 // GAME LOOP
@@ -2421,58 +2165,58 @@ function getZoneLevel() {
 
 function init() {
   rooms=genMap();
-  const sr=rooms[0]; startPos={ x:sr.cx, y:sr.cy };
+  const sr=rooms[0]; startPos={x:sr.cx,y:sr.cy};
   player={
-    x:sr.cx, y:sr.cy, hp:200, maxHp:200, mp:130, maxMp:130, hunger:100, maxHunger:100, atk:22, def:10, lv:1, xp:0, gold:0,
+    x:sr.cx,y:sr.cy,hp:200,maxHp:200,mp:130,maxMp:130,hunger:100,maxHunger:100,atk:22,def:10,lv:1,xp:0,gold:0,
     inv:[{id:'hpot',qty:3},{id:'mpot',qty:2},{id:'bread',qty:4},{id:'torch',qty:1},{id:'smallbag',qty:1}],
     status:{},
-    baseMaxHp:200, baseMaxMp:130, baseAtk:22, baseDef:10, baseArmor:5, baseSpeed:5,
-    baseCrit:75, baseCritChance:12, baseAtkSpeed:0, baseLifeAbsorb:0, baseRegen:2,
-    resPhys:0, resFire:0, resLightning:0, resCold:0, resEarth:0, resChaos:0, resHoly:0,
-    armor:5, speed:5, crit:75, critChance:12, atkSpeed:0, lifeAbsorb:0, regen:2,
-    equipped:{ head:null,amulet:null,mainhand:null,body:null,offhand:null,belt:null,legs:null,ring1:null,gloves:null,boots:null,ring2:null,bag:null,cape:null }
+    baseMaxHp:200,baseMaxMp:130,baseAtk:22,baseDef:10,baseArmor:5,baseSpeed:5,
+    baseCrit:75,baseCritChance:12,baseAtkSpeed:0,baseLifeAbsorb:0,baseRegen:2,
+    resPhys:0,resFire:0,resLightning:0,resCold:0,resEarth:0,resChaos:0,resHoly:0,
+    armor:5,speed:5,crit:75,critChance:12,atkSpeed:0,lifeAbsorb:0,regen:2,
+    equipped:{head:null,amulet:null,mainhand:null,body:null,offhand:null,belt:null,legs:null,ring1:null,gloves:null,boots:null,ring2:null,bag:null,cape:null}
   };
   playerFacing='south';
   initSkills();
   autoLootFilter={};
-  meta={ totalKills:0, chestsOpened:0, elitesKilled:0 };
+  meta={totalKills:0,chestsOpened:0,elitesKilled:0};
   computeStats();
 
-  npcEnt={ type:'npc', x:sr.cx+2, y:sr.cy, name:'Grimwald', col:'#e8c840' };
+  npcEnt={type:'npc',x:sr.cx+2,y:sr.cy,name:'Grimwald',col:'#e8c840'};
   ents.push(npcEnt);
 
   const mkeys=Object.keys(MDEF);
-  for (let ri=1; ri<rooms.length; ri++) {
-    const r=rooms[ri], depth=roomDepths[ri]||0, zone=Math.min(4,Math.floor(depth/1.8));
+  for (let ri=1;ri<rooms.length;ri++) {
+    const r=rooms[ri],depth=roomDepths[ri]||0,zone=Math.min(4,Math.floor(depth/1.8));
     const eligible=mkeys.filter(k=>MDEF[k].zone<=Math.max(1,zone));
     if (!eligible.length) continue;
     const count=1+Math.floor(Math.random()*(zone<2?1:zone<3?2:3));
-    for (let j=0; j<count; j++) {
+    for (let j=0;j<count;j++) {
       const kind=eligible[Math.floor(Math.random()*eligible.length)];
-      let emx, emy, tries=0;
+      let emx,emy,tries=0;
       do { emx=r.x+1+Math.floor(Math.random()*(r.w-2)); emy=r.y+1+Math.floor(Math.random()*(r.h-2)); tries++; }
-      while (!isWalk(emx,emy) && tries<30);
+      while (!isWalk(emx,emy)&&tries<30);
       if (tries<30) ents.push(makeMonster(kind,emx,emy,ri));
     }
     if (Math.random()<.45) {
-      const bx=r.x+1+Math.floor(Math.random()*(r.w-2)), by=r.y+1+Math.floor(Math.random()*(r.h-2));
-      if (isWalk(bx,by)) ents.push({ type:'bar', x:bx, y:by });
+      const bx=r.x+1+Math.floor(Math.random()*(r.w-2)),by=r.y+1+Math.floor(Math.random()*(r.h-2));
+      if (isWalk(bx,by)) ents.push({type:'bar',x:bx,y:by});
     }
-    if (depth>=2 && Math.random()<.25) {
-      const cx=r.x+1+Math.floor(Math.random()*(r.w-2)), cy=r.y+1+Math.floor(Math.random()*(r.h-2));
+    if (depth>=2&&Math.random()<.25) {
+      const cx=r.x+1+Math.floor(Math.random()*(r.w-2)),cy=r.y+1+Math.floor(Math.random()*(r.h-2));
       if (isWalk(cx,cy)) {
         const loot=[{id:'gold',qty:rnd(20+depth*10,60+depth*15)}];
         const pool=['hpot','mpot','bread','spear','shield','helmet','dagger','chainmail','buckler','boots','belt','leggings'];
         if (Math.random()<.4) loot.push({id:pool[Math.floor(Math.random()*pool.length)],qty:1});
         if (depth>=4&&Math.random()<.3) loot.push({id:['sword','axe','plate','ring','amulet','staff','backpack','fireCloak','iceRing','holyAmulet'][Math.floor(Math.random()*10)],qty:1});
-        ents.push({ type:'chest', x:cx, y:cy, loot, opened:false });
+        ents.push({type:'chest',x:cx,y:cy,loot,opened:false});
       }
     }
   }
 
   const hb=document.getElementById('hotbar'); hb.innerHTML='';
-  for (let i=0; i<SPELLS.length; i++) {
-    const sp=SPELLS[i], b=document.createElement('button');
+  for (let i=0;i<SPELLS.length;i++) {
+    const sp=SPELLS[i],b=document.createElement('button');
     b.className='sbtn'; b.id=`sb${i}`;
     b.innerHTML=`${sp.icon} ${sp.n}<br><span class="smp">${sp.mp}mp</span> <span style="color:#444;font-size:11px">[${sp.key}]</span><span class="cdlay" id="cdl${i}"></span>`;
     b.title=sp.tip; b.onclick=()=>{ selSpell=selSpell===i?-1:i; updateUI(); };
@@ -2480,23 +2224,17 @@ function init() {
   }
 
   addLog('⚔ Welcome to DungeonQuest!','#c8a84b');
-  addLog('🌟 Elite monsters can spawn with higher rewards, especially deeper and at night.','#ff88ff');
+  addLog('🎣 Buy a Fishing Rod, stand next to water and press R to fish!','#55ddff');
+  addLog('🌟 Elites spawn more often at night and in deeper zones.','#ff88ff');
 
-  // FIX 3 (continued): Auto-attack lives here ONLY.
-  // The 200ms ticker is the single source of melee attacks.
-  // click and keydown handlers no longer call playerAtk().
   setInterval(()=>{
     const tgt=getAttackTarget();
-    if (tgt && now - lastAutoAtk >= getAutoAttackCd()) {
-      if (chebyshev(player.x, player.y, tgt.x, tgt.y) <= 1) {
-        playerAtk(tgt);
-        lastAutoAtk = now;
-        updateUI();
-      }
+    if (tgt&&now-lastAutoAtk>=getAutoAttackCd()) {
+      if (chebyshev(player.x,player.y,tgt.x,tgt.y)<=1) { playerAtk(tgt); lastAutoAtk=now; updateUI(); }
     }
     processRespawns();
     ents=ents.filter(e=>{
-      if (e.type==='cor' && now-e.born>50000) {
+      if (e.type==='cor'&&now-e.born>50000) {
         if (lootWin?.cor===e) { lootWin=null; renderLootUI(); addLog('The corpse has decayed.','#555566'); }
         return false;
       }
@@ -2517,16 +2255,22 @@ function loop(ts) {
   syncTimePhase();
   if (shakePow>0) {
     shakeX=(Math.random()-.5)*shakePow*2; shakeY=(Math.random()-.5)*shakePow*2;
-    shakePow*=.75; if (shakePow<.1) { shakePow=0; shakeX=0; shakeY=0; }
+    shakePow*=.75; if (shakePow<.1){shakePow=0;shakeX=0;shakeY=0;}
   }
-  parts=parts.filter(p=>{ p.life-=dt; if (p.t==='f') p.wy+=p.vy; if (p.t==='spark'){p.wx+=p.vx;p.wy+=p.vy;p.vy+=.0015;} return p.life>0; });
+  parts=parts.filter(p=>{ p.life-=dt; if(p.t==='f')p.wy+=p.vy; if(p.t==='spark'){p.wx+=p.vx;p.wy+=p.vy;p.vy+=.0015;} return p.life>0; });
   processHeldKeys();
   if (pathQueue.length) {
-    const next=pathQueue[0], isDiag=next.x!==player.x&&next.y!==player.y;
+    const next=pathQueue[0],isDiag=next.x!==player.x&&next.y!==player.y;
     if (now-lastPlayerMove>=(isDiag?PLAYER_MOVE_DELAY*2:PLAYER_MOVE_DELAY)) stepPath();
   }
   updateMons();
-  updateRegen(dt); render(); renderMM();
+  updateRegen(dt);
+  // Update fishing bobber drift animation
+  if (fishWinOpen&&fishState===FISH_STATES.CASTING) {
+    fishBobberY=0.45+Math.sin(ts*0.001)*0.03;
+    updateFishCanvas();
+  }
+  render(); renderMM();
   requestAnimationFrame(loop);
 }
 
@@ -2539,17 +2283,17 @@ function updateCam() {
   cam.y=Math.max(0,Math.min(MH-VH,player.y-Math.floor(VH/2)));
 }
 
-function w2s(wx,wy) { return { sx:(wx-cam.x)*TILE, sy:(wy-cam.y)*TILE }; }
+function w2s(wx,wy) { return {sx:(wx-cam.x)*TILE,sy:(wy-cam.y)*TILE}; }
 
 function render() {
   updateCam();
-  _cachedLightRadius = getLightRadius();
-  _cachedAmbient = getTimeState().ambient;
+  _cachedLightRadius=getLightRadius();
+  _cachedAmbient=getTimeState().ambient;
   gx.save(); gx.translate(Math.round(shakeX),Math.round(shakeY)); gx.clearRect(-10,-10,CW+20,CH+20);
-  for (let ty=0; ty<VH; ty++) for (let tx=0; tx<VW; tx++) {
-    const tmx=tx+cam.x, tmy=ty+cam.y;
+  for (let ty=0;ty<VH;ty++) for (let tx=0;tx<VW;tx++) {
+    const tmx=tx+cam.x,tmy=ty+cam.y;
     if (tmx<0||tmy<0||tmx>=MW||tmy>=MH) continue;
-    drawTile(tx*TILE, ty*TILE, map[tmy][tmx], tmx, tmy);
+    drawTile(tx*TILE,ty*TILE,map[tmy][tmx],tmx,tmy);
   }
   if (selSpell>=0&&SPELLS[selSpell].aoe>0&&hovTile.x>=0) {
     const sp=SPELLS[selSpell]; gx.fillStyle=sp.col+'22';
@@ -2574,25 +2318,27 @@ function render() {
   const td=getTimeState();
   if (td.darkness>0.01) { gx.fillStyle=`rgba(5,7,16,${td.darkness})`; gx.fillRect(0,0,CW,CH); }
   if (hovTile.x>=0) {
-    const hsx=(hovTile.x-cam.x)*TILE, hsy=(hovTile.y-cam.y)*TILE;
-    const hm=monAt(hovTile.x,hovTile.y), hc=corAt(hovTile.x,hovTile.y), hch=chestAt(hovTile.x,hovTile.y), hn=npcAt(hovTile.x,hovTile.y);
-    gx.strokeStyle=hm?'rgba(255,200,0,.7)':hc||hch?'rgba(200,168,75,.7)':hn?'rgba(255,200,80,.9)':'rgba(255,255,255,.18)';
+    const hsx=(hovTile.x-cam.x)*TILE,hsy=(hovTile.y-cam.y)*TILE;
+    const hm=monAt(hovTile.x,hovTile.y),hc=corAt(hovTile.x,hovTile.y),hch=chestAt(hovTile.x,hovTile.y),hn=npcAt(hovTile.x,hovTile.y);
+    const isWater=map[hovTile.y]?.[hovTile.x]===T.WATER;
+    gx.strokeStyle=hm?'rgba(255,200,0,.7)':hc||hch?'rgba(200,168,75,.7)':hn?'rgba(255,200,80,.9)':isWater?'rgba(80,200,255,.5)':'rgba(255,255,255,.18)';
     gx.lineWidth=1.5; gx.strokeRect(hsx+1,hsy+1,TILE-2,TILE-2);
-    if (hm)             drawMonNameTooltip(hm,hsx,hsy);
-    else if (hch&&!hch.opened) drawSimpleTooltip('Treasure Chest — press F or click adjacent',hsx,hsy,'#c8a84b');
-    else if (hn)        drawSimpleTooltip('🏪 '+hn.name+' — press E to trade',hsx,hsy,'#e8c840');
+    if (hm)                      drawMonNameTooltip(hm,hsx,hsy);
+    else if (hch&&!hch.opened)   drawSimpleTooltip('Treasure Chest — press F or click adjacent',hsx,hsy,'#c8a84b');
+    else if (hn)                 drawSimpleTooltip('🏪 '+hn.name+' — press E to trade',hsx,hsy,'#e8c840');
+    else if (isWater&&isAdjacentWater()) drawSimpleTooltip('🎣 Click to fish (need rod)',hsx,hsy,'#55ddff');
   }
   gx.restore();
 }
 
-function drawTile(px, py, t, tmx, tmy) {
+function drawTile(px,py,t,tmx,tmy) {
   const ev=(tmx+tmy)%2===0, li=lightAt(tmx,tmy);
   if (t===T.WALL) {
     const bright=Math.floor(li*20); gx.fillStyle=`rgb(${bright},${bright},${bright+4})`; gx.fillRect(px,py,TILE,TILE);
     if (li>0.1) {
       const bh=Math.floor(TILE/3);
       for (let r=0;r<3;r++) {
-        const off=r%2===0?0:Math.floor(TILE/2), v=Math.floor(li*(r===1?24:20));
+        const off=r%2===0?0:Math.floor(TILE/2),v=Math.floor(li*(r===1?24:20));
         gx.fillStyle=`rgb(${v},${v},${v+6})`;
         for (let c=-1;c<=1;c++) gx.fillRect(px+off+c*Math.floor(TILE/2)+1,py+r*bh+1,Math.floor(TILE/2)-2,bh-2);
       }
@@ -2600,16 +2346,24 @@ function drawTile(px, py, t, tmx, tmy) {
   } else if (t===T.WATER) {
     const wv=Math.sin(tick*.035+tmx*.45+tmy*.38)*9, br=Math.floor(li*85);
     gx.fillStyle=`rgb(${Math.floor(li*10)},${Math.floor(li*25)},${br+Math.floor(wv)})`; gx.fillRect(px,py,TILE,TILE);
-    if (li>0.1) { gx.strokeStyle=`rgba(80,130,255,${li*.18})`; gx.lineWidth=1; gx.beginPath(); gx.arc(px+TILE/2+Math.sin(tick*.025+tmx+tmy)*6,py+TILE/2+Math.cos(tick*.018+tmx-tmy)*4,8,0,Math.PI); gx.stroke(); }
+    if (li>0.1) {
+      gx.strokeStyle=`rgba(80,130,255,${li*.18})`; gx.lineWidth=1;
+      gx.beginPath(); gx.arc(px+TILE/2+Math.sin(tick*.025+tmx+tmy)*6,py+TILE/2+Math.cos(tick*.018+tmx-tmy)*4,8,0,Math.PI); gx.stroke();
+    }
+    // Fishing indicator if player adjacent
+    if (isAdjacentWater() && Math.abs(tmx-player.x)+Math.abs(tmy-player.y)===1) {
+      gx.fillStyle=`rgba(80,200,255,${.08+Math.sin(tick*.1)*.04})`;
+      gx.fillRect(px,py,TILE,TILE);
+    }
   } else {
-    const v1=Math.floor(li*30), v2=Math.floor(li*26);
+    const v1=Math.floor(li*30),v2=Math.floor(li*26);
     gx.fillStyle=ev?`rgb(${v1},${v1},${v1+10})`:`rgb(${v2},${v2},${v2+8})`; gx.fillRect(px,py,TILE,TILE);
     if (li>0.1) { gx.strokeStyle=`rgba(20,20,31,${li})`; gx.lineWidth=.5; gx.strokeRect(px,py,TILE,TILE); }
     const glow=getFloorGlow(tmx,tmy);
     if (glow>0.02) {
       const hasTorch=player.equipped.mainhand&&ITEM[player.equipped.mainhand]?.lightRad;
       if (hasTorch) { const flicker=Math.sin(tick*.18+tmx*1.3+tmy*.9)*.03+Math.sin(tick*.07+tmx+tmy*1.4)*.015; gx.fillStyle=`rgba(255,130,0,${(glow+flicker).toFixed(3)})`; }
-      else           gx.fillStyle=`rgba(60,80,160,${(glow*.5).toFixed(3)})`;
+      else gx.fillStyle=`rgba(60,80,160,${(glow*.5).toFixed(3)})`;
       gx.fillRect(px,py,TILE,TILE);
     }
     if (li>0.05&&li<0.6) { gx.fillStyle=`rgba(10,10,30,${((0.6-li)*.3).toFixed(3)})`; gx.fillRect(px,py,TILE,TILE); }
@@ -2619,7 +2373,7 @@ function drawTile(px, py, t, tmx, tmy) {
 function drawNPC(npc) {
   const li=lightAt(npc.x,npc.y); const {sx,sy}=w2s(npc.x,npc.y);
   if (sx<-TILE||sy<-TILE||sx>CW+TILE||sy>CH+TILE) return;
-  const ncx=sx+TILE/2, ncy=sy+TILE/2, bob=Math.sin(tick*.06)*2;
+  const ncx=sx+TILE/2,ncy=sy+TILE/2,bob=Math.sin(tick*.06)*2;
   gx.globalAlpha=0.18+Math.sin(tick*.04)*.08; gx.fillStyle='#e8c840'; gx.beginPath(); gx.arc(ncx,ncy+bob,TILE*.45,0,Math.PI*2); gx.fill();
   gx.globalAlpha=Math.max(0.4,li);
   gx.fillStyle='#5533aa'; gx.beginPath(); gx.moveTo(ncx-12,ncy+bob+2); gx.lineTo(ncx+12,ncy+bob+2); gx.lineTo(ncx+8,ncy+bob+20); gx.lineTo(ncx-8,ncy+bob+20); gx.closePath(); gx.fill();
@@ -2640,11 +2394,10 @@ function drawNPC(npc) {
 }
 
 function drawMon(m) {
-  const {sx,sy}=w2s(m.x,m.y);
-  const li=lightAt(m.x,m.y);
+  const {sx,sy}=w2s(m.x,m.y); const li=lightAt(m.x,m.y);
   if (sx<-TILE||sy<-TILE||sx>CW+TILE||sy>CH+TILE||li<0.05) return;
-  const mcx=sx+TILE/2, mcy=sy+TILE/2, r=TILE*m.sz*.43;
-  if (attackTargetId === m.id) {
+  const mcx=sx+TILE/2,mcy=sy+TILE/2,r=TILE*m.sz*.43;
+  if (attackTargetId===m.id) {
     const pulse=Math.sin(tick*.12)*3; gx.save(); gx.translate(mcx,mcy); gx.rotate(-tick*.025);
     gx.strokeStyle='#ff4444'; gx.shadowColor='#ff4444'; gx.shadowBlur=12; gx.lineWidth=2; gx.setLineDash([4,4]);
     gx.beginPath(); gx.arc(0,0,r+6+pulse,0,Math.PI*2); gx.stroke(); gx.setLineDash([]); gx.restore(); gx.shadowBlur=0;
@@ -2674,7 +2427,7 @@ function drawMon(m) {
   gx.beginPath(); gx.arc(mcx-r*.3,mcy-r*.12,r*.17,0,Math.PI*2); gx.fill();
   gx.beginPath(); gx.arc(mcx+r*.3,mcy-r*.12,r*.17,0,Math.PI*2); gx.fill();
   if (m.elite) { gx.fillStyle='#ffd700'; gx.font='bold 14px VT323,monospace'; gx.textAlign='center'; gx.fillText('★',mcx,sy+10); }
-  const bw=r*2.4, bh=4, bxo=mcx-r*1.2, byo=sy+3;
+  const bw=r*2.4,bh=4,bxo=mcx-r*1.2,byo=sy+3;
   gx.fillStyle='#1a0000'; gx.fillRect(bxo,byo,bw,bh);
   gx.fillStyle=m.elite?'#ff66ff':'#cc2222'; gx.fillRect(bxo,byo,bw*Math.max(0,m.hp/m.maxHp),bh);
   gx.globalAlpha=1;
@@ -2682,7 +2435,7 @@ function drawMon(m) {
 
 function drawPlayer() {
   const {sx,sy}=w2s(player.x,player.y);
-  const pcx=sx+TILE/2, pcy=sy+TILE/2;
+  const pcx=sx+TILE/2,pcy=sy+TILE/2;
   const pct=Math.max(0,player.hp/player.maxHp);
   gx.fillStyle='#1a0000'; gx.fillRect(sx,sy-14,TILE,6);
   gx.fillStyle=pct>.5?'#22cc44':pct>.25?'#ffaa00':'#ff2222'; gx.fillRect(sx,sy-14,TILE*pct,6);
@@ -2704,7 +2457,12 @@ function drawPlayer() {
   const helmetCol=player.equipped.head?ITEM[player.equipped.head]?.col||'#777788':'#777788';
   gx.fillStyle=helmetCol; gx.fillRect(pcx-8,pcy-20,16,10);
   const wid=player.equipped.mainhand;
-  if (wid&&ITEM[wid]?.t==='torch') {
+  if (wid&&ITEM[wid]?.t==='fishingrod') {
+    // Draw fishing rod
+    gx.strokeStyle='#a87a49'; gx.lineWidth=3; gx.beginPath(); gx.moveTo(pcx+9,pcy-8); gx.lineTo(pcx+22,pcy-18); gx.stroke();
+    gx.strokeStyle='#e8c468'; gx.lineWidth=1; gx.beginPath(); gx.moveTo(pcx+22,pcy-18); gx.lineTo(pcx+28,pcy+2); gx.stroke();
+    gx.fillStyle='#55aaff'; gx.beginPath(); gx.arc(pcx+28,pcy+2,3,0,Math.PI*2); gx.fill();
+  } else if (wid&&ITEM[wid]?.t==='torch') {
     gx.strokeStyle='#aa6622'; gx.lineWidth=3; gx.beginPath(); gx.moveTo(pcx+9,pcy-8); gx.lineTo(pcx+19,pcy+5); gx.stroke();
     gx.fillStyle='#ffaa22'; gx.beginPath(); gx.arc(pcx+9,pcy-9,5,0,Math.PI*2); gx.fill();
     if (hasTorch) { gx.shadowColor='#ffaa22'; gx.shadowBlur=10; gx.fillStyle='rgba(255,170,30,.8)'; gx.beginPath(); gx.arc(pcx+9,pcy-9,3,0,Math.PI*2); gx.fill(); gx.shadowBlur=0; }
@@ -2716,11 +2474,12 @@ function drawPlayer() {
   gx.fillStyle=hasShield?ITEM[player.equipped.offhand]?.col||'#7587a5':'#334466'; gx.fillRect(pcx-18,pcy-8,8,12);
   if (selSpell>=0) { const sc=SPELLS[selSpell].col; gx.shadowColor=sc; gx.shadowBlur=16; gx.strokeStyle=sc; gx.lineWidth=2; gx.strokeRect(sx+2,sy+2,TILE-4,TILE-4); gx.shadowBlur=0; }
   if (player.status.poison>0) { gx.globalAlpha=.4+Math.sin(tick*.2)*.2; gx.strokeStyle='#66ff44'; gx.lineWidth=2; gx.beginPath(); gx.arc(pcx,pcy,16,0,Math.PI*2); gx.stroke(); gx.globalAlpha=1; }
+  // Fishing indicator above player when in fishing mode
+  if (fishWinOpen) { gx.globalAlpha=.7+Math.sin(tick*.12)*.3; gx.font='16px serif'; gx.textAlign='center'; gx.fillText('🎣',pcx,sy-18); gx.globalAlpha=1; }
 }
 
 function drawCorpse(c) {
-  const li=lightAt(c.x,c.y);
-  if (li<0.05) return;
+  const li=lightAt(c.x,c.y); if (li<0.05) return;
   const {sx,sy}=w2s(c.x,c.y);
   gx.globalAlpha=.6*li; gx.strokeStyle=c.col; gx.lineWidth=3;
   gx.beginPath(); gx.moveTo(sx+8,sy+TILE/2); gx.lineTo(sx+TILE-8,sy+TILE-10); gx.stroke();
@@ -2730,7 +2489,7 @@ function drawCorpse(c) {
 
 function drawChest(ch) {
   if (lightAt(ch.x,ch.y)<0.05) return;
-  const {sx,sy}=w2s(ch.x,ch.y); const ccx=sx+TILE/2, ccy=sy+TILE/2;
+  const {sx,sy}=w2s(ch.x,ch.y); const ccx=sx+TILE/2,ccy=sy+TILE/2;
   if (!ch.opened) { gx.shadowColor='#c8a84b'; gx.shadowBlur=(.3+Math.sin(tick*.09)*.2)*15; }
   gx.fillStyle=ch.opened?'#332200':'#5a3a10'; gx.fillRect(sx+5,ccy-2,TILE-10,TILE/2);
   gx.fillStyle=ch.opened?'#4a3010':'#7a5520'; gx.fillRect(sx+5,ccy+6,TILE-10,TILE/2-8);
@@ -2740,7 +2499,7 @@ function drawChest(ch) {
 
 function drawBarrel(b) {
   if (lightAt(b.x,b.y)<0.05) return;
-  const {sx,sy}=w2s(b.x,b.y); const bcx=sx+TILE/2, bcy=sy+TILE/2;
+  const {sx,sy}=w2s(b.x,b.y); const bcx=sx+TILE/2,bcy=sy+TILE/2;
   gx.fillStyle='#6b3a1f'; gx.beginPath(); gx.ellipse(bcx,bcy,10,14,0,0,Math.PI*2); gx.fill();
   gx.strokeStyle='#3a1a00'; gx.lineWidth=2;
   gx.beginPath(); gx.ellipse(bcx,bcy-4,10,4,0,0,Math.PI*2); gx.stroke();
@@ -2754,39 +2513,39 @@ function drawItemE(itm) {
 }
 
 function drawPart(p) {
-  const psx=(p.wx-cam.x)*TILE, psy=(p.wy-cam.y)*TILE, a=p.life/p.max;
+  const psx=(p.wx-cam.x)*TILE,psy=(p.wy-cam.y)*TILE,a=p.life/p.max;
   if      (p.t==='f')     { gx.globalAlpha=Math.min(1,a*2); gx.fillStyle=p.col; gx.font=`bold ${13+(1-a)*5|0}px VT323,monospace`; gx.textAlign='center'; gx.fillText(p.txt,psx,psy); gx.globalAlpha=1; }
   else if (p.t==='fx')    { gx.globalAlpha=a*.45; gx.fillStyle=p.col; gx.beginPath(); gx.arc(psx,psy,TILE*(p.rad+1.3)*(.4+a*.6),0,Math.PI*2); gx.fill(); gx.globalAlpha=1; }
   else if (p.t==='spark') { gx.globalAlpha=a; gx.fillStyle=p.col; gx.beginPath(); gx.arc(psx,psy,Math.max(1,3*a),0,Math.PI*2); gx.fill(); gx.globalAlpha=1; }
 }
 
-function drawMonNameTooltip(m, hsx, hsy) {
+function drawMonNameTooltip(m,hsx,hsy) {
   gx.font='14px VT323,monospace';
-  const label=`${m.elite?'★ ':''}${m.name} ${m.hp}/${m.maxHp}`, tw=gx.measureText(label).width+16;
-  const ttx=Math.min(Math.max(0,hsx),CW-tw-2), tty=Math.max(0,hsy-24);
+  const label=`${m.elite?'★ ':''}${m.name} ${m.hp}/${m.maxHp}`,tw=gx.measureText(label).width+16;
+  const ttx=Math.min(Math.max(0,hsx),CW-tw-2),tty=Math.max(0,hsy-24);
   gx.fillStyle='rgba(0,0,0,.88)'; gx.fillRect(ttx,tty,tw,20);
   gx.strokeStyle=m.elite?'#ff88ff':'#555'; gx.lineWidth=1; gx.strokeRect(ttx,tty,tw,20);
   gx.fillStyle=m.elite?'#ff88ff':'#ffcc44'; gx.textAlign='left'; gx.fillText(label,ttx+8,tty+14);
 }
 
-function drawSimpleTooltip(text, hsx, hsy, col) {
+function drawSimpleTooltip(text,hsx,hsy,col) {
   gx.font='12px VT323,monospace';
-  const tw=gx.measureText(text).width+12, ttx=Math.min(Math.max(0,hsx),CW-tw-2), tty=Math.max(0,hsy-20);
+  const tw=gx.measureText(text).width+12,ttx=Math.min(Math.max(0,hsx),CW-tw-2),tty=Math.max(0,hsy-20);
   gx.fillStyle='rgba(0,0,0,.85)'; gx.fillRect(ttx,tty,tw,18);
   gx.fillStyle=col; gx.textAlign='left'; gx.fillText(text,ttx+6,tty+13);
 }
 
 function renderMM() {
-  const mw=mmc.width, mh=mmc.height, tw=mw/MW, th=mh/MH;
+  const mw=mmc.width,mh=mmc.height,tw=mw/MW,th=mh/MH;
   mx.fillStyle='#06060f'; mx.fillRect(0,0,mw,mh);
   for (let y=0;y<MH;y++) for (let x=0;x<MW;x++) {
     const t=map[y][x]; if (t===T.WALL) continue;
     mx.fillStyle=t===T.WATER?'#0a2060':'#252535'; mx.fillRect(x*tw,y*th,tw,th);
   }
   for (const e of ents) {
-    if (e.type==='mon'&&e.hp>0)    { mx.fillStyle=e.elite?'#ff88ff':e.col; mx.fillRect(e.x*tw-.5,e.y*th-.5,tw+1,th+1); }
-    if (e.type==='chest'&&!e.opened) { mx.fillStyle='#c8a84b'; mx.fillRect(e.x*tw-.5,e.y*th-.5,tw+1,th+1); }
-    if (e.type==='npc')             { mx.fillStyle='#e8c840'; mx.beginPath(); mx.arc(e.x*tw,e.y*th,3,0,Math.PI*2); mx.fill(); }
+    if (e.type==='mon'&&e.hp>0)       { mx.fillStyle=e.elite?'#ff88ff':e.col; mx.fillRect(e.x*tw-.5,e.y*th-.5,tw+1,th+1); }
+    if (e.type==='chest'&&!e.opened)  { mx.fillStyle='#c8a84b'; mx.fillRect(e.x*tw-.5,e.y*th-.5,tw+1,th+1); }
+    if (e.type==='npc')               { mx.fillStyle='#e8c840'; mx.beginPath(); mx.arc(e.x*tw,e.y*th,3,0,Math.PI*2); mx.fill(); }
   }
   if (pathQueue.length>0&&pathTarget) { mx.fillStyle='#88aaff'; mx.beginPath(); mx.arc(pathTarget.x*tw,pathTarget.y*th,3,0,Math.PI*2); mx.fill(); }
   mx.fillStyle='#ffffff'; mx.beginPath(); mx.arc(player.x*tw,player.y*th,2,0,Math.PI*2); mx.fill();
