@@ -7,184 +7,847 @@
 <link href="https://fonts.googleapis.com/css2?family=VT323&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: #06060f; color: #ccc; font-family: 'VT323', monospace; font-size: 17px;
-  overflow: hidden; height: 100vh; display: flex; flex-direction: column; align-items: center; user-select: none;
-}
-#title-bar {
-  width: 100%; display: flex; align-items: center; justify-content: center; gap: 12px;
-  padding: 5px 10px 3px; border-bottom: 1px solid #1a1a2e;
-  background: linear-gradient(180deg, #0d0d20, #06060f);
-}
-#title { font-family: 'Cinzel', serif; color: #c8a84b; font-size: 20px; letter-spacing: 5px; text-shadow: 0 0 15px #c8a84b66; }
-#zone-badge, #clock-badge, #vision-btn { font-size: 14px; padding: 2px 10px; border-radius: 12px; border: 1px solid #444; background: #111120; transition: all 0.25s; }
-#vision-btn { cursor: pointer; color: #88aaff; margin-left: auto; }
-#vision-btn:hover { border-color: #88aaff; color: #c9d9ff; }
-#wrap { display: flex; gap: 6px; padding: 4px 6px; flex: 1; overflow: hidden; }
-#game-col { display: flex; flex-direction: column; gap: 4px; }
-canvas { display: block; image-rendering: pixelated; }
-#gc { border: 2px solid #1e1e30; cursor: crosshair; }
-#hotbar-row { display: flex; align-items: center; gap: 5px; background: #0d0d1e; border: 1px solid #1e1e30; padding: 4px 6px; border-radius: 2px; }
-#hotbar { display: flex; gap: 5px; flex-wrap: wrap; }
-.sbtn {
-  background: #12121f; border: 2px solid #333; color: #bbb; font-family: 'VT323', monospace;
-  font-size: 15px; padding: 3px 8px; cursor: pointer; position: relative; min-width: 76px;
-  text-align: center; border-radius: 2px; transition: border-color .15s, box-shadow .15s;
-}
-.sbtn:hover { background: #1a1a2e; border-color: #666; }
-.cdlay {
-  position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.65); font-size: 18px; font-weight: bold; color: #fff; pointer-events: none;
-}
-.smp { font-size: 11px; color: #5577ff; }
-#mode-tag { margin-left: auto; font-size: 14px; padding: 2px 8px; border: 1px solid #333; background: #0d0d1e; border-radius: 10px; white-space: nowrap; }
-#log-wrap { background: #080814; border: 1px solid #1e1e30; padding: 4px 8px; height: 86px; overflow: hidden; border-radius: 2px; }
-.log-line { font-size: 14px; line-height: 1.25; margin: 0; }
-#side { display: flex; flex-direction: column; gap: 5px; width: 230px; min-width: 230px; overflow-y: auto; }
-.panel { background: #0d0d1e; border: 1px solid #1e1e30; padding: 7px 8px; border-radius: 3px; }
-.ptitle {
-  font-family: 'Cinzel', serif; color: #c8a84b; font-size: 12px; letter-spacing: 2px;
-  margin-bottom: 5px; border-bottom: 1px solid #1e1e30; padding-bottom: 3px;
-  display: flex; align-items: center; justify-content: space-between; gap: 4px;
-}
-.pmini { color: #556; font-size: 10px; font-family: 'VT323', monospace; }
-.orb-wrap { margin: 3px 0; }
-.orb-label { font-size: 12px; color: #888; margin-bottom: 2px; display: flex; justify-content: space-between; }
-.orb-bar { height: 14px; background: #0a0a14; border: 1px solid #333; border-radius: 7px; overflow: hidden; position: relative; }
-.orb-fill { height: 100%; border-radius: 7px; transition: width .2s; }
-#hp-fill { background: linear-gradient(90deg, #6b0000, #cc2222, #ff4444); }
-#mp-fill { background: linear-gradient(90deg, #00006b, #2233cc, #4455ff); }
-#xp-bar-wrap, #cap-bar-wrap { height: 6px; background: #0a0a14; border: 1px solid #332200; border-radius: 3px; overflow: hidden; margin-top: 3px; }
-#xp-fill { height: 100%; background: linear-gradient(90deg, #442200, #cc9900); transition: width .3s; }
-#cap-fill { height: 100%; background: linear-gradient(90deg, #224400, #88cc00); transition: width .3s; }
-.stat-row { display: flex; gap: 3px; margin-top: 4px; flex-wrap: wrap; }
-.stat-chip { background: #080814; border: 1px solid #1e1e30; padding: 2px 5px; font-size: 14px; flex: 1; text-align: center; min-width: 48px; }
-.sv { color: #c8a84b; }
-#status-effects { display: flex; gap: 3px; flex-wrap: wrap; min-height: 14px; }
-.sfx-badge { font-size: 12px; padding: 1px 5px; border-radius: 8px; border: 1px solid; }
-#mmc { display: block; border: 1px solid #1e1e30; }
-.tab-row { display: flex; gap: 2px; margin-bottom: 5px; }
-.tab-btn { flex: 1; background: #080814; border: 1px solid #1e1e30; color: #666; font-family: 'VT323', monospace; font-size: 13px; padding: 2px 4px; cursor: pointer; border-radius: 2px; transition: all .15s; text-align: center; }
-.tab-btn.active { background: #12121f; border-color: #c8a84b; color: #c8a84b; }
-.tab-btn:hover:not(.active) { border-color: #444; color: #aaa; }
-#inv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
-.islot { background: #080814; border: 1px solid #1e1e30; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; font-size: 21px; border-radius: 2px; transition: border-color .1s; }
-.islot:hover { border-color: #555; background: #111124; }
-.islot .iqty { position: absolute; bottom: 1px; right: 3px; font-size: 10px; color: #ffdd88; }
-.islot.has-item { border-color: #2a2a40; }
-#eq-panel { display: none; }
-.eq-layout { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto auto auto auto auto; gap: 3px; }
-.eslot { background: #080814; border: 1px solid #1e1e30; height: 46px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; position: relative; font-size: 20px; border-radius: 2px; transition: border-color .1s; }
-.eslot:hover { border-color: #666; background: #111124; }
-.eslot.equipped { border-color: #c8a84b55; background: #100e00; }
-.eslot.equipped:hover { border-color: #c8a84b; }
-.eslot .elabel { font-size: 9px; color: #444; position: absolute; bottom: 2px; left: 0; right: 0; text-align: center; letter-spacing: .5px; font-family: 'Cinzel', serif; }
-.eslot .elabel.active-label { color: #c8a84b88; }
-.eslot.light-slot.lit { border-color: #ffaa0055; background: #110d00; box-shadow: 0 0 8px #ffaa0033; }
 
-/* Popups */
+body {
+  background: #0c1018;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(30,40,70,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(20,30,55,0.3) 0%, transparent 50%);
+  color: #c9d1d9;
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+}
+
+/* ─── Title Bar ─── */
+#title-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 8px 16px 6px;
+  border-bottom: 1px solid rgba(200,168,75,0.15);
+  background: linear-gradient(180deg, #0f1320 0%, #0c1018 100%);
+  backdrop-filter: blur(8px);
+}
+
+#title {
+  font-family: 'Cinzel', serif;
+  color: #e8c468;
+  font-size: 20px;
+  letter-spacing: 5px;
+  text-shadow: 0 0 20px rgba(232,196,104,0.25), 0 1px 2px rgba(0,0,0,0.5);
+}
+
+#zone-badge, #clock-badge {
+  font-size: 13px;
+  padding: 3px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(100,120,160,0.2);
+  background: rgba(16,20,32,0.8);
+  color: #8b9ab0;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+#vision-btn {
+  font-size: 13px;
+  padding: 3px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(100,160,255,0.2);
+  background: rgba(16,20,32,0.8);
+  color: #7eb8ff;
+  cursor: pointer;
+  margin-left: auto;
+  transition: all 0.3s ease;
+}
+
+#vision-btn:hover {
+  border-color: rgba(100,160,255,0.5);
+  color: #b5d6ff;
+  background: rgba(30,50,80,0.4);
+  box-shadow: 0 0 12px rgba(100,160,255,0.1);
+}
+
+/* ─── Main Layout ─── */
+#wrap {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  flex: 1;
+  overflow: hidden;
+}
+
+#game-col {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+canvas { display: block; image-rendering: pixelated; }
+
+#gc {
+  border: 1px solid rgba(100,120,160,0.2);
+  border-radius: 6px;
+  cursor: crosshair;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+
+/* ─── Hotbar ─── */
+#hotbar-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(14,18,28,0.9);
+  border: 1px solid rgba(100,120,160,0.15);
+  padding: 5px 8px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+}
+
+#hotbar { display: flex; gap: 5px; flex-wrap: wrap; }
+
+.sbtn {
+  background: rgba(18,22,36,0.9);
+  border: 1px solid rgba(80,100,140,0.25);
+  color: #b0bac8;
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  padding: 4px 10px;
+  cursor: pointer;
+  position: relative;
+  min-width: 76px;
+  text-align: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.sbtn:hover {
+  background: rgba(30,38,60,0.9);
+  border-color: rgba(120,140,180,0.4);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transform: translateY(-1px);
+}
+
+.cdlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.6);
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  pointer-events: none;
+  border-radius: 6px;
+}
+
+.smp { font-size: 11px; color: #6b8cff; }
+
+#mode-tag {
+  margin-left: auto;
+  font-size: 13px;
+  padding: 3px 12px;
+  border: 1px solid rgba(100,120,160,0.2);
+  background: rgba(14,18,28,0.8);
+  border-radius: 20px;
+  white-space: nowrap;
+  color: #8b9ab0;
+}
+
+/* ─── Log ─── */
+#log-wrap {
+  background: rgba(10,14,22,0.9);
+  border: 1px solid rgba(100,120,160,0.12);
+  padding: 6px 10px;
+  height: 86px;
+  overflow: hidden;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+}
+
+.log-line { font-size: 14px; line-height: 1.3; margin: 0; }
+
+/* ─── Sidebar ─── */
+#side {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 240px;
+  min-width: 240px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.panel {
+  background: rgba(14,18,30,0.85);
+  border: 1px solid rgba(100,120,160,0.12);
+  padding: 10px 12px;
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+.ptitle {
+  font-family: 'Cinzel', serif;
+  color: #e8c468;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  background: linear-gradient(90deg, #e8c468, #d4a853);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.ptitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(232,196,104,0.3), rgba(232,196,104,0.05));
+}
+
+.pmini { color: #4a5568; font-size: 10px; font-family: 'VT323', monospace; }
+
+/* ─── Orbs (HP / MP / Hunger) ─── */
+.orb-wrap { margin: 4px 0; }
+
+.orb-label {
+  font-size: 12px;
+  color: #6b7b8d;
+  margin-bottom: 3px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.orb-bar {
+  height: 16px;
+  background: rgba(6,8,14,0.6);
+  border: 1px solid rgba(80,100,140,0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.orb-fill { height: 100%; border-radius: 8px; transition: width 0.3s ease; }
+
+#hp-fill { background: linear-gradient(90deg, #5c1a1a, #b83030, #e04848); box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); }
+#mp-fill { background: linear-gradient(90deg, #1a1a5c, #3040b8, #4858e0); box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); }
+
+#xp-bar-wrap, #cap-bar-wrap {
+  height: 6px;
+  background: rgba(6,8,14,0.6);
+  border: 1px solid rgba(100,120,160,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+#xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6b4400, #d4a020, #e8c468);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 6px rgba(232,196,104,0.2);
+}
+
+#cap-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2a5016, #5ca830, #7ecc48);
+  transition: width 0.3s ease;
+}
+
+.stat-row { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+
+.stat-chip {
+  background: rgba(10,14,22,0.7);
+  border: 1px solid rgba(80,100,140,0.15);
+  padding: 3px 6px;
+  font-size: 13px;
+  flex: 1;
+  text-align: center;
+  min-width: 48px;
+  border-radius: 6px;
+}
+
+.sv { color: #e8c468; }
+
+#status-effects { display: flex; gap: 4px; flex-wrap: wrap; min-height: 16px; }
+
+.sfx-badge { font-size: 12px; padding: 2px 8px; border-radius: 12px; border: 1px solid; }
+
+/* ─── Minimap ─── */
+#mmc {
+  display: block;
+  border: 1px solid rgba(100,120,160,0.15);
+  border-radius: 6px;
+}
+
+/* ─── Inventory Tabs ─── */
+.tab-row { display: flex; gap: 3px; margin-bottom: 6px; }
+
+.tab-btn {
+  flex: 1;
+  background: rgba(10,14,22,0.6);
+  border: 1px solid rgba(80,100,140,0.15);
+  color: #556677;
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  padding: 4px 6px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.tab-btn.active {
+  background: rgba(25,30,48,0.9);
+  border-color: rgba(232,196,104,0.4);
+  color: #e8c468;
+  box-shadow: 0 0 8px rgba(232,196,104,0.08);
+}
+
+.tab-btn:hover:not(.active) { border-color: rgba(100,120,160,0.3); color: #8b9ab0; }
+
+/* ─── Inventory Grid ─── */
+#inv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+
+.islot {
+  background: rgba(10,14,22,0.6);
+  border: 1px solid rgba(80,100,140,0.12);
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  font-size: 21px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.islot:hover {
+  border-color: rgba(120,140,180,0.35);
+  background: rgba(20,26,42,0.8);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.islot .iqty { position: absolute; bottom: 1px; right: 4px; font-size: 10px; color: #e8c468; }
+.islot.has-item { border-color: rgba(100,120,160,0.25); }
+
+/* ─── Equipment Panel ─── */
+#eq-panel { display: none; }
+
+.eq-layout { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto auto auto auto auto; gap: 4px; }
+
+.eslot {
+  background: rgba(10,14,22,0.6);
+  border: 1px solid rgba(80,100,140,0.12);
+  height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  font-size: 20px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.eslot:hover { border-color: rgba(120,140,180,0.4); background: rgba(20,26,42,0.8); }
+
+.eslot.equipped {
+  border-color: rgba(232,196,104,0.3);
+  background: rgba(30,25,10,0.5);
+  box-shadow: 0 0 10px rgba(232,196,104,0.06);
+}
+
+.eslot.equipped:hover { border-color: rgba(232,196,104,0.5); }
+
+.eslot .elabel {
+  font-size: 8px;
+  color: #3a4555;
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  letter-spacing: 0.5px;
+  font-family: 'Cinzel', serif;
+}
+
+.eslot .elabel.active-label { color: rgba(232,196,104,0.5); }
+
+.eslot.light-slot.lit {
+  border-color: rgba(255,170,0,0.35);
+  background: rgba(25,20,5,0.5);
+  box-shadow: 0 0 10px rgba(255,170,0,0.15);
+}
+
+/* ─── Sidebar Buttons ─── */
+#stats-btn, #skill-sidebar-btn, #journal-btn {
+  cursor: pointer;
+  background: rgba(10,14,22,0.6);
+  border: 1px solid rgba(80,100,140,0.15);
+  padding: 5px 10px;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 8px;
+  font-family: 'VT323', monospace;
+  transition: all 0.25s ease;
+  margin-top: 6px;
+  width: 100%;
+  position: relative;
+}
+
+#stats-btn { color: #6b8faf; }
+#stats-btn:hover { border-color: rgba(232,196,104,0.4); color: #e8c468; background: rgba(30,25,10,0.3); }
+
+#skill-sidebar-btn { color: #4477bb; margin-top: 4px; }
+#skill-sidebar-btn:hover { border-color: rgba(68,102,204,0.5); color: #88aaff; background: rgba(15,20,40,0.5); }
+
+#journal-btn { color: #5599cc; }
+#journal-btn:hover { border-color: rgba(100,180,255,0.4); color: #99ccff; background: rgba(15,25,40,0.4); }
+
+#skill-point-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: linear-gradient(135deg, #3355aa, #4477dd);
+  color: #fff;
+  font-size: 11px;
+  border-radius: 10px;
+  padding: 0 6px;
+  display: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* ─── Popups (shared) ─── */
 #loot-win, #stats-popup, #shop-win, #skill-win, #vision-win {
-  position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
-  background: #08080f; padding: 0; z-index: 350; display: none;
-  box-shadow: 0 0 50px #00000099; border-radius: 4px; font-family: 'VT323', monospace;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(10,14,22,0.97);
+  padding: 0;
+  z-index: 350;
+  display: none;
+  box-shadow: 0 8px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
+  border-radius: 12px;
+  font-family: 'VT323', monospace;
+  backdrop-filter: blur(12px);
 }
-#loot-win { background: #0d0d1e; border: 2px solid #c8a84b; padding: 12px; min-width: 210px; z-index: 200; box-shadow: 0 0 30px #c8a84b44; }
-.ltitle { font-family: 'Cinzel', serif; color: #c8a84b; font-size: 14px; margin-bottom: 7px; border-bottom: 1px solid #2a2a40; padding-bottom: 3px; }
-.lbtn { display: block; width: 100%; background: #12121f; border: 1px solid #2a2a40; color: #ccc; font-family: 'VT323', monospace; font-size: 15px; padding: 3px 8px; cursor: pointer; margin-bottom: 2px; text-align: left; border-radius: 2px; }
-.lbtn:hover { background: #1e1e35; border-color: #888; }
-.lbtn-all { background: #1a1500; border-color: #554400; color: #ffdd88; }
-.lbtn-all:hover { background: #2a2200; }
-.lbtn-close { background: #1a0808; border-color: #442222; color: #cc8888; margin-top: 5px; }
-/* Popup title bars */
-#stats-popup { border: 2px solid #c8a84b; min-width: 320px; max-width: 380px; z-index: 300; }
+
+/* ─── Loot Window ─── */
+#loot-win {
+  background: rgba(14,18,30,0.97);
+  border: 1px solid rgba(232,196,104,0.4);
+  padding: 14px;
+  min-width: 220px;
+  z-index: 200;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 30px rgba(232,196,104,0.08);
+}
+
+.ltitle {
+  font-family: 'Cinzel', serif;
+  color: #e8c468;
+  font-size: 13px;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(232,196,104,0.15);
+}
+
+.lbtn {
+  display: block;
+  width: 100%;
+  background: rgba(18,22,36,0.8);
+  border: 1px solid rgba(80,100,140,0.15);
+  color: #b0bac8;
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-bottom: 3px;
+  text-align: left;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.lbtn:hover { background: rgba(30,38,55,0.9); border-color: rgba(120,140,180,0.3); }
+
+.lbtn-all {
+  background: rgba(30,25,5,0.5);
+  border-color: rgba(200,168,75,0.25);
+  color: #e8c468;
+}
+
+.lbtn-all:hover { background: rgba(45,38,10,0.6); }
+
+.lbtn-close {
+  background: rgba(30,12,12,0.5);
+  border-color: rgba(180,60,60,0.25);
+  color: #cc8888;
+  margin-top: 6px;
+}
+
+.lbtn-close:hover { background: rgba(50,18,18,0.6); border-color: rgba(180,60,60,0.4); }
+
+/* ─── Stats Popup ─── */
+#stats-popup {
+  border: 1px solid rgba(232,196,104,0.35);
+  min-width: 320px;
+  max-width: 380px;
+  z-index: 300;
+}
+
 #stats-popup .sp-title, #shop-win .sh-title, #skill-win .sk-title, #vision-win .vw-title {
-  font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 3px;
-  padding: 8px 14px 6px; display: flex; justify-content: space-between; align-items: center;
-  border-bottom: 1px solid #1e1e30; background: #0d0d1e; border-radius: 2px 2px 0 0;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: 3px;
+  padding: 10px 16px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(100,120,160,0.12);
+  background: rgba(14,18,30,0.9);
+  border-radius: 12px 12px 0 0;
 }
-#stats-popup .sp-title { color: #c8a84b; }
-#shop-win .sh-title { color: #c8a84b; }
+
+#stats-popup .sp-title { color: #e8c468; }
+#shop-win .sh-title { color: #e8c468; }
 #skill-win .sk-title { color: #88aaff; }
 #vision-win .vw-title { color: #7de0ff; }
+
 #stats-popup .sp-close, #shop-win .sh-close, #skill-win .sk-close, #vision-win .vw-close {
-  cursor: pointer; color: #666; font-size: 18px; line-height: 1; padding: 0 4px;
-  border: 1px solid #333; background: #080814; border-radius: 2px;
+  cursor: pointer;
+  color: #4a5568;
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 6px;
+  border: 1px solid rgba(80,100,140,0.15);
+  background: rgba(10,14,22,0.6);
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
-#stats-popup .sp-close:hover, #shop-win .sh-close:hover, #skill-win .sk-close:hover, #vision-win .vw-close:hover { color: #ff6644; border-color: #ff6644; }
-#stats-popup .sp-body { padding: 10px 14px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px 10px; }
-#stats-popup .sp-row { display: flex; justify-content: space-between; align-items: center; background: #0d0d1e; border: 1px solid #1a1a28; padding: 4px 8px; border-radius: 2px; font-size: 15px; }
-#stats-popup .sp-row:hover { border-color: #2a2a40; background: #111120; }
-#stats-popup .sp-label { color: #7788aa; font-size: 13px; }
-#stats-popup .sp-val { color: #c8a84b; font-size: 16px; font-weight: bold; }
-#stats-popup .sp-section, .sk-section, .vw-section-title { grid-column: 1 / -1; font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 2px; color: #445; border-bottom: 1px solid #1a1a28; padding-bottom: 3px; margin-top: 4px; }
-#stats-popup .sp-footer, .sk-footer, .sh-footer { grid-column: 1 / -1; font-size: 11px; color: #333; text-align: center; margin-top: 4px; }
-/* Sidebar buttons */
-#stats-btn, #skill-sidebar-btn, #journal-btn {
-  cursor: pointer; background: #080814; border: 1px solid #1e1e30; padding: 3px 8px;
-  font-size: 13px; text-align: center; border-radius: 2px; font-family: 'VT323', monospace;
-  transition: border-color .15s, color .15s; margin-top: 5px; width: 100%; position: relative;
+
+#stats-popup .sp-close:hover, #shop-win .sh-close:hover, #skill-win .sk-close:hover, #vision-win .vw-close:hover {
+  color: #ff6b4a;
+  border-color: rgba(255,107,74,0.4);
+  background: rgba(40,15,10,0.5);
 }
-#stats-btn { color: #7788aa; }
-#stats-btn:hover { border-color: #c8a84b; color: #c8a84b; }
-#skill-sidebar-btn { color: #4466cc; margin-top: 3px; }
-#skill-sidebar-btn:hover { border-color: #4466cc; color: #88aaff; }
-#journal-btn { color: #66ccff; }
-#journal-btn:hover { border-color: #66ccff; color: #b5ecff; }
-#skill-point-badge { position: absolute; top: -5px; right: -5px; background: #4466cc; color: #fff; font-size: 11px; border-radius: 8px; padding: 0 5px; display: none; }
-/* Context menu */
-#item-ctx { position: fixed; background: #0d0d1e; border: 1px solid #c8a84b; padding: 4px; z-index: 400; display: none; min-width: 130px; border-radius: 3px; box-shadow: 0 0 20px #00000099; }
-.ctx-btn { display: block; width: 100%; background: transparent; border: none; color: #ccc; font-family: 'VT323', monospace; font-size: 15px; padding: 3px 10px; cursor: pointer; text-align: left; border-radius: 2px; }
-.ctx-btn:hover { background: #1e1e35; color: #fff; }
-/* Shop */
-#shop-win { border: 2px solid #c8a84b; width: 420px; max-width: 96vw; }
-.sh-tabs { display: flex; border-bottom: 1px solid #1e1e30; }
-.sh-tab { flex: 1; background: #080814; border: none; border-bottom: 2px solid transparent; color: #555; font-family: 'VT323', monospace; font-size: 15px; padding: 5px 0; cursor: pointer; transition: all .15s; }
-.sh-tab.active { color: #c8a84b; border-bottom-color: #c8a84b; background: #0d0d1e; }
-.sh-tab:hover:not(.active) { color: #aaa; background: #0a0a18; }
-.sh-gold, .sk-points { padding: 5px 14px; font-size: 14px; color: #888; border-bottom: 1px solid #1a1a28; display: flex; justify-content: space-between; }
+
+#stats-popup .sp-body {
+  padding: 12px 16px 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 12px;
+}
+
+#stats-popup .sp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(14,18,30,0.6);
+  border: 1px solid rgba(80,100,140,0.1);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: all 0.15s ease;
+}
+
+#stats-popup .sp-row:hover { border-color: rgba(100,120,160,0.2); background: rgba(20,26,42,0.7); }
+
+#stats-popup .sp-label { color: #6b8faf; font-size: 13px; }
+#stats-popup .sp-val { color: #e8c468; font-size: 16px; font-weight: bold; }
+
+#stats-popup .sp-section, .sk-section, .vw-section-title {
+  grid-column: 1 / -1;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #3a4a5c;
+  border-bottom: 1px solid rgba(80,100,140,0.1);
+  padding-bottom: 4px;
+  margin-top: 5px;
+}
+
+#stats-popup .sp-footer, .sk-footer, .sh-footer {
+  grid-column: 1 / -1;
+  font-size: 11px;
+  color: #2d3748;
+  text-align: center;
+  margin-top: 5px;
+}
+
+/* ─── Context Menu ─── */
+#item-ctx {
+  position: fixed;
+  background: rgba(14,18,30,0.97);
+  border: 1px solid rgba(232,196,104,0.35);
+  padding: 5px;
+  z-index: 400;
+  display: none;
+  min-width: 140px;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+}
+
+.ctx-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #8b9ab0;
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  padding: 4px 12px;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.ctx-btn:hover { background: rgba(30,38,55,0.6); color: #e0e8f0; }
+
+/* ─── Shop ─── */
+#shop-win {
+  border: 1px solid rgba(232,196,104,0.3);
+  width: 420px;
+  max-width: 96vw;
+}
+
+.sh-tabs { display: flex; border-bottom: 1px solid rgba(100,120,160,0.1); }
+
+.sh-tab {
+  flex: 1;
+  background: rgba(10,14,22,0.5);
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #4a5568;
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  padding: 6px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sh-tab.active {
+  color: #e8c468;
+  border-bottom-color: #e8c468;
+  background: rgba(14,18,30,0.8);
+}
+
+.sh-tab:hover:not(.active) { color: #8b9ab0; background: rgba(12,16,26,0.6); }
+
+.sh-gold, .sk-points {
+  padding: 6px 16px;
+  font-size: 14px;
+  color: #6b7b8d;
+  border-bottom: 1px solid rgba(80,100,140,0.1);
+  display: flex;
+  justify-content: space-between;
+}
+
 .sh-gold span { color: #FFD700; }
+
 .sh-list, .sk-body, .vw-body { overflow-y: auto; }
-.sh-list { max-height: 280px; padding: 6px 8px; display: flex; flex-direction: column; gap: 3px; }
-.sh-row, .sk-row { display: flex; align-items: center; gap: 8px; background: #0d0d1e; border: 1px solid #1a1a28; border-radius: 3px; padding: 5px 8px; transition: all .15s; }
-.sh-row:hover, .sk-row:hover { border-color: #2a2a44; background: #111120; }
-.sh-row.cant-afford { opacity: .45; cursor: not-allowed; }
-.sh-icon, .sk-icon { font-size: 20px; width: 26px; text-align: center; }
+
+.sh-list {
+  max-height: 280px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sh-row, .sk-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(14,18,30,0.6);
+  border: 1px solid rgba(80,100,140,0.1);
+  border-radius: 8px;
+  padding: 6px 10px;
+  transition: all 0.15s ease;
+}
+
+.sh-row:hover, .sk-row:hover { border-color: rgba(100,120,160,0.25); background: rgba(20,26,42,0.7); }
+
+.sh-row.cant-afford { opacity: 0.4; cursor: not-allowed; }
+
+.sh-icon, .sk-icon { font-size: 20px; width: 28px; text-align: center; }
 .sh-info, .sk-info { flex: 1; }
-.sh-name, .sk-name { font-size: 15px; color: #ccc; }
-.sh-stats, .sk-desc { font-size: 11px; color: #556; }
+.sh-name, .sk-name { font-size: 15px; color: #b0bac8; }
+.sh-stats, .sk-desc { font-size: 11px; color: #4a5c6e; }
+
 .sh-price { font-size: 16px; color: #FFD700; white-space: nowrap; }
-.sh-price.sell { color: #88cc44; }
-/* Skill window */
-#skill-win { border: 2px solid #4466cc; width: 440px; max-width: 96vw; }
+.sh-price.sell { color: #7ecc48; }
+
+/* ─── Skill Window ─── */
+#skill-win {
+  border: 1px solid rgba(68,102,204,0.35);
+  width: 440px;
+  max-width: 96vw;
+}
+
 .sk-points span { color: #88aaff; font-size: 16px; }
-.sk-body { padding: 10px; display: flex; flex-direction: column; gap: 6px; max-height: 380px; }
-.sk-lvl { font-size: 13px; color: #556; white-space: nowrap; text-align: right; }
+
+.sk-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 380px;
+}
+
+.sk-lvl { font-size: 13px; color: #4a5c6e; white-space: nowrap; text-align: right; }
 .sk-lvl span { color: #88aaff; }
-.sk-btn { background: #0a0a18; border: 1px solid #334; color: #667; font-family: 'VT323', monospace; font-size: 14px; padding: 3px 10px; cursor: not-allowed; border-radius: 2px; white-space: nowrap; transition: all .15s; }
-.sk-btn.can { border-color: #4466cc; color: #88aaff; cursor: pointer; }
-.sk-btn.can:hover { background: #121230; border-color: #6688ff; color: #aaccff; }
-.sk-btn.maxed { border-color: #c8a84b55; color: #c8a84b88; cursor: default; }
-/* Auto loot */
-.filter-empty { font-size: 13px; color: #556; line-height: 1.35; }
-.filter-wrap { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-.filter-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border: 1px solid #2a2a40; background: #080814; border-radius: 999px; font-size: 12px; color: #bbb; }
-.filter-chip.always { border-color: #665500; color: #ffdd88; background: #151000; }
-.filter-chip.item { border-color: #335066; color: #9fd6ff; background: #0a1018; cursor: pointer; }
-.filter-chip.item:hover { border-color: #ff4444; color: #ff8888; }
-/* Vision / roadmap */
-#vision-win { border: 2px solid #66ccff; width: 720px; max-width: 96vw; max-height: 90vh; }
-.vw-body { padding: 12px 14px; max-height: 76vh; display: flex; flex-direction: column; gap: 10px; }
-.vw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.vw-card { background: #0d0d1e; border: 1px solid #1c2a38; border-radius: 4px; padding: 10px; }
-.vw-card ul { padding-left: 16px; color: #aab7c8; line-height: 1.45; }
-.vw-card li { margin-bottom: 4px; }
-.vw-chip { display: inline-block; padding: 1px 7px; margin-right: 4px; margin-bottom: 4px; border-radius: 999px; font-size: 11px; border: 1px solid #24445c; background: #09131c; color: #7de0ff; }
-.vw-chip.live { border-color: #335c22; background: #101808; color: #9bff74; }
-.vw-note { font-size: 13px; color: #88a0b8; line-height: 1.4; }
-/* Scrollbars */
+
+.sk-btn {
+  background: rgba(10,14,22,0.6);
+  border: 1px solid rgba(60,80,120,0.2);
+  color: #4a5c6e;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  padding: 4px 12px;
+  cursor: not-allowed;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.sk-btn.can {
+  border-color: rgba(68,102,204,0.4);
+  color: #88aaff;
+  cursor: pointer;
+}
+
+.sk-btn.can:hover {
+  background: rgba(20,28,50,0.7);
+  border-color: rgba(100,140,255,0.5);
+  color: #aaccff;
+  box-shadow: 0 0 8px rgba(100,140,255,0.08);
+}
+
+.sk-btn.maxed {
+  border-color: rgba(232,196,104,0.25);
+  color: rgba(232,196,104,0.5);
+  cursor: default;
+}
+
+/* ─── Auto Loot ─── */
+.filter-empty { font-size: 13px; color: #4a5568; line-height: 1.4; }
+
+.filter-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border: 1px solid rgba(80,100,140,0.15);
+  background: rgba(10,14,22,0.6);
+  border-radius: 999px;
+  font-size: 12px;
+  color: #8b9ab0;
+  transition: all 0.2s ease;
+}
+
+.filter-chip.always {
+  border-color: rgba(200,168,75,0.3);
+  color: #e8c468;
+  background: rgba(25,20,5,0.4);
+}
+
+.filter-chip.item {
+  border-color: rgba(80,140,200,0.25);
+  color: #7eb8ff;
+  background: rgba(10,18,30,0.5);
+  cursor: pointer;
+}
+
+.filter-chip.item:hover { border-color: rgba(220,60,60,0.4); color: #ff8888; }
+
+/* ─── Vision / Roadmap ─── */
+#vision-win {
+  border: 1px solid rgba(100,200,255,0.3);
+  width: 720px;
+  max-width: 96vw;
+  max-height: 90vh;
+}
+
+.vw-body {
+  padding: 14px 16px;
+  max-height: 76vh;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.vw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.vw-card {
+  background: rgba(14,18,30,0.7);
+  border: 1px solid rgba(80,100,140,0.12);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.vw-card ul { padding-left: 18px; color: #8ba0b8; line-height: 1.5; }
+.vw-card li { margin-bottom: 5px; }
+
+.vw-chip {
+  display: inline-block;
+  padding: 2px 10px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 999px;
+  font-size: 11px;
+  border: 1px solid rgba(100,180,240,0.2);
+  background: rgba(10,20,35,0.5);
+  color: #7de0ff;
+}
+
+.vw-chip.live {
+  border-color: rgba(80,140,50,0.3);
+  background: rgba(15,25,10,0.4);
+  color: #9bff74;
+}
+
+.vw-note { font-size: 13px; color: #6b8faf; line-height: 1.45; }
+
+/* ─── Scrollbars ─── */
 #side::-webkit-scrollbar, .sh-list::-webkit-scrollbar, .sk-body::-webkit-scrollbar, .vw-body::-webkit-scrollbar { width: 4px; }
-#side::-webkit-scrollbar-track { background: #0d0d1e; }
-#side::-webkit-scrollbar-thumb, .sh-list::-webkit-scrollbar-thumb, .sk-body::-webkit-scrollbar-thumb, .vw-body::-webkit-scrollbar-thumb { background: #2a2a40; border-radius: 2px; }
+
+#side::-webkit-scrollbar-track { background: transparent; }
+#side::-webkit-scrollbar-thumb, .sh-list::-webkit-scrollbar-thumb, .sk-body::-webkit-scrollbar-thumb, .vw-body::-webkit-scrollbar-thumb {
+  background: rgba(80,100,140,0.2);
+  border-radius: 4px;
+}
+
+#side::-webkit-scrollbar-thumb:hover, .sh-list::-webkit-scrollbar-thumb:hover, .sk-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(80,100,140,0.35);
+}
+
+/* ─── Responsive ─── */
 @media (max-width: 1180px) {
   #wrap { flex-direction: column; overflow: auto; width: 100%; align-items: center; }
   body { overflow: auto; }
@@ -223,6 +886,10 @@ canvas { display: block; image-rendering: pixelated; }
       <div class="orb-wrap">
         <div class="orb-label"><span>✦ Mana</span><span id="mp-txt">130/130</span></div>
         <div class="orb-bar"><div class="orb-fill" id="mp-fill" style="width:100%"></div></div>
+      </div>
+      <div class="orb-wrap">
+        <div class="orb-label"><span>🍖 Hunger</span><span id="hunger-txt">100/100</span></div>
+        <div class="orb-bar"><div class="orb-fill" id="hunger-fill" style="width:100%;background:linear-gradient(90deg,#8b4513,#d2691e,#cd853f)"></div></div>
       </div>
       <div style="font-size:11px;color:#666;display:flex;justify-content:space-between;margin-top:4px">
         <span>Experience</span><span id="xp-txt" style="color:#aa8800">0/100</span>
@@ -329,81 +996,10 @@ canvas { display: block; image-rendering: pixelated; }
   <button class="ctx-btn" id="ctx-drop">↓ Drop</button>
 </div>
 
+<script src="data.js"></script>
+
 <script>
 'use strict';
-
-// ─────────────────────────────────────────────
-// DATA DEFINITIONS
-// ─────────────────────────────────────────────
-
-const ITEM = {
-  gold:       { n:'Gold',         icon:'💰', col:'#FFD700', wt:0,  t:'gold',    sellPrice:0 },
-  hpot:       { n:'Health Potion',icon:'🧪', col:'#ff6677', wt:1,  t:'potion',  hp:60,   buyPrice:18,  sellPrice:9 },
-  mpot:       { n:'Mana Potion',  icon:'🔮', col:'#6688ff', wt:1,  t:'potion',  mp:50,   buyPrice:18,  sellPrice:9 },
-  bread:      { n:'Bread',        icon:'🍞', col:'#d4a75b', wt:1,  t:'potion',  hp:22,   buyPrice:6,   sellPrice:3 },
-  antidote:   { n:'Antidote',     icon:'🌿', col:'#88ff88', wt:1,  t:'cure',                buyPrice:16,  sellPrice:8 },
-  torch:      { n:'Torch',        icon:'🔦', col:'#ffaa22', wt:2,  t:'torch',   slot:'mainhand', lightRad:6, atk:2, buyPrice:25, sellPrice:12 },
-  dagger:     { n:'Dagger',       icon:'🗡', col:'#d9d9d9', wt:4,  t:'weapon',  slot:'mainhand', atk:5,  atkSpd:15, buyPrice:22, sellPrice:11 },
-  spear:      { n:'Spear',        icon:'↑',  col:'#c0b090', wt:5,  t:'weapon',  slot:'mainhand', atk:7,  buyPrice:32, sellPrice:16 },
-  sword:      { n:'Sword',        icon:'⚔',  col:'#f0f0f0', wt:7,  t:'weapon',  slot:'mainhand', atk:10, buyPrice:60, sellPrice:30 },
-  axe:        { n:'Battle Axe',   icon:'🪓', col:'#d48855', wt:9,  t:'weapon',  slot:'mainhand', atk:12, buyPrice:70, sellPrice:35 },
-  staff:      { n:'Oak Staff',    icon:'🪄', col:'#a87a49', wt:6,  t:'weapon',  slot:'mainhand', atk:6,  mp:25, buyPrice:56, sellPrice:28 },
-  buckler:    { n:'Buckler',      icon:'🛡', col:'#9aa4bc', wt:5,  t:'offhand', slot:'offhand',  def:4, armor:2, buyPrice:30, sellPrice:15 },
-  shield:     { n:'Shield',       icon:'🛡', col:'#7587a5', wt:8,  t:'offhand', slot:'offhand',  def:7, armor:3, buyPrice:58, sellPrice:29 },
-  hood:       { n:'Hood',         icon:'🎩', col:'#777788', wt:3,  t:'helmet',  slot:'head',     def:2, buyPrice:18, sellPrice:9 },
-  helmet:     { n:'Helmet',       icon:'⛑',  col:'#9aa3af', wt:5,  t:'helmet',  slot:'head',     def:4, armor:1, buyPrice:46, sellPrice:23 },
-  chainmail:  { n:'Chainmail',    icon:'⛓',  col:'#8a8fa1', wt:11, t:'chest',   slot:'body',     def:4, armor:4, buyPrice:62, sellPrice:31 },
-  robe:       { n:'Robe',         icon:'👘', col:'#7766cc', wt:6,  t:'chest',   slot:'body',     def:2, mp:35,  buyPrice:56, sellPrice:28 },
-  plate:      { n:'Plate Armor',  icon:'🦺', col:'#b0b8c8', wt:18, t:'chest',   slot:'body',     def:7, armor:7, buyPrice:120, sellPrice:60 },
-  leggings:   { n:'Leggings',     icon:'👖', col:'#667799', wt:6,  t:'legs',    slot:'legs',     def:3, armor:1, buyPrice:34, sellPrice:17 },
-  greaves:    { n:'Greaves',      icon:'🦵', col:'#9ca7b7', wt:10, t:'legs',    slot:'legs',     def:5, armor:3, buyPrice:70, sellPrice:35 },
-  lightboots: { n:'Light Boots',  icon:'👟', col:'#8a6b46', wt:3,  t:'boots',   slot:'boots',    def:1, speed:1, buyPrice:20, sellPrice:10 },
-  boots:      { n:'Boots',        icon:'👢', col:'#5c4329', wt:5,  t:'boots',   slot:'boots',    def:2, armor:1, buyPrice:38, sellPrice:19 },
-  gloves:     { n:'Gloves',       icon:'🧤', col:'#b38a55', wt:2,  t:'gloves',  slot:'gloves',   atk:2, def:1, buyPrice:24, sellPrice:12 },
-  belt:       { n:'Belt',         icon:'▬',  col:'#8d6a3f', wt:2,  t:'belt',    slot:'belt',     def:1, capBonus:8,  buyPrice:22, sellPrice:11 },
-  heavybelt:  { n:'Heavy Belt',   icon:'▬',  col:'#b28649', wt:4,  t:'belt',    slot:'belt',     def:2, armor:1, capBonus:14, buyPrice:48, sellPrice:24 },
-  earthBelt:  { n:'Earth Belt',   icon:'▬',  col:'#5aa14a', wt:4,  t:'belt',    slot:'belt',     def:2, capBonus:10, resEarth:12, buyPrice:85, sellPrice:42 },
-  smallbag:   { n:'Small Bag',    icon:'👜', col:'#9c7341', wt:1,  t:'container', slot:'bag',    capBonus:8,  buyPrice:20, sellPrice:10 },
-  backpack:   { n:'Backpack',     icon:'🎒', col:'#c98d4b', wt:2,  t:'container', slot:'bag',    capBonus:18, buyPrice:58, sellPrice:29 },
-  cape:       { n:'Cape',         icon:'🧣', col:'#6f4cb5', wt:2,  t:'cape',    slot:'cape',     def:1, mp:12, buyPrice:32, sellPrice:16 },
-  fireCloak:  { n:'Fire Cloak',   icon:'🔥', col:'#ff6633', wt:4,  t:'cape',    slot:'cape',     def:2, resFire:15, buyPrice:120, sellPrice:60 },
-  amulet:     { n:'Amulet',       icon:'◇',  col:'#e7d088', wt:1,  t:'amulet',  slot:'amulet',   hp:20, buyPrice:40, sellPrice:20 },
-  amuletMp:   { n:'Arcane Amulet',icon:'◇',  col:'#88aaff', wt:1,  t:'amulet',  slot:'amulet',   mp:30, buyPrice:52, sellPrice:26 },
-  holyAmulet: { n:'Holy Amulet',  icon:'✨', col:'#fff0aa', wt:1,  t:'amulet',  slot:'amulet',   hp:24, resHoly:14, buyPrice:95, sellPrice:47 },
-  ring:       { n:'Ring',         icon:'◉',  col:'#ccc',    wt:1,  t:'ring',    slot:'ring',     def:1, buyPrice:28, sellPrice:14 },
-  ringHp:     { n:'Vital Ring',   icon:'◉',  col:'#ff8899', wt:1,  t:'ring',    slot:'ring',     hp:35, buyPrice:58, sellPrice:29 },
-  ringAtk:    { n:'War Ring',     icon:'◉',  col:'#ffbb44', wt:1,  t:'ring',    slot:'ring',     atk:5, buyPrice:72, sellPrice:36 },
-  iceRing:    { n:'Ice Ring',     icon:'❄',  col:'#77d6ff', wt:1,  t:'ring',    slot:'ring',     resCold:15, mp:10, buyPrice:84, sellPrice:42 },
-  chaosRing:  { n:'Chaos Ring',   icon:'☯',  col:'#cc66ff', wt:1,  t:'ring',    slot:'ring',     atk:3, resChaos:12, buyPrice:88, sellPrice:44 },
-};
-
-const MDEF = {
-  rat:      { n:'Rat',      hp:28,  atk:9,  def:2,  col:'#7d7d7d', sz:0.6,  sight:5,  range:1, spd:950, xp:12,  zone:0, loot:[{id:'gold',ch:0.9,mn:1,mx:4},{id:'bread',ch:0.2,mn:1,mx:1},{id:'hpot',ch:0.05,mn:1,mx:1}] },
-  slime:    { n:'Slime',    hp:42,  atk:11, def:3,  col:'#44cc66', sz:0.72, sight:5,  range:1, spd:1000,xp:18,  zone:1, poison:true, loot:[{id:'gold',ch:0.85,mn:2,mx:6},{id:'antidote',ch:0.16,mn:1,mx:1},{id:'mpot',ch:0.07,mn:1,mx:1}] },
-  skeleton: { n:'Skeleton', hp:72,  atk:16, def:6,  col:'#ddd7c8', sz:0.82, sight:6,  range:1, spd:820, xp:30,  zone:2, loot:[{id:'gold',ch:0.95,mn:4,mx:10},{id:'dagger',ch:0.08,mn:1,mx:1},{id:'buckler',ch:0.05,mn:1,mx:1},{id:'helmet',ch:0.04,mn:1,mx:1}] },
-  troll:    { n:'Troll',    hp:110, atk:21, def:8,  col:'#8a6b3d', sz:0.95, sight:7,  range:1, spd:760, xp:46,  zone:3, loot:[{id:'gold',ch:1,mn:8,mx:18},{id:'axe',ch:0.08,mn:1,mx:1},{id:'shield',ch:0.05,mn:1,mx:1},{id:'belt',ch:0.09,mn:1,mx:1}] },
-  ghost:    { n:'Ghost',    hp:96,  atk:22, def:10, col:'#7b82ff', sz:0.82, sight:8,  range:1, spd:700, xp:58,  zone:3, mana:true, loot:[{id:'gold',ch:0.95,mn:10,mx:22},{id:'amuletMp',ch:0.09,mn:1,mx:1},{id:'ring',ch:0.07,mn:1,mx:1},{id:'mpot',ch:0.18,mn:1,mx:2}] },
-  dragon:   { n:'Dragon',   hp:220, atk:34, def:14, col:'#d94343', sz:1.08, sight:10, range:1, spd:620, xp:130, zone:4, loot:[{id:'gold',ch:1,mn:24,mx:60},{id:'fireCloak',ch:0.12,mn:1,mx:1},{id:'holyAmulet',ch:0.06,mn:1,mx:1},{id:'sword',ch:0.1,mn:1,mx:1}] },
-};
-
-const SPELLS = [
-  { n:'Minor Heal', icon:'✚', key:'1', mp:18, cd:2200, col:'#22ff88', tip:'Restore health instantly.', rng:0, aoe:0, hmin:28, hmax:48 },
-  { n:'Fire Bolt',  icon:'🔥', key:'2', mp:16, cd:1700, col:'#ff6633', tip:'Fast single target fire spell.', rng:5, aoe:0, dmn:18, dmx:34 },
-  { n:'Frost Burst',icon:'❄',  key:'3', mp:28, cd:2900, col:'#66ccff', tip:'Small area burst to punish clustered enemies.', rng:4, aoe:1, dmn:16, dmx:28 },
-  { n:'Holy Nova',  icon:'✨', key:'4', mp:34, cd:4200, col:'#ffe680', tip:'High impact holy blast around the impact tile.', rng:4, aoe:1, dmn:24, dmx:40 },
-];
-
-const SHOP_STOCK = [
-  'hpot','mpot','bread','antidote',
-  'torch','dagger','spear','sword','axe','staff',
-  'buckler','shield','hood','helmet',
-  'chainmail','robe','plate',
-  'leggings','greaves','lightboots','boots',
-  'gloves','belt','heavybelt',
-  'smallbag','backpack','cape',
-  'amulet','amuletMp','ring','ringHp','ringAtk',
-  'fireCloak','iceRing','holyAmulet','chaosRing','earthBelt',
-];
 
 const SKILL_DEFS = [
   { id:'sk_atk',    section:'OFFENSE',  icon:'⚔', name:'Might',      desc:'+5 base ATK per level',       maxLv:10, perLv:{ baseAtk:5 } },
@@ -465,9 +1061,6 @@ const LOOT_CLOSE_DIST = 2;
 const BL_TARGET_LOSE_DIST = 7;
 const BL_MIN_LIGHT = 0.08;
 
-// Hard cap on visible/usable bag slots shown in the UI.
-// Data beyond this index is silently inaccessible, so we
-// enforce the cap in addInv() instead of relying on the grid.
 const INV_SLOT_CAP = 16;
 
 // ─────────────────────────────────────────────
@@ -744,13 +1337,7 @@ function genMap() {
 // ENTITY QUERIES
 // ─────────────────────────────────────────────
 
-// FIX 1: isWalk() — enforce integer-only coordinates.
-// Passing floats would silently fail the equality checks
-// against entity positions (which are always integers),
-// producing wrong results without any error.
 function isWalk(x, y, skipMons=false) {
-  // Reject non-integers immediately so callers can't pass
-  // floats from mouse coordinates or lerp positions.
   if (!Number.isInteger(x) || !Number.isInteger(y)) {
     console.warn(`isWalk called with non-integer coords: (${x}, ${y})`);
     return false;
@@ -1162,16 +1749,8 @@ function movePlayer(dx, dy) {
   const npc=npcAt(nx,ny);
   if (npc) { interactNPC(); return; }
 
-  // FIX 2: Monster push logic removed.
-  // Previously monsters could be bumped into adjacent tiles on
-  // collision; the balance was inconsistent and it interfered
-  // with melee positioning. Now bumping into a monster only
-  // triggers melee — no positional push happens.
   const mon=monAt(nx,ny);
   if (mon) {
-    // Auto-attack is driven solely by the game ticker interval.
-    // We do NOT call playerAtk here to avoid double-triggering
-    // on the same tick (see FIX 3).
     lastPlayerMove=now;
     return;
   }
@@ -1215,12 +1794,6 @@ function pickupItem(itm) {
   ents=ents.filter(e=>e!==itm); updateInvUI(); updateUI();
 }
 
-// FIX 4: Enforce INV_SLOT_CAP (16) hard slot limit.
-// Previously there was no cap — stacking 50 different item
-// types would silently create slots beyond the 16 the UI
-// renders, making those items permanently invisible and
-// inaccessible. Now adding beyond the cap is blocked and
-// the player is notified.
 function addInv(id, qty) {
   const ex = player.inv.find(s => s.id === id);
   if (ex) {
@@ -1252,7 +1825,7 @@ function useItem(idx) {
   const s=player.inv[idx]; if (!s) return;
   const def=ITEM[s.id];
   if (def.t==='potion') {
-    if (def.hp) { player.hp=Math.min(player.maxHp,player.hp+def.hp); addLog(`${def.n}: +${def.hp} HP`,'#00ff88'); floaty(player.x,player.y,`+${def.hp} HP`,'#00ff88'); }
+    if (def.hp) { player.hunger=Math.min(player.maxHunger, player.hunger+def.hp); addLog(`${def.n}: +${def.hp} Hunger`,'#d2691e'); floaty(player.x,player.y,`+${def.hp} Hunger`,'#d2691e'); }
     if (def.mp) { player.mp=Math.min(player.maxMp,player.mp+def.mp); addLog(`${def.n}: +${def.mp} MP`,'#6688ff'); floaty(player.x,player.y,`+${def.mp} MP`,'#6688ff'); }
     s.qty--; if (s.qty<=0) player.inv.splice(idx,1);
   } else if (def.slot) {
@@ -1299,16 +1872,41 @@ function openChest(chest) {
 // ─────────────────────────────────────────────
 
 function updateRegen(dt) {
-  if ((now-lastDmgTime)>5000) {
-    regenHpAcc+=dt; regenMpAcc+=dt;
-    if (regenHpAcc>=3) { regenHpAcc=0; if (player.hp<player.maxHp) player.hp=Math.min(player.maxHp, player.hp+(player.regen||2)); }
-    if (regenMpAcc>=2) { regenMpAcc=0; if (player.mp<player.maxMp) player.mp=Math.min(player.maxMp, player.mp+2); }
+  // Hunger drain: 10 hunger per 60 seconds = 0.166/sec
+  player.hunger = Math.max(0, player.hunger - dt * 0.166);
+  const isStarving = player.hunger <= 0;
+
+  // Poison tick
+  if (player.status.poison > 0) {
+    player.status.poisonAcc = (player.status.poisonAcc || 0) + dt;
+    if (player.status.poisonAcc >= 1) {
+      player.status.poisonAcc -= 1;
+      player.status.poison = Math.max(0, player.status.poison - 1);
+      const pdmg = rnd(2, 5);
+      player.hp = Math.max(1, player.hp - pdmg);
+      floaty(player.x, player.y, `-${pdmg}☠`, '#88ff44');
+      lastDmgTime = now;
+      if (player.status.poison === 0) {
+        addLog('Poison wore off.', '#88ff88');
+      }
+      checkDeath();
+    }
   }
-  if (player.status.poison>0) {
-    player.status.poisonAcc=(player.status.poisonAcc||0)+dt;
-    if (player.status.poisonAcc>=1) {
-      player.status.poisonAcc=0; player.status.poison--;
-      player.hp=Math.max(1,player.hp-4); floaty(player.x,player.y,'-4☠','#88ff44'); lastDmgTime=now;
+
+  if (isStarving) {
+    player.starvationAcc = (player.starvationAcc || 0) + dt;
+    if (player.starvationAcc >= 10) {
+      player.starvationAcc = 0;
+      player.hp = Math.max(1, player.hp - 1);
+      player.mp = Math.max(1, player.mp - 1);
+      floaty(player.x, player.y, '-1HP -1MP', '#ff4444');
+      lastDmgTime = now;
+    }
+  } else {
+    if ((now - lastDmgTime) > 5000) {
+      regenHpAcc += dt; regenMpAcc += dt;
+      if (regenHpAcc >= 3) { regenHpAcc = 0; if (player.hp < player.maxHp) player.hp = Math.min(player.maxHp, player.hp + (player.regen || 2)); }
+      if (regenMpAcc >= 2) { regenMpAcc = 0; if (player.mp < player.maxMp) player.mp = Math.min(player.maxMp, player.mp + 2); }
     }
   }
 }
@@ -1371,13 +1969,6 @@ gc.addEventListener('mousemove', e => {
 });
 gc.addEventListener('mouseleave', () => { hovTile={ x:-1, y:-1 }; });
 
-// FIX 3: Auto-attack removed from click handler.
-// Previously a left-click on a monster could fire playerAtk()
-// here AND again in the 200ms ticker on the same frame,
-// causing double damage. Auto-attack is now driven exclusively
-// by the game ticker. Clicking a monster adjacent to the
-// player only locks the target and moves toward it;
-// the ticker handles the actual attack timing.
 gc.addEventListener('click', e => {
   hideCtx();
   const r=gc.getBoundingClientRect();
@@ -1522,11 +2113,13 @@ function getNearbyMonsters() {
 // ─────────────────────────────────────────────
 
 function updateUI() {
-  const hp=Math.max(0,player.hp), mp=Math.max(0,player.mp);
+  const hp=Math.max(0,player.hp), mp=Math.max(0,player.mp), hunger=Math.max(0,player.hunger);
   document.getElementById('hp-fill').style.width = (hp/player.maxHp*100)+'%';
   document.getElementById('mp-fill').style.width = (mp/player.maxMp*100)+'%';
+  document.getElementById('hunger-fill').style.width = (hunger/player.maxHunger*100)+'%';
   document.getElementById('hp-txt').textContent = `${hp}/${player.maxHp}`;
   document.getElementById('mp-txt').textContent = `${mp}/${player.maxMp}`;
+  document.getElementById('hunger-txt').textContent = `${Math.round(hunger)}/${player.maxHunger}`;
   const need=player.lv*100;
   document.getElementById('xp-fill').style.width = (player.xp/need*100)+'%';
   document.getElementById('xp-txt').textContent  = `${player.xp}/${need}`;
@@ -1557,9 +2150,10 @@ function updateUI() {
   zb.textContent=`⬤ ${zi.name}`; zb.style.color=zi.col; zb.style.borderColor=zi.col+'66';
 
   const se=document.getElementById('status-effects');
-  se.innerHTML = player.status.poison>0
-    ? `<span class="sfx-badge" style="color:#88ff44;border-color:#44aa22">☠ Poison ${player.status.poison}s</span>`
-    : '<span style="color:#333;font-size:12px">None</span>';
+  let statusHtml = '';
+  if (player.hunger <= 0) statusHtml += `<span class="sfx-badge" style="color:#ff6644;border-color:#cc3333">🔥 STARVING</span>`;
+if (player.status.poison>0) statusHtml += `<span class="sfx-badge" style="color:#88ff44;border-color:#44aa22">☠ Poison ${Math.ceil(player.status.poison)}s</span>`;
+  se.innerHTML = statusHtml || '<span style="color:#333;font-size:12px">None</span>';
 
   if (document.getElementById('stats-popup').style.display==='block') renderStatsPopup();
   if (activeTab==='eq') renderEquipUI();
@@ -1858,7 +2452,7 @@ function init() {
   rooms=genMap();
   const sr=rooms[0]; startPos={ x:sr.cx, y:sr.cy };
   player={
-    x:sr.cx, y:sr.cy, hp:200, maxHp:200, mp:130, maxMp:130, atk:22, def:10, lv:1, xp:0, gold:0,
+    x:sr.cx, y:sr.cy, hp:200, maxHp:200, mp:130, maxMp:130, hunger:100, maxHunger:100, atk:22, def:10, lv:1, xp:0, gold:0,
     inv:[{id:'hpot',qty:3},{id:'mpot',qty:2},{id:'bread',qty:4},{id:'torch',qty:1},{id:'smallbag',qty:1}],
     status:{},
     baseMaxHp:200, baseMaxMp:130, baseAtk:22, baseDef:10, baseArmor:5, baseSpeed:5,

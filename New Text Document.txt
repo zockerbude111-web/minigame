@@ -58,57 +58,7 @@ player.x  = startPos.x;
 ```
 **Problem:** Encourages reckless play. No consequence system exists.
 
----
 
-**2. `isWalk()` uses floating point comparison**
-```javascript
-function monAt(x, y) {
-  const ix = Math.floor(x), iy = Math.floor(y);
-  return ents.find(e => e.x === ix && e.y === iy ...
-}
-```
-But `isWalk()` uses `player.x === x` directly. Monsters and players always have integer coords — but passing floats anywhere would silently break collision. Should enforce integer-only positions.
-
----
-
-**3. Monster push logic is inconsistently balanced**
-```javascript
-if (mon.maxHp < player.maxHp * .55) {
-  // push monster
-}
-```
-**Problem:** A level 1 player with 200 HP can push a Ghost (96 HP) because 96 < 110. This threshold doesn't scale meaningfully and lets you cheese monsters.
-
----
-
-**4. Auto-attack fires from the game ticker (setInterval 200ms) AND from click/keydown**
-```javascript
-// setInterval (always running)
-if (tgt && now - lastAutoAtk >= getAutoAttackCd() ...)
-
-// Also fires in click handler
-if (chebyshev(...) <= 1 && now - lastAutoAtk >= getAutoAttackCd())
-  playerAtk(mon);
-
-// Also fires in movePlayer
-if (now - lastAutoAtk >= getAutoAttackCd())
-  playerAtk(mon);
-```
-**Problem:** Triple-trigger risk. Can cause double-attacks on the same tick if all three paths evaluate simultaneously.
-
----
-
-**5. `addInv` doesn't enforce the 16-slot cap**
-```javascript
-function addInv(id, qty) {
-  const ex = player.inv.find(s => s.id === id);
-  if (ex) ex.qty += qty;
-  else    player.inv.push({ id, qty }); // ← no slot limit check
-}
-```
-**Problem:** You can stack 50 different item types. UI only shows 16, but data has no cap. Items past slot 16 are invisible and inaccessible.
-
----
 
 **6. Corpse loot window has no sanity check after auto-loot**
 ```javascript
@@ -135,42 +85,10 @@ let lastDmgTime = -99999; // ✅ This is fine, it means regen starts immediately
 ```
 Actually this is OK — but `regenHpAcc` ticks only via `dt` in the game loop, while the 200ms setInterval also calls `updateUI`. These aren't connected — regen is fine but `updateUI()` in the interval is wasteful (it's also called every frame in `render()`).
 
----
 
-### 🟡 Design / Balance Issues
-
-**9. Skill "Swiftblade" (`baseAtkSpeed +15/level`) is effectively useless**
-```javascript
-function getAutoAttackCd() {
-  return Math.max(260, AUTO_ATK_BASE - player.atkSpeed * 10);
-}
-// Max speed cap: 260ms = ~3.8 attacks/sec
-// Swiftblade max (6 levels × 15 = 90 rating) → 1000 - 900 = 100ms → capped at 260ms anyway
-// You'd hit the cap long before max Swiftblade
-```
-Dagger also gives +15 atkSpd. One dagger + 1 Swiftblade level = same cap as 6 Swiftblade levels.
-
----
-
-**10. Resistances cap at 50% but nothing explains this in-game**
-The cap is hardcoded but never communicated to the player. A player stacking fire resistance via `fireCloak` + `iceRing` (resCold:15) won't understand why it stops working.
-
----
 
 **11. Water tiles are impassable but have no gameplay purpose**
 Water exists visually but you can't cross it, fish in it, drown in it, or anything. It just blocks paths. Either needs mechanics or should be removed from the generator.
-
----
-
-**12. `earthBelt` has `resEarth:12` but no monster deals Earth damage**
-No monster in `MDEF` uses Earth damage type. The resistance is stat-bloat with zero function.
-
----
-
-**13. `chaosRing` (`resChaos:12`) — same problem**
-No monster deals Chaos damage.
-
----
 
 **14. Shop has no stock limit / economy sink**
 Player can buy infinite potions. No gold sinks beyond gear. Late game gold becomes meaningless.
@@ -193,26 +111,13 @@ A level 10 player kills rats as easily as level 1. No difficulty curve beyond zo
 
 ### Phase 1 — Foundation Fixes (Do First)
 
-```
-[ ] Fix addInv() slot cap (16 unique items max, or stackable unlimited)
-[ ] Unify auto-attack to single source of truth
-[ ] Add integer guard to all position assignments
+
 [ ] Fix corridor zone detection (closest room fallback)
 [ ] Add death consequence (XP debt, item drop, or respawn cost)
 [ ] Communicate resistance cap in stats popup
-[ ] Remove or make useful: earthBelt resEarth, chaosRing resChaos
-[ ] Fix Swiftblade skill cap math or rebalance
-```
-
 ---
 
-### Phase 2 — Core Missing Systems
 
-```
-[ ] SAVE SYSTEM
-    - LocalStorage save/load
-    - Save: player stats, inventory, equipped, skills, gold, kill count
-    - No map save (regenerate on load)
 
 [ ] QUEST SYSTEM (basic)
     - Kill X monsters
@@ -225,11 +130,6 @@ A level 10 player kills rats as easily as level 1. No difficulty curve beyond zo
     - Each floor: new map, harder mobs, better loot
     - Floor counter displayed in zone badge
     - Boss on floor 5, 10, etc.
-
-[ ] HUNGER / STAMINA
-    - Bread currently gives 22HP instantly (wasteful mechanic)
-    - Convert to hunger bar that drains over time
-    - Starving → HP regen disabled, -1HP/3s
 
 [ ] BOSS MONSTERS
     - Special named monster per depth milestone
@@ -298,15 +198,7 @@ A level 10 player kills rats as easily as level 1. No difficulty curve beyond zo
     - Toggle: show damage / show loot / show system messages
     - Currently all mixed, log floods fast
 
-[ ] SOUND SYSTEM
-    - Web Audio API (no external files needed)
-    - Oscillator-based: attack hit, level up, chest open, death
-    - Volume slider in settings
 
-[ ] SETTINGS PANEL
-    - Music/SFX toggle
-    - UI scale
-    - Colorblind mode (replace red/green HP bars)
     - Keybind display (already in Controls panel ✅)
 
 [ ] MOBILE CONTROLS
