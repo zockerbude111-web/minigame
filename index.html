@@ -908,12 +908,6 @@ canvas { display: block; image-rendering: pixelated; }
     </div>
 
     <div class="panel">
-      <div class="ptitle">AUTO LOOT <span class="pmini">ALWAYS ON</span></div>
-      <div style="font-size:11px;color:#556;line-height:1.35">Gold is always auto-looted. Right-click items in your bag and choose "Toggle Auto Loot" to add/remove them. Click a chip to remove it.</div>
-      <div id="autoloot-list" class="filter-wrap"></div>
-    </div>
-
-    <div class="panel">
       <div class="tab-row">
         <button class="tab-btn active" id="tab-inv" onclick="switchTab('inv')">🎒 BAG</button>
         <button class="tab-btn" id="tab-eq" onclick="switchTab('eq')">⚔ GEAR</button>
@@ -923,7 +917,6 @@ canvas { display: block; image-rendering: pixelated; }
       </div>
       <div id="cap-bar-wrap"><div id="cap-fill" style="width:0%"></div></div>
       <div id="inv-panel" style="margin-top:5px">
-        <div style="font-size:11px;color:#444;margin-bottom:3px">[right-click item for options]</div>
         <div id="inv-grid"></div>
       </div>
       <div id="eq-panel" style="margin-top:5px">
@@ -935,20 +928,6 @@ canvas { display: block; image-rendering: pixelated; }
     <div class="panel">
       <div class="ptitle">MINIMAP</div>
       <canvas id="mmc" width="204" height="130"></canvas>
-    </div>
-
-    <div class="panel">
-      <div class="ptitle">CONTROLS</div>
-      <div style="font-size:13px;color:#555;line-height:1.7">
-        <b style="color:#777">WASD / ↑↓←→</b> Move<br>
-        <b style="color:#777">Click floor</b> Pathfind to tile<br>
-        <b style="color:#777">Left-click</b> Attack / Interact<br>
-        <b style="color:#777">Right-click</b> Lock target / item menu<br>
-        <b style="color:#777">1–4</b> Select spell → click to cast<br>
-        <b style="color:#777">F</b> Open chest · <b style="color:#777">T</b> Torch toggle<br>
-        <b style="color:#777">H</b> Health pot · <b style="color:#777">M</b> Mana pot<br>
-        <b style="color:#777">E</b> Talk to NPC · <b style="color:#777">K</b> Skill Tree<br>
-      </div>
     </div>
   </div>
 </div>
